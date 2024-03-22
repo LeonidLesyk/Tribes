@@ -9,6 +9,7 @@ void settings(){
 
 void setup(){
   gameBoard = new Board(10);
+  //gameBoard.grid[0][0].building = new Building(gameBoard.grid[0][0].position,1,"",gameBoard.grid[0][0].size);
 }
 
 void draw(){

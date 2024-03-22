@@ -1,17 +1,18 @@
 class Building {
-  int x, y; // Position on the grid
+  PVector position; // Position on the grid
   int maxHealth;
   int health;
   String owner; //TODO change class
   boolean destroyed;
+  int size;
 
   // Constructor
-  Building(int x, int y, int health, String owner) {
-    this.x = x;
-    this.y = y;
+  Building(PVector position, int health, String owner, int size) {
+    this.position = position;
     this.maxHealth = this.health = health;
     this.owner = owner;
     this.destroyed = true;
+    this.size =  size;
   }
 
   //Damage to building
@@ -34,15 +35,16 @@ class Building {
 
 
   void display() {
-    rect(x,y,10,10); //TODO Change or Delete
+    fill(255,0,0);
+    rect(position.x + 5, position.y + 5, size-10, size-10); //TODO Change or Delete
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Base extends Building {
   
-  Base(int x, int y, String owner) {
-    super(x, y, 500, owner); 
+  Base(PVector position, int size, String owner) {
+    super(position,500,owner,size); 
   }
   
 
@@ -59,8 +61,8 @@ class Base extends Building {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Barrack extends Building {
   // Constructor
-  Barrack(int x, int y, String owner) {
-    super(x, y, 80, owner);
+  Barrack(PVector position, int size, String owner) {
+    super(position, 80, owner, size);
   }
 
   
@@ -79,13 +81,14 @@ class Barrack extends Building {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Library extends Building {
 
-  Library(int x, int y, String owner) {
-    super(x, y, 60, owner);
+  Library(PVector position, int size, String owner) {
+    super(position, 60, owner, size);
   }
 
 
   int research() {
     //Logic to calculate the amount of research point given
+    return 0;
   }
 
 
@@ -99,8 +102,8 @@ class Library extends Building {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Wall extends Building {
   // Constructor
-  Wall(int x, int y, String owner ) {
-    super(x, y, 100, "Neutral");
+  Wall(PVector position, int size, String owner ) {
+    super(position, 100, "Neutral", size);
   }
 
 

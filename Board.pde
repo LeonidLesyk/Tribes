@@ -6,21 +6,27 @@ final class Tile{
   Tile left;
   Tile right;
   int colour;
+  Building building;
   
   Tile(int size, PVector position, Tile up, Tile down, Tile left, Tile right){
     this.position = position;
-    this.size = size;
+    this.size = screen_height/size;
     this.up = up;
     this.down = down;
     this.left = left;
     this.right = right;
     this.colour = 255;
+    this.building = null;
   }
   
   void draw(){
+    
     fill(0,colour,0);
     stroke(128);
-    square(position.x,position.y,screen_height/size);
+    square(position.x,position.y,size);
+    if(this.building !=null){
+      this.building.display();
+    }
   }
 }
 
@@ -61,11 +67,6 @@ final class Board{
         
       }
     }
-    //for(int h = 0; h <= screen_height; h+=screen_height/y){
-    //  for(int l = (screen_width-screen_height)/2; l <= screen_width - (screen_width-screen_height)/2; l += screen_width/x){
-    //    grid[h][l] = new Tile(xsize,ysize,new PVector();
-    //  }
-    //}
     
   }
   
