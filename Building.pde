@@ -1,13 +1,13 @@
 class Building {
-  PVector position; // Position on the grid
+  PVector position;
   int maxHealth;
   int health;
-  String owner; //TODO change class
+  int owner;
   boolean destroyed;
   int size;
 
   // Constructor
-  Building(PVector position, int health, String owner, int size) {
+  Building(PVector position, int health, int owner, int size) {
     this.position = position;
     this.maxHealth = this.health = health;
     this.owner = owner;
@@ -23,57 +23,85 @@ class Building {
       onDestroyed();
     }
   }
-  
+
   void fix(int health) {
     this.health += health;
     health = constrain(health, 0, maxHealth);
   }
 
   void onDestroyed() {
-    //To something when destroyed 
+    //To something when destroyed
   }
 
 
   void display() {
-    fill(255,0,0);
+    fill(255, 0, 0);
     rect(position.x + 5, position.y + 5, size-10, size-10); //TODO Change or Delete
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Base extends Building {
-  
-  Base(PVector position, int size, String owner) {
-    super(position,500,owner,size); 
+
+  Base(PVector position, int owner, int size) {
+    super(position, 500, owner, size);
   }
-  
+
 
   void onDestroyed() {
-
   }
-  
+
   @Override
   void display() {
-    //TODO add display
+    if (this.owner==0) {
+      fill(255);
+      stroke(255, 0, 0);
+    } 
+    else if (this.owner==1) {
+      fill(255);
+      stroke(0, 0, 255);
+    }
+    ellipse(position.x+size/2, position.y+size/2, size-10, size-10);
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text("Base", position.x+size/2, position.y+size/2);
+
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Barrack extends Building {
   // Constructor
-  Barrack(PVector position, int size, String owner) {
+  Barrack(PVector position, int owner, int size) {
     super(position, 80, owner, size);
   }
 
-  
+
   //TODO return unit object?
   void produceUnit() {
-    //new Unit{x, y} 
+    //new Unit{x, y}
   }
-  
+
   @Override
-  void display() {
-    //TODO add display
+    void display() {
+    if (this.owner==0) {
+      fill(255);
+      stroke(255, 0, 0);
+    } 
+    else if (this.owner==1) {
+      fill(255);
+      stroke(0, 0, 255);
+    }
+      
+    triangle(position.x+size/2, position.y+10, position.x+10, position.y+size-10, position.x+size-10, position.y+size-10);
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text("Barrack", position.x+size/2, position.y+size/2);
+
   }
 }
 
@@ -81,7 +109,7 @@ class Barrack extends Building {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Library extends Building {
 
-  Library(PVector position, int size, String owner) {
+  Library(PVector position, int owner, int size) {
     super(position, 60, owner, size);
   }
 
@@ -92,24 +120,51 @@ class Library extends Building {
   }
 
 
-  
+
   @Override
-  void display() {
-        //TODO add display
+    void display() {
+      if (this.owner==0) {
+        fill(255);
+        stroke(255, 0, 0);
+    } 
+    else if (this.owner==1) {
+      fill(255);
+      stroke(0, 0, 255);
+    }
+    rect(position.x+5, position.y+5, size-10, size-10);
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text("Library", position.x+size/2, position.y+size/2);
+
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Wall extends Building {
   // Constructor
-  Wall(PVector position, int size, String owner ) {
-    super(position, 100, "Neutral", size);
+  Wall(PVector position, int owner, int size) {
+    super(position, 100, owner, size);
   }
 
 
-  
+
   @Override
   void display() {
-    //TODO add display
+    if (this.owner==0) {
+      fill(255);
+      stroke(255, 0, 0);
+    } 
+    else if (this.owner==1) {
+      fill(255);
+      stroke(0, 0, 255);
+    }
+    rect(position.x+5, position.y+25, size-10, size-40);
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text("Wall", position.x+size/2, position.y+size/2+5);
   }
 }

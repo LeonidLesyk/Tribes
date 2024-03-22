@@ -19,8 +19,7 @@ final class Tile{
     this.building = null;
   }
   
-  void draw(){
-    
+  void draw(){    
     fill(0,colour,0);
     stroke(128);
     square(position.x,position.y,size);
