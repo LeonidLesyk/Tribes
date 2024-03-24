@@ -4,27 +4,42 @@ int tileZoneLeft = (screen_width-screen_height)/2;
 int tileZoneRight = tileZoneLeft + screen_height;
 Board gameBoard;
 int tileSizePixels;
+int turn;
+ArrayList<UIElement> UIElements;
+
 void settings(){
   size(screen_width,screen_height);
 }
 
 void setup(){
+  //initialise game variables
+  turn = 0;
   int size = 10;
-  gameBoard = new Board(size);
   tileSizePixels = screen_height/size;
+  gameBoard = new Board(size);
+  
   //gameBoard.grid[0][0].building = new Building(gameBoard.grid[0][0].position,1,"",gameBoard.grid[0][0].size);
+  
+  //add UI Elements
+  UIElements = new ArrayList<UIElement>();
+  UIElement endTurn = new endTurnButton(0,0,tileZoneLeft,screen_height/10);
+  UIElements.add(endTurn);
+  
 }
 
 void draw(){
   background(0);
   //println(frameRate);
   gameBoard.draw();
+  //draw UI Elements
+  for(UIElement e : UIElements){
+    e.draw();
+  }
 }
 
 void mouseReleased(){
   //if in tile zone
   if(mouseX > tileZoneLeft && mouseX < tileZoneRight){
-    println("in");
     int x = (mouseX - tileZoneLeft)/tileSizePixels;
     int y = mouseY/tileSizePixels;
     Tile pressedTile = gameBoard.grid[x][y];
@@ -33,7 +48,7 @@ void mouseReleased(){
       t.colour -= 20;
     }  
   }else{
-    //else in side ui elements
+    //else inside ui elements
   }
   
 }

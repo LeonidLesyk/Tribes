@@ -26,6 +26,7 @@ final class Tile{
     stroke(128);
     square(position.x,position.y,size);
     fill(0);
+    textSize(10);
     text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
     if(this.building !=null){
       this.building.display();
@@ -41,20 +42,15 @@ final class Board{
     this.size = size;
     grid = new Tile[size][size];
     for(int y = 0; y < size; y+=1){
-      
       Tile left = null;
       for(int x = 0; x < size; x+=1){
-        
         int xpos = (screen_width-screen_height)/2 + x*(screen_height/size);
         int ypos = y*(screen_height/size);
-        
         grid[x][y] = new Tile(size,new PVector(xpos,ypos),null,null,left,null);
         if(left!=null){
           left.right = grid[x][y];
         }
-        
         left = grid[x][y];
-        
       }
     }
     
@@ -65,12 +61,9 @@ final class Board{
         if(up!=null){
           up.down = grid[x][y];
         }
-        
-        up = grid[x][y];
-        
+        up = grid[x][y];   
       }
     }
-    
   }
   
   
