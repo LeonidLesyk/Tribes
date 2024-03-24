@@ -27,13 +27,11 @@ void mouseReleased(){
     println("in");
     int x = (mouseX - tileZoneLeft)/tileSizePixels;
     int y = mouseY/tileSizePixels;
-    print(x);
-    print(",");
-    println(y);
     Tile pressedTile = gameBoard.grid[x][y];
     //tile interaction goes here
-    
-    
+    for(Tile t : gameBoard.range(pressedTile,2)){
+      t.colour -= 20;
+    }  
   }else{
     //else in side ui elements
   }

@@ -1,3 +1,4 @@
+import java.util.*;
 final class Tile{
   PVector position;
   int size;
@@ -24,7 +25,8 @@ final class Tile{
     fill(0,colour,0);
     stroke(128);
     square(position.x,position.y,size);
-    text(str(position.x) + str(position.y),position.x,position.y);
+    fill(0);
+    text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
     if(this.building !=null){
       this.building.display();
     }
@@ -32,7 +34,7 @@ final class Tile{
 }
 
 final class Board{
-
+  
   Tile[][] grid;
   int size;
   Board(int size){
@@ -71,11 +73,37 @@ final class Board{
     
   }
   
+  
+  Set<Tile> range(Tile start, int distance){
+    Set<Tile> locations = new HashSet<Tile>(); 
+    
+    locations.add(start);
+    locations.addAll(rangeRecurse(start.left,distance-1));
+    locations.addAll(rangeRecurse(start.right,distance-1));
+    locations.addAll(rangeRecurse(start.up,distance-1));
+    locations.addAll(rangeRecurse(start.down,distance-1));
+    locations.remove(start);
+    return locations;
+  }
+  Set<Tile> rangeRecurse(Tile start, int distance){
+    Set<Tile> locations = new HashSet<Tile>(); 
+    //base case
+    if(start == null || distance < 0){
+      //return empty list
+      return new HashSet<Tile>();
+    }
+    locations.add(start);
+    locations.addAll(rangeRecurse(start.left,distance-1));
+    locations.addAll(rangeRecurse(start.right,distance-1));
+    locations.addAll(rangeRecurse(start.up,distance-1));
+    locations.addAll(rangeRecurse(start.down,distance-1));
+    
+    return locations;
+  }
   void draw(){
     for(int y = 0; y < size; y+=1){
       for(int x = 0; x < size; x+=1){
         grid[x][y].draw();
-        
       }
     }
   }
