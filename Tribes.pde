@@ -1,19 +1,41 @@
 final int screen_width = 1280;// fullHD :)
 final int screen_height = 720;
-
+int tileZoneLeft = (screen_width-screen_height)/2;
+int tileZoneRight = tileZoneLeft + screen_height;
 Board gameBoard;
-
+int tileSizePixels;
 void settings(){
   size(screen_width,screen_height);
 }
 
 void setup(){
-  gameBoard = new Board(10);
+  int size = 10;
+  gameBoard = new Board(size);
+  tileSizePixels = screen_height/size;
   //gameBoard.grid[0][0].building = new Building(gameBoard.grid[0][0].position,1,"",gameBoard.grid[0][0].size);
 }
 
 void draw(){
   background(0);
-  println(frameRate);
+  //println(frameRate);
   gameBoard.draw();
+}
+
+void mouseReleased(){
+  //if in tile zone
+  if(mouseX > tileZoneLeft && mouseX < tileZoneRight){
+    println("in");
+    int x = (mouseX - tileZoneLeft)/tileSizePixels;
+    int y = mouseY/tileSizePixels;
+    print(x);
+    print(",");
+    println(y);
+    Tile pressedTile = gameBoard.grid[x][y];
+    //tile interaction goes here
+    
+    
+  }else{
+    //else in side ui elements
+  }
+  
 }

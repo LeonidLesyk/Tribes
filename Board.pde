@@ -24,6 +24,7 @@ final class Tile{
     fill(0,colour,0);
     stroke(128);
     square(position.x,position.y,size);
+    text(str(position.x) + str(position.y),position.x,position.y);
     if(this.building !=null){
       this.building.display();
     }
@@ -38,10 +39,10 @@ final class Board{
     this.size = size;
     grid = new Tile[size][size];
     for(int y = 0; y < size; y+=1){
-      println(y);
+      
       Tile left = null;
       for(int x = 0; x < size; x+=1){
-        println(x);
+        
         int xpos = (screen_width-screen_height)/2 + x*(screen_height/size);
         int ypos = y*(screen_height/size);
         
