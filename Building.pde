@@ -11,7 +11,7 @@ class Building {
     this.position = position;
     this.maxHealth = this.health = health;
     this.owner = owner;
-    this.destroyed = true;
+    this.destroyed = false;
     this.size =  size;
   }
 
@@ -30,7 +30,7 @@ class Building {
   }
 
   void onDestroyed() {
-    //To something when destroyed
+    this.destroyed = true;
   }
 
 
@@ -49,6 +49,9 @@ class Base extends Building {
 
 
   void onDestroyed() {
+     //Set player lose
+    
+    
   }
 
   @Override
@@ -81,7 +84,7 @@ class Barrack extends Building {
 
   //TODO return unit object?
   void produceUnit() {
-    //new Unit{x, y}
+    
   }
 
   @Override
