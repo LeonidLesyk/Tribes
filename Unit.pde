@@ -10,6 +10,8 @@ class Unit {
   int x,y; // position: x and y values of tile
   
   String team;
+  
+  int defaultHP;
     
   Unit(int x, int y, String team) {
     this.x = x;
@@ -36,6 +38,29 @@ class Unit {
     text(unitType, displayX, displayY + size/4 * 3);
   }
   
+  void damage(int ammount) {
+    hp = hp - ammount;
+    if (hp <= 0) {
+      //make unit be fallen
+    }
+  }
+  
+  //how do we want to do attacking and counterattacks?
+  //maybe having a separate method for initiating combat, which then has attacks and counterattacks? hmm
+  void attack(Unit opponent)  {
+    
+    //change how the range check works if we make units have more than one possible range
+    if (distanceFrom(opponent.x, opponent.y) < atkRange) {
+      opponent.damage(strength);
+    }
+    
+  }
+  
+  
+  int distanceFrom(int otherX, int otherY) {
+    int distance = abs(otherX - x) + abs(otherY - y);
+    return distance;
+  }
 }
 
 class Swordsman extends Unit {
@@ -56,5 +81,23 @@ class Swordsman extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 1; //swordsmen should be melee only
+  }
+}
+
+class Archer extends Unit {
+  private final int HP = 4; 
+  private final int STRENGTH = 1;
+  private final int MOV = 2;
+  
+  Archer(int x, int y, String team) {
+    super(x, y, team);
+    
+    unitType = "Archer";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 2; //archers can attack only from 2 spaces away. we can change this
   }
 }
