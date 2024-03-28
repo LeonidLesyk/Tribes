@@ -1,3 +1,5 @@
+import java.util.*;
+
 final int screen_width = 1280;// fullHD :)
 final int screen_height = 720;
 int tileZoneLeft = (screen_width-screen_height)/2;
@@ -11,7 +13,7 @@ boolean gameEnd=false;
 
 Building selectedBuilding = null;
 String unitToSpawn = "";
-
+Set<Tile> availbleTiles;
 
 
 
@@ -90,27 +92,37 @@ void mouseReleased(){
     }
       //Clicked Barrack
     else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
+      
+      availbleTiles = gameBoard.range(pressedTile,1);
+
       selectedBuilding = pressedTile.building;
       println("Barrack selected");
     }
     //Clicked an empty tile to spawn a unit after clicking Barrack
-    else if(pressedTile.building == null && pressedTile.unit == null  && selectedBuilding instanceof Barrack){
+    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Barrack){
+      
       println("Spawn " + unitToSpawn);
       if(unitToSpawn.equals("Swordsman")){
         pressedTile.unit = new Swordsman(selectedBuilding.owner);
         selectedBuilding = null; //Reset selection
         unitToSpawn = "";
+        availbleTiles = null;
       }
       else if(unitToSpawn.equals("Archer")){
         pressedTile.unit = new Archer(selectedBuilding.owner);
         selectedBuilding = null; //Reset selection
         unitToSpawn = "";
+        availbleTiles = null;
       }
     }
     //Check clicked swordsman
     else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
       println("Clicked Swordsman");
 
+    }
+    
+    else{
+      println("Clicked other");
     }
     
     
