@@ -65,6 +65,12 @@ void draw(){
   }
   else{
     //Game end scene
+    background(0); // Dark background for the game over screen
+    fill(255, 0, 0); // Set text color to red
+    textSize(64); // Increase text size for impact
+    textAlign(CENTER, CENTER); // Center the text horizontally and vertically
+    text("GAME OVER", screen_width / 2, screen_height / 2); // Display "GAME OVER" at the center of the screen
+
   }
 }
 
