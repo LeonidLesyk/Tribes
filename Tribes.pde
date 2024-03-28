@@ -9,6 +9,8 @@ ArrayList<UIElement> UIElements;
 
 boolean gameEnd=false;
 
+Building selectedBuilding = null;
+
 void settings(){
   size(screen_width,screen_height);
 }
@@ -82,9 +84,18 @@ void mouseReleased(){
       
     }
     else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
-      
+      selectedBuilding = pressedTile.building;
+      println("Barrack selected");
     }
-    
+    else if(pressedTile.building == null && pressedTile.unit == null  && selectedBuilding instanceof Barrack){
+      println("Spawn Swordsman");
+      pressedTile.unit = new Swordsman(selectedBuilding.owner);
+      selectedBuilding = null; //Reset selection
+    }  
+    else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
+      println("Clicked Swordsman");
+
+    }
     
     
   }else{
