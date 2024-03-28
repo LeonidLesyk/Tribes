@@ -10,6 +10,10 @@ ArrayList<UIElement> UIElements;
 boolean gameEnd=false;
 
 Building selectedBuilding = null;
+String unitToSpawn = "";
+
+
+
 
 void settings(){
   size(screen_width,screen_height);
@@ -73,9 +77,10 @@ void mouseReleased(){
       t.colour -= 20;
     }
     
+    //Clicked Base
     if(pressedTile.building != null && pressedTile.building instanceof Base){
       println("Applying damage to Base");
-      
+   
       if(pressedTile.building.applyDamage(250)){
         print(pressedTile.building.owner + " lose");
         gameEnd = true; //Make a method for ending scene?
@@ -83,15 +88,26 @@ void mouseReleased(){
       println("Base HP: " + pressedTile.building.health);
       
     }
+      //Clicked Barrack
     else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
       selectedBuilding = pressedTile.building;
       println("Barrack selected");
     }
+    //Clicked an empty tile to spawn a unit after clicking Barrack
     else if(pressedTile.building == null && pressedTile.unit == null  && selectedBuilding instanceof Barrack){
-      println("Spawn Swordsman");
-      pressedTile.unit = new Swordsman(selectedBuilding.owner);
-      selectedBuilding = null; //Reset selection
-    }  
+      println("Spawn " + unitToSpawn);
+      if(unitToSpawn.equals("Swordsman")){
+        pressedTile.unit = new Swordsman(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+      }
+      else if(unitToSpawn.equals("Archer")){
+        pressedTile.unit = new Archer(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+      }
+    }
+    //Check clicked swordsman
     else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
       println("Clicked Swordsman");
 
@@ -102,4 +118,20 @@ void mouseReleased(){
     //else inside ui elements
   }
   
+}
+
+
+//Test for spawning units
+void keyPressed() {
+    if (key == '1') {
+      unitToSpawn = "Swordsman";
+    }
+    else if (key == '2') {
+      unitToSpawn = "Archer";
+    }
+    else if(key == ESC){
+      println("Cancelled");
+      selectedBuilding = null;
+      unitToSpawn = "";
+    }
 }

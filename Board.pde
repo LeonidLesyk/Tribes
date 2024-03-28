@@ -29,19 +29,19 @@ final class Tile{
     textSize(10);
     text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
     
-    if(this.building !=null){
-      if(!this.building.destroyed){
+    if (this.building != null && !this.building.destroyed) {
         this.building.display();
-      }
-      else{
-         this.building = null; //Unbind building
-      }
-      if(this.unit != null){
-        this.unit.display(position.x,position.y,this.size);
-      }
-      
+    }
+    else if (this.building != null && this.building.destroyed) {
+        this.building = null;//Unbind building
+    }
+    //Display the unit
+    if (this.unit != null) {
+        this.unit.display(position.x+this.size/2, position.y+this.size/2, this.size/2);
     }
   }
+  
+  
 }
 
 final class Board{
