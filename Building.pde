@@ -50,8 +50,8 @@ class Base extends Building {
 
   void onDestroyed() {
      //Set player lose
-    
-    
+     println("Base Destroyed");
+     this.destroyed = true;
   }
 
   @Override

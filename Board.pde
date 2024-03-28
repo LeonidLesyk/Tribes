@@ -28,7 +28,12 @@ final class Tile{
     textSize(10);
     text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
     if(this.building !=null){
-      this.building.display();
+      if(!this.building.destroyed){
+        this.building.display();
+      }
+      else{
+         this.building = null; //Unbind building
+      }
     }
   }
 }
