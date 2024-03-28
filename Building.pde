@@ -30,7 +30,7 @@ class Building {
   }
 
   void onDestroyed() {
-    this.destroyed = true;
+   //TODO check
   }
 
 
@@ -49,8 +49,7 @@ class Base extends Building {
 
 
   void onDestroyed() {
-     //Set player lose
-    
+    //Set player lose
     
   }
 
@@ -67,7 +66,7 @@ class Base extends Building {
     ellipse(position.x+size/2, position.y+size/2, size-10, size-10);
     
     fill(0);
-    textAlign(CENTER, CENTER);
+    //textAlign(CENTER, CENTER);
     textSize(12);
     text("Base", position.x+size/2, position.y+size/2);
 
