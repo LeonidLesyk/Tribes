@@ -18,19 +18,25 @@ void setup(){
   turn = 0;
   int size = 10;
   tileSizePixels = screen_height/size;
+  
+  
+  Player player1 = new Player(color(255,0,0));
+  Player player2 = new Player(color(0,0,255));
+
+  
   gameBoard = new Board(size);
   
-   gameBoard.grid[8][1].building = new Base(gameBoard.grid[8][1].position, 1, gameBoard.grid[8][1].size);
-   gameBoard.grid[2][9].building = new Base(gameBoard.grid[2][9].position, 0, gameBoard.grid[2][9].size);
+   gameBoard.grid[8][1].building = new Base(gameBoard.grid[8][1].position, player1, gameBoard.grid[8][1].size);
+   gameBoard.grid[2][9].building = new Base(gameBoard.grid[2][9].position, player2, gameBoard.grid[2][9].size);
 
-   gameBoard.grid[8][0].building = new Library(gameBoard.grid[8][0].position, 1, gameBoard.grid[8][0].size);
-   gameBoard.grid[1][8].building = new Library(gameBoard.grid[1][8].position, 0, gameBoard.grid[1][8].size);
+   gameBoard.grid[8][0].building = new Library(gameBoard.grid[8][0].position, player1, gameBoard.grid[8][0].size);
+   gameBoard.grid[1][8].building = new Library(gameBoard.grid[1][8].position, player2, gameBoard.grid[1][8].size);
 
-   gameBoard.grid[7][0].building = new Wall(gameBoard.grid[7][0].position, 1, gameBoard.grid[7][0].size);
-   gameBoard.grid[2][8].building = new Wall(gameBoard.grid[2][8].position, 0, gameBoard.grid[2][8].size);
+   gameBoard.grid[7][0].building = new Wall(gameBoard.grid[7][0].position, player1, gameBoard.grid[7][0].size);
+   gameBoard.grid[2][8].building = new Wall(gameBoard.grid[2][8].position, player2, gameBoard.grid[2][8].size);
   
-   gameBoard.grid[5][0].building = new Barrack(gameBoard.grid[5][0].position, 1, gameBoard.grid[5][0].size);
-   gameBoard.grid[4][8].building = new Barrack(gameBoard.grid[4][8].position, 0, gameBoard.grid[4][8].size);
+   gameBoard.grid[5][0].building = new Barrack(gameBoard.grid[5][0].position, player1, gameBoard.grid[5][0].size);
+   gameBoard.grid[4][8].building = new Barrack(gameBoard.grid[4][8].position, player2, gameBoard.grid[4][8].size);
   
   //add UI Elements
   UIElements = new ArrayList<UIElement>();
@@ -67,7 +73,13 @@ void mouseReleased(){
     
     if(pressedTile.building != null && pressedTile.building instanceof Base){
       println("Applying damage to Base");
-      pressedTile.building.applyDamage(500);
+      
+      if(pressedTile.building.applyDamage(250)){
+        print(pressedTile.building.owner + " lose");
+        gameEnd = true; //Make a method for ending scene?
+      }
+      println("Base HP: " + pressedTile.building.health);
+      
     }
     else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
       
