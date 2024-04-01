@@ -48,8 +48,8 @@ class Swordsman extends Unit {
   private final int STRENGTH = 1;
   private final int MOV = 2;
   
-  Swordsman(Player team) {
-    super(team);
+  Swordsman(Player owner) {
+    super(owner);
     
     unitType = "Swordsman";
     
@@ -66,8 +66,8 @@ class Archer extends Unit {
   private final int STRENGTH = 1;
   private final int MOV = 2;
   
-  Archer(Player team) {
-    super(team);
+  Archer(Player owner) {
+    super(owner);
     
     unitType = "Archer";
     
