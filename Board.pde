@@ -26,6 +26,7 @@ final class Tile{
     square(position.x,position.y,size);
     fill(0);
     textSize(10);
+    textAlign(LEFT);
     text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
     if(this.building !=null){
       this.building.display();
