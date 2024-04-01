@@ -7,12 +7,12 @@ class Unit {
  
   String unitType;
     
-  String team;
+  Player owner;
       
-  Unit(String team) {
+  Unit(Player owner) {
     //this.x = x;
     //this.y = y;
-    this.team = team;
+    this.owner = owner;
   }
   
   //x and y should be center of tile. size maybe global??
@@ -20,7 +20,7 @@ class Unit {
     
     size = size * 3 / 4; // 3/4 tile size
     
-    color c = #ee2a3e; // a shade of red. ideally we should have colour values for each team saved somewhere, and grab that
+    color c = owner.teamColour;  
     
     fill(c);
     circle(x, y, size);
@@ -48,7 +48,7 @@ class Swordsman extends Unit {
   private final int STRENGTH = 1;
   private final int MOV = 2;
   
-  Swordsman(String team) {
+  Swordsman(Player team) {
     super(team);
     
     unitType = "Swordsman";
@@ -66,7 +66,7 @@ class Archer extends Unit {
   private final int STRENGTH = 1;
   private final int MOV = 2;
   
-  Archer(String team) {
+  Archer(Player team) {
     super(team);
     
     unitType = "Archer";

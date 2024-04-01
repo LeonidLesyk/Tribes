@@ -7,6 +7,14 @@ int tileSizePixels;
 int turn;
 ArrayList<UIElement> UIElements;
 
+boolean gameEnd=false;
+
+Building selectedBuilding = null;
+String unitToSpawn = "";
+Set<Tile> availbleTiles;
+
+
+
 void settings(){
   size(screen_width,screen_height);
 }
@@ -16,19 +24,25 @@ void setup(){
   turn = 0;
   int size = 10;
   tileSizePixels = screen_height/size;
+  
+  
+  Player player1 = new Player(color(255,0,0));
+  Player player2 = new Player(color(0,0,255));
+
+  
   gameBoard = new Board(size);
   
-   gameBoard.grid[8][1].building = new Base(gameBoard.grid[8][1].position, 1, gameBoard.grid[8][1].size);
-   gameBoard.grid[2][9].building = new Base(gameBoard.grid[2][9].position, 0, gameBoard.grid[2][9].size);
+   gameBoard.grid[8][1].building = new Base(gameBoard.grid[8][1].position, player1, gameBoard.grid[8][1].size);
+   gameBoard.grid[2][9].building = new Base(gameBoard.grid[2][9].position, player2, gameBoard.grid[2][9].size);
 
-   gameBoard.grid[8][0].building = new Library(gameBoard.grid[8][0].position, 1, gameBoard.grid[8][0].size);
-   gameBoard.grid[1][8].building = new Library(gameBoard.grid[1][8].position, 0, gameBoard.grid[1][8].size);
+   gameBoard.grid[8][0].building = new Library(gameBoard.grid[8][0].position, player1, gameBoard.grid[8][0].size);
+   gameBoard.grid[1][8].building = new Library(gameBoard.grid[1][8].position, player2, gameBoard.grid[1][8].size);
 
-   gameBoard.grid[7][0].building = new Wall(gameBoard.grid[7][0].position, 1, gameBoard.grid[7][0].size);
-   gameBoard.grid[2][8].building = new Wall(gameBoard.grid[2][8].position, 0, gameBoard.grid[2][8].size);
+   gameBoard.grid[7][0].building = new Wall(gameBoard.grid[7][0].position, player1, gameBoard.grid[7][0].size);
+   gameBoard.grid[2][8].building = new Wall(gameBoard.grid[2][8].position, player2, gameBoard.grid[2][8].size);
   
-   gameBoard.grid[5][0].building = new Barrack(gameBoard.grid[5][0].position, 1, gameBoard.grid[5][0].size);
-   gameBoard.grid[4][8].building = new Barrack(gameBoard.grid[4][8].position, 0, gameBoard.grid[4][8].size);
+   gameBoard.grid[5][0].building = new Barrack(gameBoard.grid[5][0].position, player1, gameBoard.grid[5][0].size);
+   gameBoard.grid[4][8].building = new Barrack(gameBoard.grid[4][8].position, player2, gameBoard.grid[4][8].size);
   
   //add UI Elements
   UIElements = new ArrayList<UIElement>();
@@ -38,12 +52,23 @@ void setup(){
 }
 
 void draw(){
-  background(0);
-  //println(frameRate);
-  gameBoard.draw();
-  //draw UI Elements
-  for(UIElement e : UIElements){
-    e.draw();
+  if(!gameEnd){
+    background(0);
+    //println(frameRate);
+    gameBoard.draw();
+    //draw UI Elements
+    for(UIElement e : UIElements){
+      e.draw();
+    }
+  }
+  else{
+    //Game end scene
+    background(0); // Dark background for the game over screen
+    fill(255, 0, 0); // Set text color to red
+    textSize(64); // Increase text size for impact
+    textAlign(CENTER, CENTER); // Center the text horizontally and vertically
+    text("GAME OVER", screen_width / 2, screen_height / 2); // Display "GAME OVER" at the center of the screen
+
   }
 }
 
@@ -56,7 +81,55 @@ void mouseReleased(){
     //tile interaction goes here
     for(Tile t : gameBoard.range(pressedTile,2)){
       t.colour -= 20;
-    }  
+    }
+    
+    //Clicked Base
+    if(pressedTile.building != null && pressedTile.building instanceof Base){
+      println("Applying damage to Base");
+   
+      if(pressedTile.building.applyDamage(250)){
+        print(pressedTile.building.owner + " lose");
+        gameEnd = true; //Make a method for ending scene?
+      }
+      println("Base HP: " + pressedTile.building.health);
+      
+    }
+      //Clicked Barrack
+    else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
+      
+      availbleTiles = gameBoard.range(pressedTile,1);
+
+      selectedBuilding = pressedTile.building;
+      println("Barrack selected");
+    }
+    //Clicked an empty tile to spawn a unit after clicking Barrack
+    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Barrack){
+      
+      println("Spawn " + unitToSpawn);
+      if(unitToSpawn.equals("Swordsman")){
+        pressedTile.unit = new Swordsman(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+        availbleTiles = null;
+      }
+      else if(unitToSpawn.equals("Archer")){
+        pressedTile.unit = new Archer(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+        availbleTiles = null;
+      }
+    }
+    //Check clicked swordsman
+    else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
+      println("Clicked Swordsman");
+
+    }
+    
+    else{
+      println("Clicked other");
+    }
+    
+    
   }else{
     //else inside ui elements
     for(UIElement e : UIElements){
@@ -66,4 +139,20 @@ void mouseReleased(){
     }
   }
   
+}
+
+
+//Test for spawning units
+void keyPressed() {
+    if (key == '1') {
+      unitToSpawn = "Swordsman";
+    }
+    else if (key == '2') {
+      unitToSpawn = "Archer";
+    }
+    else if(key == ESC){
+      println("Cancelled");
+      selectedBuilding = null;
+      unitToSpawn = "";
+    }
 }

@@ -8,6 +8,7 @@ final class Tile{
   Tile right;
   int colour;
   Building building;
+  Unit unit;
   
   Tile(int size, PVector position, Tile up, Tile down, Tile left, Tile right){
     this.position = position;
@@ -18,6 +19,8 @@ final class Tile{
     this.right = right;
     this.colour = 255;
     this.building = null;
+    this.unit = null;
+
   }
   
   void draw(){    
@@ -28,10 +31,20 @@ final class Tile{
     textSize(10);
     textAlign(LEFT);
     text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
-    if(this.building !=null){
-      this.building.display();
+    
+    if (this.building != null && !this.building.destroyed) {
+        this.building.display();
+    }
+    else if (this.building != null && this.building.destroyed) {
+        this.building = null;//Unbind building
+    }
+    //Display the unit
+    if (this.unit != null) {
+        this.unit.display(position.x+this.size/2, position.y+this.size/2, this.size/2);
     }
   }
+  
+  
 }
 
 final class Board{
