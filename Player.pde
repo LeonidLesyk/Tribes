@@ -19,28 +19,28 @@ class Player {
   }
   
   //returns true if spending was successful, false if not
-  boolean spendGold(int ammount) {
-    if (gold >= ammount) {
-      gold -= ammount;
+  boolean spendGold(int amount) {
+    if (gold >= amount) {
+      gold -= amount;
       return true;
     }
     return false;
   }
   
-  boolean spendResearch(int ammount) {
-    if (researchPoints >= ammount) {
-      researchPoints -= ammount;
+  boolean spendResearch(int amount) {
+    if (researchPoints >= amount) {
+      researchPoints -= amount;
       return true;
     }
     return false;
   }
   
-  void gainGold(int ammount) {
-    gold += ammount;
+  void gainGold(int amount) {
+    gold += amount;
   }
   
-  void gainResearch(int ammount) {
-    researchPoints += ammount;
+  void gainResearch(int amount) {
+    researchPoints += amount;
   }
   
 }
