@@ -19,6 +19,8 @@ final class Tile{
     this.right = right;
     this.colour = 255;
     this.building = null;
+    this.unit = null;
+
   }
   
   void draw(){    
