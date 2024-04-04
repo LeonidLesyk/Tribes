@@ -1,7 +1,5 @@
-import java.util.*;
-
-final int screen_width = 1280;// fullHD :)
-final int screen_height = 720;
+final int screen_width = 1920;// fullHD :)
+final int screen_height = 1080;
 int tileZoneLeft = (screen_width-screen_height)/2;
 int tileZoneRight = tileZoneLeft + screen_height;
 static Board gameBoard;
@@ -139,6 +137,11 @@ void mouseReleased(){
     
   }else{
     //else inside ui elements
+    for(UIElement e : UIElements){
+      if(mouseX > e.x && mouseX < e.x + e.width && mouseY > e.y && mouseY < e.y + e.height){
+        e.onClickAction();
+      }
+    }
   }
   
 }
