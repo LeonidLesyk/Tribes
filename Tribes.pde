@@ -1,3 +1,5 @@
+import java.util.*;
+
 final int screen_width = 1920;// fullHD :)
 final int screen_height = 1080;
 int tileZoneLeft = (screen_width-screen_height)/2;
@@ -5,7 +7,7 @@ int tileZoneRight = tileZoneLeft + screen_height;
 Board gameBoard;
 int tileSizePixels;
 int turn;
-ArrayList<UIElement> UIElements;
+HashMap<String,UIElement> UIElements;
 
 boolean gameEnd=false;
 
@@ -48,13 +50,13 @@ void setup(){
    gameBoard.grid[4][8].building = new Barrack(gameBoard.grid[4][8].position, player2, gameBoard.grid[4][8].size);
   
   //add UI Elements
-  UIElements = new ArrayList<UIElement>();
+  UIElements = new HashMap<String,UIElement>();
   UIElement endTurn = new endTurnButton(0,0,tileZoneLeft,screen_height/10);
-  UIElements.add(endTurn);
+  UIElements.put("endTurn",endTurn);
   UIElement gold = new goldDisplay(tileZoneRight,0,(tileZoneLeft)/2,screen_height/10);
-  UIElements.add(gold);
+  UIElements.put("gold",gold);
   UIElement research = new researchDisplay(tileZoneRight + (tileZoneLeft)/2,0,(tileZoneLeft)/2,screen_height/10);
-  UIElements.add(research);
+  UIElements.put("research",research);
 }
 
 void draw(){
@@ -63,7 +65,7 @@ void draw(){
     //println(frameRate);
     gameBoard.draw();
     //draw UI Elements
-    for(UIElement e : UIElements){
+    for(UIElement e : UIElements.values()){
       e.draw();
     }
   }
@@ -138,7 +140,7 @@ void mouseReleased(){
     
   }else{
     //else inside ui elements
-    for(UIElement e : UIElements){
+    for(UIElement e : UIElements.values()){
       //check inside region
       if(mouseX > e.x && mouseX < e.x + e.width && mouseY > e.y && mouseY < e.y + e.height){
         e.onClickAction();
