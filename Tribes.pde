@@ -12,7 +12,7 @@ boolean gameEnd=false;
 Building selectedBuilding = null;
 String unitToSpawn = "";
 Set<Tile> availbleTiles;
-
+Player[] players;
 
 
 void settings(){
@@ -24,10 +24,13 @@ void setup(){
   turn = 0;
   int size = 10;
   tileSizePixels = screen_height/size;
+  players = new Player[2];
   
   
   Player player1 = new Player(color(255,0,0));
   Player player2 = new Player(color(0,0,255));
+  players[0] = player1;
+  players[1] = player2;
 
   
   gameBoard = new Board(size);
