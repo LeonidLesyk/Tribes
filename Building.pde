@@ -33,6 +33,13 @@ class Building {
   void onDestroyed() {
     //this.destroyed = true;
   }
+  
+  int turnEndAction() {
+    //Logic to calculate the amount of gold given
+    return 0;
+  }
+
+
 
 
   void display() {
@@ -108,9 +115,40 @@ class Library extends Building {
   }
 
 
-  int research() {
+  int turnEndAction() {
     //Logic to calculate the amount of research point given
-    return 0;
+    return 1;
+  }
+
+
+
+  @Override
+    void display(){
+    
+    fill(255);
+    stroke(owner.teamColour);
+    
+    rect(position.x+5, position.y+5, size-10, size-10);
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text("Library", position.x+size/2, position.y+size/2);
+
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class GoldMine extends Building {
+
+  GoldMine(PVector position, Player owner, int size) {
+    super(position, 100, owner, size);
+  }
+
+
+  int turnEndAction() {
+    //Logic to calculate the amount of gold given
+    return 1;
   }
 
 
