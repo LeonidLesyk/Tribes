@@ -3,4 +3,8 @@ CS4303 Game Group Project
 
 
 Barrack => 1 -> swordsman
-Barrack => 2 -> archer
+	   2 -> archer
+
+Empty   => Q -> Barrack
+	   W -> Library
+ 	   E -> Gold Mine

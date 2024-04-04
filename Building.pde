@@ -164,7 +164,7 @@ class GoldMine extends Building {
     fill(0);
     textAlign(CENTER, CENTER);
     textSize(12);
-    text("Library", position.x+size/2, position.y+size/2);
+    text("Gold Mine", position.x+size/2, position.y+size/2);
 
   }
 }

@@ -1,5 +1,5 @@
 final int screen_width = 1920;// fullHD :)
-final int screen_height = 1080;
+final int screen_height = 720;
 int tileZoneLeft = (screen_width-screen_height)/2;
 int tileZoneRight = tileZoneLeft + screen_height;
 static Board gameBoard;
@@ -10,8 +10,10 @@ ArrayList<UIElement> UIElements;
 boolean gameEnd=false;
 
 Building selectedBuilding = null;
-String unitToSpawn = "";
+String unitToSpawn  = "";
 Set<Tile> availbleTiles;
+
+String toBuildClass = "";
 
 static Player player1;
 static Player player2;
@@ -98,6 +100,22 @@ void mouseReleased(){
       
     }
     
+    //Building logic
+    else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("")){
+      if(toBuildClass.equals("Barrack")){
+        pressedTile.building = new Barrack(pressedTile.position, playerList.get(turn%2), pressedTile.size);
+        toBuildClass = "";
+      }
+      else if(toBuildClass.equals("Library")){
+        pressedTile.building = new Library(pressedTile.position, playerList.get(turn%2), pressedTile.size);
+        toBuildClass = "";
+      }
+      else if(toBuildClass.equals("Gold")){
+        pressedTile.building = new GoldMine(pressedTile.position, playerList.get(turn%2), pressedTile.size);
+        toBuildClass = "";
+      }
+    }
+    
     //Clicked Barrack
     else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
       
@@ -108,7 +126,7 @@ void mouseReleased(){
     }
     
     //Clicked an empty tile to spawn a unit after clicking Barrack
-    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Barrack){
+    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Barrack && !unitToSpawn.equals("")){
       
       println("Spawn " + unitToSpawn);
       if(unitToSpawn.equals("Swordsman")){
@@ -150,10 +168,21 @@ void mouseReleased(){
 //Test for spawning units
 void keyPressed() {
     if (key == '1') {
+      println("ToSpawn: Swordsman");
       unitToSpawn = "Swordsman";
     }
     else if (key == '2') {
+      println("ToSpawn: Archer");
       unitToSpawn = "Archer";
+    }
+    else if (key == 'Q' || key == 'q') {
+      toBuildClass = "Barrack";
+    }
+    else if (key == 'W' || key == 'w') {
+      toBuildClass = "Library";
+    }
+    else if (key == 'E' || key == 'e') {
+      toBuildClass = "Gold";
     }
     else if(key == ESC){
       println("Cancelled");
