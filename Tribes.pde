@@ -51,7 +51,10 @@ void setup(){
   UIElements = new ArrayList<UIElement>();
   UIElement endTurn = new endTurnButton(0,0,tileZoneLeft,screen_height/10);
   UIElements.add(endTurn);
-  
+  UIElement gold = new goldDisplay(tileZoneRight,0,(tileZoneLeft)/2,screen_height/10);
+  UIElements.add(gold);
+  UIElement research = new researchDisplay(tileZoneRight + (tileZoneLeft)/2,0,(tileZoneLeft)/2,screen_height/10);
+  UIElements.add(research);
 }
 
 void draw(){
@@ -136,6 +139,7 @@ void mouseReleased(){
   }else{
     //else inside ui elements
     for(UIElement e : UIElements){
+      //check inside region
       if(mouseX > e.x && mouseX < e.x + e.width && mouseY > e.y && mouseY < e.y + e.height){
         e.onClickAction();
       }

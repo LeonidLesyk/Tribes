@@ -36,9 +36,42 @@ class endTurnButton extends UIElement{
   @Override
   void draw(){
     fill(255);
+    stroke(128);
     rect(x,y,width,height);
     textSize(40);
     fill(0);
     text("End Turn: " + str(turn),x,y+40);
+  }
+}
+
+class goldDisplay extends UIElement{
+  goldDisplay(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  
+  @Override
+  void draw(){
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(40);
+    fill(0);
+    text("Gold: " + str(players[turn].gold),x,y+40);
+  }
+}
+
+class researchDisplay extends UIElement{
+  researchDisplay(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  
+  @Override
+  void draw(){
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(40);
+    fill(0);
+    text("Research: " + str(players[turn].researchPoints),x,y+40);
   }
 }
