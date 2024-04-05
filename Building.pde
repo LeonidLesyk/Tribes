@@ -2,12 +2,12 @@ class Building {
   PVector position;
   int maxHealth;
   int health;
-  int owner;
+  Player owner;
   boolean destroyed;
   int size;
 
   // Constructor
-  Building(PVector position, int health, int owner, int size) {
+  Building(PVector position, int health, Player owner, int size) {
     this.position = position;
     this.maxHealth = this.health = health;
     this.owner = owner;
@@ -16,12 +16,13 @@ class Building {
   }
 
   //Damage to building
-  void applyDamage(int damage) {
+  boolean applyDamage(int damage) {
     health -= damage;
     if (health <= 0) {
       destroyed = true;
       onDestroyed();
     }
+    return destroyed;
   }
 
   void fix(int health) {
@@ -30,8 +31,15 @@ class Building {
   }
 
   void onDestroyed() {
-    this.destroyed = true;
+    //this.destroyed = true;
   }
+  
+  int turnEndAction() {
+    //Logic to calculate the amount of gold given
+    return 0;
+  }
+
+
 
 
   void display() {
@@ -43,27 +51,22 @@ class Building {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Base extends Building {
 
-  Base(PVector position, int owner, int size) {
+  Base(PVector position, Player owner, int size) {
     super(position, 500, owner, size);
   }
 
 
   void onDestroyed() {
      //Set player lose
-    
-    
+     println("Base Destroyed");
+     //this.destroyed = true;
   }
 
   @Override
   void display() {
-    if (this.owner==0) {
-      fill(255);
-      stroke(255, 0, 0);
-    } 
-    else if (this.owner==1) {
-      fill(255);
-      stroke(0, 0, 255);
-    }
+    fill(255);
+    stroke(owner.teamColour);
+    
     ellipse(position.x+size/2, position.y+size/2, size-10, size-10);
     
     fill(0);
@@ -77,7 +80,7 @@ class Base extends Building {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Barrack extends Building {
   // Constructor
-  Barrack(PVector position, int owner, int size) {
+  Barrack(PVector position, Player owner, int size) {
     super(position, 80, owner, size);
   }
 
@@ -89,14 +92,9 @@ class Barrack extends Building {
 
   @Override
     void display() {
-    if (this.owner==0) {
-      fill(255);
-      stroke(255, 0, 0);
-    } 
-    else if (this.owner==1) {
-      fill(255);
-      stroke(0, 0, 255);
-    }
+      
+    fill(255);
+    stroke(owner.teamColour);
       
     triangle(position.x+size/2, position.y+10, position.x+10, position.y+size-10, position.x+size-10, position.y+size-10);
     
@@ -112,28 +110,24 @@ class Barrack extends Building {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Library extends Building {
 
-  Library(PVector position, int owner, int size) {
+  Library(PVector position, Player owner, int size) {
     super(position, 60, owner, size);
   }
 
 
-  int research() {
+  int turnEndAction() {
     //Logic to calculate the amount of research point given
-    return 0;
+    return 1;
   }
 
 
 
   @Override
-    void display() {
-      if (this.owner==0) {
-        fill(255);
-        stroke(255, 0, 0);
-    } 
-    else if (this.owner==1) {
-      fill(255);
-      stroke(0, 0, 255);
-    }
+    void display(){
+    
+    fill(255);
+    stroke(owner.teamColour);
+    
     rect(position.x+5, position.y+5, size-10, size-10);
     
     fill(0);
@@ -145,9 +139,40 @@ class Library extends Building {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class GoldMine extends Building {
+
+  GoldMine(PVector position, Player owner, int size) {
+    super(position, 100, owner, size);
+  }
+
+
+  int turnEndAction() {
+    //Logic to calculate the amount of gold given
+    return 1;
+  }
+
+
+
+  @Override
+    void display(){
+    
+    fill(255);
+    stroke(owner.teamColour);
+    
+    rect(position.x+5, position.y+5, size-10, size-10);
+    
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(12);
+    text("Gold Mine", position.x+size/2, position.y+size/2);
+
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Wall extends Building {
   // Constructor
-  Wall(PVector position, int owner, int size) {
+  Wall(PVector position, Player owner, int size) {
     super(position, 100, owner, size);
   }
 
@@ -155,14 +180,9 @@ class Wall extends Building {
 
   @Override
   void display() {
-    if (this.owner==0) {
-      fill(255);
-      stroke(255, 0, 0);
-    } 
-    else if (this.owner==1) {
-      fill(255);
-      stroke(0, 0, 255);
-    }
+    fill(255);
+    stroke(owner.teamColour);
+    
     rect(position.x+5, position.y+25, size-10, size-40);
     
     fill(0);
