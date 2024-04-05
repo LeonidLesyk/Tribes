@@ -38,13 +38,13 @@ class endTurnButton extends UIElement{
     //loop through each cell
     for(int i=0; i<gameBoard.grid.length; i++){
       for(int j=0; j<gameBoard.grid[i].length; j++){
-        if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building instanceof Library && gameBoard.grid[i][j].building.owner == Tribes.playerList.get(currnetPlayer)){
-          Tribes.playerList.get(currnetPlayer).researchPoints += gameBoard.grid[i][j].building.turnEndAction();
-          println("Player " + turn + "RP: "+ Tribes.playerList.get(currnetPlayer).researchPoints);
+        if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building instanceof Library && gameBoard.grid[i][j].building.owner == players[currnetPlayer]){
+          players[currnetPlayer].researchPoints += gameBoard.grid[i][j].building.turnEndAction();
+          println("Player " + turn + "RP: "+ players[currnetPlayer].researchPoints);
         }
-        if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building instanceof GoldMine && gameBoard.grid[i][j].building.owner == Tribes.playerList.get(currnetPlayer)){
-          Tribes.playerList.get(currnetPlayer).gold += gameBoard.grid[i][j].building.turnEndAction();
-          println("Player " + turn + "Gold: "+ Tribes.playerList.get(currnetPlayer).gold);
+        if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building instanceof GoldMine && gameBoard.grid[i][j].building.owner == players[currnetPlayer]){
+          players[currnetPlayer].gold += gameBoard.grid[i][j].building.turnEndAction();
+          println("Player " + turn + "Gold: "+ players[currnetPlayer].gold);
         }
       }
     }
@@ -60,7 +60,7 @@ class endTurnButton extends UIElement{
     textSize(40);
     fill(0);
     textAlign(LEFT,CENTER);
-    text("End Turn: " + str(turn),x,y,x+width, y+height);
+    text("End Turn: \nPlayer " + str(turn+1),x,y,x+width, y+height);
   }
 }
 

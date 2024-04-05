@@ -20,7 +20,6 @@ String toBuildClass = "";
 
 static Player player1;
 static Player player2;
-static ArrayList<Player> playerList;
 
 void settings(){
   size(screen_width,screen_height);
@@ -33,12 +32,12 @@ void setup(){
   tileSizePixels = screen_height/size;
   players = new Player[2];
   
+  gameEnd = false;
   
   player1 = new Player(color(255,0,0));
   player2 = new Player(color(0,0,255));
   players[0] = player1;
   players[1] = player2;
-  playerList = new ArrayList<Player>(Arrays.asList(player1, player2));
 
   
   gameBoard = new Board(size);
@@ -91,6 +90,11 @@ void draw(){
 }
 
 void mouseReleased(){
+  if(gameEnd){
+    setup();
+  }
+  
+  
   //if in tile zone
   if(mouseX > tileZoneLeft && mouseX < tileZoneRight){
     int x = (mouseX - tileZoneLeft)/tileSizePixels;
@@ -116,15 +120,15 @@ void mouseReleased(){
     //Building logic
     else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("")){
       if(toBuildClass.equals("Barrack")){
-        pressedTile.building = new Barrack(pressedTile.position, playerList.get(turn%2), pressedTile.size);
+        pressedTile.building = new Barrack(pressedTile.position, players[turn%2], pressedTile.size);
         toBuildClass = "";
       }
       else if(toBuildClass.equals("Library")){
-        pressedTile.building = new Library(pressedTile.position, playerList.get(turn%2), pressedTile.size);
+        pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
         toBuildClass = "";
       }
       else if(toBuildClass.equals("Gold")){
-        pressedTile.building = new GoldMine(pressedTile.position, playerList.get(turn%2), pressedTile.size);
+        pressedTile.building = new GoldMine(pressedTile.position, players[turn%2], pressedTile.size);
         toBuildClass = "";
       }
     }
