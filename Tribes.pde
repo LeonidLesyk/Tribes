@@ -1,9 +1,13 @@
 import java.util.*;
 
-final int screen_width = 1920;// fullHD :)
-final int screen_height = 1080;
-int tileZoneLeft = (screen_width-screen_height)/2;
-int tileZoneRight = tileZoneLeft + screen_height;
+//final int screen_width = 1920;// fullHD :)
+//final int screen_height = 1080;
+int tileZoneLeft;
+int tileZoneRight;
+
+int screen_width;
+int screen_height;
+
 static Board gameBoard;
 int tileSizePixels;
 int turn;
@@ -22,10 +26,20 @@ static Player player1;
 static Player player2;
 
 void settings(){
-  size(screen_width,screen_height);
+  //size(1500,800);
+  fullScreen();
+  pixelDensity(displayDensity());
 }
 
 void setup(){
+  
+  screen_width = width;
+  screen_height = height;
+  
+  tileZoneLeft = (screen_width-screen_height)/2;
+  tileZoneRight = tileZoneLeft + screen_height;
+  
+  
   //initialise game variables
   turn = 0;
   int size = 10;
