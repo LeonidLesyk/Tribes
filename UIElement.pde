@@ -27,6 +27,10 @@ class endTurnButton extends UIElement{
   void onClickAction(){
     //end turn
     turn +=1;
+    
+    if( turn == 2){
+      turn = 0;
+    }
 
     //end turn actions e.g. add gold, research points calculate sight etc
     int currnetPlayer = turn%2;
@@ -36,15 +40,14 @@ class endTurnButton extends UIElement{
       for(int j=0; j<gameBoard.grid[i].length; j++){
         if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building instanceof Library && gameBoard.grid[i][j].building.owner == Tribes.playerList.get(currnetPlayer)){
           Tribes.playerList.get(currnetPlayer).researchPoints += gameBoard.grid[i][j].building.turnEndAction();
-          println(Tribes.playerList.get(currnetPlayer).researchPoints);
+          println("Player " + turn + "RP: "+ Tribes.playerList.get(currnetPlayer).researchPoints);
         }
         if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building instanceof GoldMine && gameBoard.grid[i][j].building.owner == Tribes.playerList.get(currnetPlayer)){
           Tribes.playerList.get(currnetPlayer).gold += gameBoard.grid[i][j].building.turnEndAction();
-          println(Tribes.playerList.get(currnetPlayer).researchPoints);
+          println("Player " + turn + "Gold: "+ Tribes.playerList.get(currnetPlayer).gold);
         }
       }
     }
-  
     
     
   }
@@ -55,6 +58,6 @@ class endTurnButton extends UIElement{
     rect(x,y,width,height);
     textSize(40);
     fill(0);
-    text("End Turn: " + str(turn),x,y+40);
+    text("End Turn: Player" + str(turn+1),x,y+40);
   }
 }
