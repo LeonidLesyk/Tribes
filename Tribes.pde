@@ -19,6 +19,8 @@ Building selectedBuilding = null;
 String unitToSpawn  = "";
 Set<Tile> availbleTiles;
 
+Tile selectedTile;
+
 Player[] players;
 String toBuildClass = "";
 
@@ -26,8 +28,8 @@ static Player player1;
 static Player player2;
 
 void settings(){
-  //size(1500,800);
-  fullScreen();
+  size(1500,800);
+  //fullScreen();
   pixelDensity(displayDensity());
 }
 
@@ -114,10 +116,24 @@ void mouseReleased(){
     int x = (mouseX - tileZoneLeft)/tileSizePixels;
     int y = mouseY/tileSizePixels;
     Tile pressedTile = gameBoard.grid[x][y];
+    
+    //clear highlight on previous tile
+    if(selectedTile != null) {
+      for(Tile t : gameBoard.range(selectedTile,2)){
+        t.colour = t.defaultColour;
+      }
+      selectedTile.colour = selectedTile.defaultColour;
+    }
+    
+    
+    /*
     //tile interaction goes here
     for(Tile t : gameBoard.range(pressedTile,2)){
-      t.colour -= 20;
+      t.colour = t.highlight;
     }
+    */
+    
+    pressedTile.colour = pressedTile.highlight;
     
     //Clicked Base
     if(pressedTile.building != null && pressedTile.building instanceof Base){
@@ -150,6 +166,10 @@ void mouseReleased(){
     //Clicked Barrack
     else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
       
+      for(Tile t : gameBoard.range(pressedTile,1)){
+        t.colour = t.highlight;
+      }
+      
       availbleTiles = gameBoard.range(pressedTile,1);
 
       selectedBuilding = pressedTile.building;
@@ -173,6 +193,17 @@ void mouseReleased(){
         availbleTiles = null;
       }
     }
+    
+    else if(pressedTile.unit != null && pressedTile.unit.owner == players[turn%2]){
+      println("Clicked Unit");
+      Unit unit = pressedTile.unit;
+      
+      for(Tile t : gameBoard.range(pressedTile, unit.mov)){
+        t.colour = t.highlight;
+      }
+
+    }
+    
     //Check clicked swordsman
     else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
       println("Clicked Swordsman");
@@ -183,6 +214,32 @@ void mouseReleased(){
       println("Clicked other");
     }
     
+    
+    //if previously selected tile has unit belonging to current player
+    if(selectedTile != null && selectedTile.unit != null && selectedTile.unit.owner == players[turn%2]) {
+      //if new tile has no buildings/units and is within that unit's mov range
+      if(pressedTile.unit == null && pressedTile.building == null && gameBoard.range(selectedTile, selectedTile.unit.mov).contains(pressedTile)) {
+        pressedTile.unit = selectedTile.unit;
+        selectedTile.unit = null;
+        
+        // below line: maybe we should have tiles have attributes for where they are in the array? just to make it easier for things like this
+        //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
+        println("Moved " + pressedTile.unit.unitType);
+      }
+      if(pressedTile.unit != null && pressedTile.unit.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+        Unit attacker = selectedTile.unit;
+        Unit target = pressedTile.unit;
+        
+        target.damage(attacker.strength);
+        println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
+      }
+      else {
+        println("Out of range");
+      }
+    }
+    
+    
+    selectedTile = pressedTile;
     
   }else{
     //else inside ui elements
