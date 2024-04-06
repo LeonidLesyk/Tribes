@@ -78,3 +78,21 @@ class Archer extends Unit {
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
   }
 }
+
+class Builder extends Unit {
+  private final int HP = 4; 
+  private final int STRENGTH = 1;
+  private final int MOV = 2;
+  
+  Builder(Player owner) {
+    super(owner);
+    
+    unitType = "Builder";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 1;
+  }
+}
