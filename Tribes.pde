@@ -217,6 +217,7 @@ void mouseReleased(){
     
     //if previously selected tile has unit belonging to current player
     if(selectedTile != null && selectedTile.unit != null && selectedTile.unit.owner == players[turn%2]) {
+      
       //if new tile has no buildings/units and is within that unit's mov range
       if(pressedTile.unit == null && pressedTile.building == null && gameBoard.range(selectedTile, selectedTile.unit.mov).contains(pressedTile)) {
         pressedTile.unit = selectedTile.unit;
@@ -226,15 +227,23 @@ void mouseReleased(){
         //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
         println("Moved " + pressedTile.unit.unitType);
       }
+      else {
+        println("Out of range");
+      }
+      
+      //if new tile has a unit belonging to other player, and is within unit's attack range
       if(pressedTile.unit != null && pressedTile.unit.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
         Unit attacker = selectedTile.unit;
         Unit target = pressedTile.unit;
         
-        target.damage(attacker.strength);
-        println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
-      }
-      else {
-        println("Out of range");
+        //damage target unit. if fallen, remove from board
+        if(target.damage(attacker.strength)) {
+          pressedTile.unit = null;
+          println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has fallen.");
+        }
+        else {
+          println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
+        }
       }
     }
     
