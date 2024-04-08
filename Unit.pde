@@ -26,7 +26,7 @@ class Unit {
     circle(x, y, size);
     
     fill(#000000); //black
-    textSize(22);
+    textSize(15);
     text(unitType, x-size/2, y + size/4 * 3);
   }
   

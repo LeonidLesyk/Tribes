@@ -196,11 +196,11 @@ void mouseReleased(){
     if(pressedTile.building != null && pressedTile.building instanceof Base){
       println("Applying damage to Base");
    
-      if(pressedTile.building.applyDamage(250)){
-        print(pressedTile.building.owner + " lose");
-        gameEnd = true; //Make a method for ending scene?
-      }
-      println("Base HP: " + pressedTile.building.health);
+      //if(pressedTile.building.applyDamage(250)){
+      //  print(pressedTile.building.owner + " lose");
+      //  gameEnd = true; //Make a method for ending scene?
+      //}
+      //println("Base HP: " + pressedTile.building.health);
       
     }
     
@@ -321,7 +321,7 @@ void mouseReleased(){
       }
       
       //if new tile has a unit belonging to other player, and is within unit's attack range
-      if(pressedTile.unit != null && pressedTile.unit.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+      if(pressedTile.unit != null && pressedTile.building == null && pressedTile.unit.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
         Unit attacker = selectedTile.unit;
         Unit target = pressedTile.unit;
         
@@ -334,6 +334,23 @@ void mouseReleased(){
           println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
         }
       }
+      
+            //if new tile has a unit belonging to other player, and is within unit's attack range
+      else if(pressedTile.unit == null && pressedTile.building != null && pressedTile.building.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+        Unit attacker = selectedTile.unit;
+        Building target = pressedTile.building;
+        
+        //damage target unit. if fallen, remove from board
+        if(target.applyDamage(attacker.strength)) {
+          pressedTile.building = null;
+          println(attacker.unitType + " attacked " + target.getClass().getName() + " has fallen.");
+        }
+        else {
+          println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
+        }
+      }
+      
+      
     }
     
     

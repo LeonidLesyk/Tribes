@@ -66,6 +66,7 @@ class Base extends Building {
   void display() {
     fill(255);
     stroke(owner.teamColour);
+    strokeWeight(2);
     
     ellipse(position.x+size/2, position.y+size/2, size-10, size-10);
     
@@ -95,7 +96,8 @@ class Barrack extends Building {
       
     fill(255);
     stroke(owner.teamColour);
-      
+    strokeWeight(2);
+  
     triangle(position.x+size/2, position.y+10, position.x+10, position.y+size-10, position.x+size-10, position.y+size-10);
     
     fill(0);
@@ -127,7 +129,8 @@ class Library extends Building {
     
     fill(255);
     stroke(owner.teamColour);
-    
+    strokeWeight(2);
+
     rect(position.x+5, position.y+5, size-10, size-10);
     
     fill(0);
@@ -158,7 +161,8 @@ class GoldMine extends Building {
     
     fill(255);
     stroke(owner.teamColour);
-    
+    strokeWeight(2);
+
     rect(position.x+5, position.y+5, size-10, size-10);
     
     fill(0);
@@ -182,7 +186,8 @@ class Wall extends Building {
   void display() {
     fill(255);
     stroke(owner.teamColour);
-    
+    strokeWeight(2);
+
     rect(position.x+5, position.y+25, size-10, size-40);
     
     fill(0);
