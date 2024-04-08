@@ -25,12 +25,7 @@ class endTurnButton extends UIElement{
   }
   @Override
   void onClickAction(){
-    //end turn
-    turn +=1;
     
-    if( turn == 2){
-      turn = 0;
-    }
 
     //end turn actions e.g. add gold, research points calculate sight etc
     int currnetPlayer = turn%2;
@@ -48,7 +43,18 @@ class endTurnButton extends UIElement{
         }
       }
     }
+    //deactivate info and buy button
+    infoBox i = (infoBox)UIElements.get("info");
+    researchBuyButton b = (researchBuyButton)UIElements.get("buy");
+    i.active = false;
+    b.active = false;
     
+    //end turn
+    turn +=1;
+    
+    if( turn == 2){
+      turn = 0;
+    }
     
   }
   
@@ -103,13 +109,16 @@ class infoBox extends UIElement{
   String infoText;
   infoBox(int x, int y, int width, int height,String t){
     super(x,y,width,height);
-    this.active = true;
+    this.active = false;
     this.infoText = t;
   }
   
   @Override
   void onClickAction(){
     this.active = false;
+    researchBuyButton b = (researchBuyButton)UIElements.get("buy");
+    b.active = false;
+    
   }
   
   @Override
@@ -127,18 +136,56 @@ class infoBox extends UIElement{
   }
 }
 
-class buyButton extends UIElement{
+class researchBuyButton extends UIElement{
   boolean active;
   int cost;
-  buyButton(int x, int y, int width, int height){
+  String type;
+  int level;
+  researchBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
-    this.active = true;
-    this.cost = 0;
+    this.active = false;
+    this.cost = -1;
+    this.type = "";
+    this.level = -1;
+    
   }
   
   @Override
   void onClickAction(){
+    
+    println("testing enough");
+    println(this.active);
+    println(players[turn].hasEnoughRP(cost));
+    infoBox i = (infoBox)UIElements.get("info");
+    if(this.active && players[turn].hasEnoughRP(cost)){
+      println("enough");
+    switch(type){
+      case "t":
+        if(level == players[turn].tribesmenLevel+1){
+          players[turn].spendResearch(cost);
+          players[turn].tribesmenLevel = level;
+        }
+        break;
+        case "d":
+        if(level == players[turn].dwarvesLevel+1){
+          players[turn].spendResearch(cost);
+          players[turn].dwarvesLevel = level;
+        }
+        break;
+        case "s":
+        if(level == players[turn].sorcerersLevel+1){
+          players[turn].spendResearch(cost);
+          players[turn].sorcerersLevel = level;
+        }
+        break;
+    }
     this.active = false;
+    
+    i.active = false;
+    }else{
+      i.infoText = "Not enough Research Points!";
+    }
+    
   }
   
   @Override
@@ -149,26 +196,18 @@ class buyButton extends UIElement{
       rect(x,y,width,height);
       textSize(32);
       fill(0);
-      textAlign(CENTER,TOP);
-      text("buy: " + str(cost),x,y+40,x+width, y+height);
+      textAlign(CENTER,CENTER);
+      text("Buy: " + str(cost),x,y,width, height);
     }
     
   }
 }
 
-class researchBuyBox extends UIElement{
-  String text;
-  int cost;
-  
-  researchBuyBox(int x, int y, int width, int height, String text, int cost){
+class treeLabel extends UIElement{
+  String tribe;
+  treeLabel(int x, int y, int width, int height, String tribe){
     super(x,y,width,height);
-    this.text = text;
-    this.cost = cost;
-  }
-  
-  @Override
-  void onClickAction(){
-    //throw text to infobox 
+    this.tribe = tribe;
   }
   
   @Override
@@ -178,6 +217,122 @@ class researchBuyBox extends UIElement{
     rect(x,y,width,height);
     textSize(40);
     fill(0);
-    text("RP: " + str(players[turn].researchPoints),x,y+40);
+    textAlign(CENTER,CENTER);
+    text(tribe,x,y,width, height);
+  }
+}
+
+class researchBuyBox extends UIElement{
+  String text;
+  int cost;
+  int level;
+  String type;
+  researchBuyBox(int x, int y, int width, int height, String text, int cost, int level, String type){
+    super(x,y,width,height);
+    this.text = text;
+    this.cost = cost;
+    this.level = level;
+    this.type = type;
+  }
+  
+  @Override
+  void onClickAction(){
+    //throw text to infobox and buy button
+    infoBox i = (infoBox)UIElements.get("info");
+    researchBuyButton b = (researchBuyButton)UIElements.get("buy");
+    
+    i.infoText = this.text;
+    i.active = true;
+    b.cost = this.cost;
+    b.type = this.type;
+    b.active = true;
+    b.level = level;
+}
+  
+  @Override
+  void draw(){
+    switch(type){
+      case "t":
+        if(players[turn].tribesmenLevel >= level){
+          fill(0,0,255);
+        }else if(players[turn].hasEnoughRP(cost)){
+          fill(255);
+        }else{
+          fill(128);
+        }
+        break;
+      case "d":
+        if(players[turn].dwarvesLevel >= level){
+          fill(0,0,255);
+        }else if(players[turn].hasEnoughRP(cost)){
+          fill(255);
+        }else{
+          fill(128);
+        }
+        break;
+       case "s":
+        if(players[turn].sorcerersLevel >= level){
+          fill(0,0,255);
+        }else if(players[turn].hasEnoughRP(cost)){
+          fill(255);
+        }else{
+          fill(128);
+        }
+        break;
+    }
+    
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(40);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text(str(level),x,y,width,height);
+  }
+}
+
+class swordsmanBuyButton extends UIElement{
+  swordsmanBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    unitToSpawn = "Swordsman";
+  }
+  @Override
+  void draw(){
+    
+    fill(255);
+    if(unitToSpawn == "Swordsman"){
+      fill(0,0,255);
+    }
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(40);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Sw",x,y,width, height);
+  }
+}
+class archerBuyButton extends UIElement{
+  archerBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    unitToSpawn = "Archer";
+  }
+  @Override
+  void draw(){
+    
+    fill(255);
+    if(unitToSpawn == "Archer"){
+      fill(0,0,255);
+    }
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(40);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Ar",x,y,width, height);
   }
 }

@@ -22,6 +22,7 @@ Set<Tile> availbleTiles;
 Player[] players;
 String toBuildClass = "";
 
+int researchCap; 
 static Player player1;
 static Player player2;
 
@@ -78,8 +79,57 @@ void setup(){
   UIElements.put("research",research);
   UIElement info = new infoBox(0,screen_height*7/10,tileZoneLeft,screen_height/5,"default text");
   UIElements.put("info",info);
-  UIElement buy = new buyButton(0,screen_height*9/10,tileZoneLeft,screen_height/10);
+  UIElement buy = new researchBuyButton(0,screen_height*9/10,tileZoneLeft,screen_height/10);
   UIElements.put("buy",buy);
+  UIElement tribesmanLabel = new treeLabel(tileZoneRight,screen_height*9/10,tileZoneLeft/3,screen_height/10,"Tribesmen");
+  UIElements.put("Tribesmen",tribesmanLabel);
+  UIElement dwarfLabel = new treeLabel(tileZoneRight + tileZoneLeft/3,screen_height*9/10,tileZoneLeft/3,screen_height/10,"Dwarves");
+  UIElements.put("Dwarves",dwarfLabel);
+  UIElement sorcererLabel = new treeLabel(tileZoneRight + tileZoneLeft*2/3,screen_height*9/10,tileZoneLeft/3,screen_height/10,"Sorcery");
+  UIElements.put("Sorcery",sorcererLabel);
+  
+  UIElement swBuy = new swordsmanBuyButton(0,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("swBuy",swBuy);
+  UIElement arBuy = new swordsmanBuyButton(tileZoneLeft/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("arBuy",arBuy);
+  
+  researchCap = 3;
+  String[] tribesmenResearchDescriptions = new String[researchCap];
+  String[] dwarvesResearchDescriptions = new String[researchCap];
+  String[] sorcerersResearchDescriptions = new String[researchCap];
+  int[] tribesmenResearchCosts = new int[researchCap];
+  int[] dwarvesResearchCosts = new int[researchCap];
+  int[] sorcerersResearchCosts = new int[researchCap];
+  
+  tribesmenResearchDescriptions[0] = "tribesmen research one";
+  tribesmenResearchDescriptions[1] = "tribesmen research two";
+  tribesmenResearchDescriptions[2] = "tribesmen research three";
+  dwarvesResearchDescriptions[0] = "dwarves research one";
+  dwarvesResearchDescriptions[1] = "dwarves research two";
+  dwarvesResearchDescriptions[2] = "dwarves research three";
+  sorcerersResearchDescriptions[0] = "sorcerers research one";
+  sorcerersResearchDescriptions[1] = "sorcerers research two";
+  sorcerersResearchDescriptions[2] = "sorcerers research three";
+  
+  tribesmenResearchCosts[0] = 1;
+  tribesmenResearchCosts[1] = 2;
+  tribesmenResearchCosts[2] = 3;
+  dwarvesResearchCosts[0] = 1;
+  dwarvesResearchCosts[1] = 2;
+  dwarvesResearchCosts[2] = 3;
+  sorcerersResearchCosts[0] = 1;
+  sorcerersResearchCosts[1] = 2;
+  sorcerersResearchCosts[2] = 3;
+  
+  for(int i = 0; i<researchCap; i++){
+    UIElement t = new researchBuyBox(tileZoneRight,screen_height*9/10 - screen_height*(i+1)/12,screen_height/12,screen_height/12,tribesmenResearchDescriptions[i],tribesmenResearchCosts[i],i+1,"t");
+    UIElements.put("t"+str(i),t);
+    UIElement d = new researchBuyBox(tileZoneRight + tileZoneLeft/3,screen_height*9/10 - screen_height*(i+1)/12,screen_height/12,screen_height/12,dwarvesResearchDescriptions[i],dwarvesResearchCosts[i],i+1,"d");
+    UIElements.put("d"+str(i),d);
+    UIElement s = new researchBuyBox(tileZoneRight+ tileZoneLeft*2/3,screen_height*9/10 - screen_height*(i+1)/12,screen_height/12,screen_height/12,sorcerersResearchDescriptions[i],sorcerersResearchCosts[i],i+1,"s");
+    UIElements.put("s"+str(i),s);
+    
+  }
 }
 
 void draw(){

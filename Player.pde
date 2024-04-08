@@ -4,6 +4,10 @@ class Player {
   int gold;
   int researchPoints;
   
+  int tribesmenLevel;
+  int dwarvesLevel;
+  int sorcerersLevel;
+  
   boolean alive;
   
   
@@ -16,6 +20,9 @@ class Player {
     
     gold = 0;
     researchPoints = 0;
+    tribesmenLevel = 0;
+    dwarvesLevel = 0;
+    sorcerersLevel = 0;
   }
   
   //returns true if spending was successful, false if not
@@ -27,12 +34,20 @@ class Player {
     return false;
   }
   
+  boolean hasEnoughGold(int amount) {
+    return gold >= amount;
+  }
+  
   boolean spendResearch(int amount) {
     if (researchPoints >= amount) {
       researchPoints -= amount;
       return true;
     }
     return false;
+  }
+  
+  boolean hasEnoughRP(int amount) {
+    return researchPoints >= amount;
   }
   
   void gainGold(int amount) {
