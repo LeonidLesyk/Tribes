@@ -26,8 +26,8 @@ class Unit {
     circle(x, y, size);
     
     fill(#000000); //black
-    textSize(32);
-    text(unitType, x, y + size/4 * 3);
+    textSize(22);
+    text(unitType, x-size/2, y + size/4 * 3);
   }
   
   void damage(int ammount) {
@@ -76,5 +76,23 @@ class Archer extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
+  }
+}
+
+class Builder extends Unit {
+  private final int HP = 4; 
+  private final int STRENGTH = 1;
+  private final int MOV = 2;
+  
+  Builder(Player owner) {
+    super(owner);
+    
+    unitType = "Builder";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 1;
   }
 }

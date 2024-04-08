@@ -21,6 +21,7 @@ Set<Tile> availbleTiles;
 
 Player[] players;
 String toBuildClass = "";
+boolean buildMode=false;
 
 int researchCap; 
 static Player player1;
@@ -166,7 +167,7 @@ void mouseReleased(){
     Tile pressedTile = gameBoard.grid[x][y];
     //tile interaction goes here
     for(Tile t : gameBoard.range(pressedTile,2)){
-      t.colour -= 20;
+      //t.colour -= 20;
     }
     
     //Clicked Base
@@ -181,24 +182,50 @@ void mouseReleased(){
       
     }
     
+
+    
+    //If clicked on builder
+    else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder){
+      availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
+      buildMode = true;
+    }
+    
     //Building logic
-    else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("")){
+    else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile)){
       if(toBuildClass.equals("Barrack")){
         pressedTile.building = new Barrack(pressedTile.position, players[turn%2], pressedTile.size);
         toBuildClass = "";
+        buildMode = false;
+        availbleTiles = null;
       }
       else if(toBuildClass.equals("Library")){
         pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
         toBuildClass = "";
+        buildMode = false;
+        availbleTiles = null;
+
       }
       else if(toBuildClass.equals("Gold")){
         pressedTile.building = new GoldMine(pressedTile.position, players[turn%2], pressedTile.size);
         toBuildClass = "";
+        buildMode = false;
+        availbleTiles = null;
       }
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     //Clicked Barrack
-    else if(pressedTile.building != null && pressedTile.building instanceof Barrack){
+    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn%2]){
       
       availbleTiles = gameBoard.range(pressedTile,1);
 
@@ -218,6 +245,12 @@ void mouseReleased(){
       }
       else if(unitToSpawn.equals("Archer")){
         pressedTile.unit = new Archer(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+        availbleTiles = null;
+      }
+      else if(unitToSpawn.equals("Builder")){
+        pressedTile.unit = new Builder(selectedBuilding.owner);
         selectedBuilding = null; //Reset selection
         unitToSpawn = "";
         availbleTiles = null;
@@ -256,6 +289,10 @@ void keyPressed() {
     else if (key == '2') {
       println("ToSpawn: Archer");
       unitToSpawn = "Archer";
+    }
+    else if (key == '3') {
+      println("ToSpawn: Builder");
+      unitToSpawn = "Builder";
     }
     else if (key == 'Q' || key == 'q') {
       toBuildClass = "Barrack";
