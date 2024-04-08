@@ -30,11 +30,13 @@ class Unit {
     text(unitType, x-size/2, y + size/4 * 3);
   }
   
-  void damage(int ammount) {
+  //returns true if unit is fallen
+  boolean damage(int ammount) {
     hp = hp - ammount;
     if (hp <= 0) {
-      //make unit be fallen
+      return true;
     }
+    return false;
   }
   
 

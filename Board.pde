@@ -1,5 +1,7 @@
 import java.util.*;
 final class Tile{
+  final color defaultColour = #69d242;
+  final color highlight = #6181d2;
   PVector position;
   int size;
   Tile up;
@@ -17,14 +19,14 @@ final class Tile{
     this.down = down;
     this.left = left;
     this.right = right;
-    this.colour = 255;
+    this.colour = defaultColour;
     this.building = null;
     this.unit = null;
 
   }
   
   void draw(){    
-    fill(0,colour,0);
+    fill(colour);
     stroke(128);
     square(position.x,position.y,size);
     fill(0);
