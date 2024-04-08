@@ -117,7 +117,7 @@ void mouseReleased(){
     Tile pressedTile = gameBoard.grid[x][y];
     //tile interaction goes here
     for(Tile t : gameBoard.range(pressedTile,2)){
-      t.colour -= 20;
+      //t.colour -= 20;
     }
     
     //Clicked Base

@@ -26,8 +26,8 @@ class Unit {
     circle(x, y, size);
     
     fill(#000000); //black
-    textSize(32);
-    text(unitType, x, y + size/4 * 3);
+    textSize(22);
+    text(unitType, x-size/2, y + size/4 * 3);
   }
   
   void damage(int ammount) {
