@@ -297,10 +297,12 @@ class swordsmanBuyButton extends UIElement{
   @Override
   void onClickAction(){
     unitToSpawn = "Swordsman";
+    //throw text to infobox
     infoBox i = (infoBox)UIElements.get("info");
     
-    i.infoText = "The swordsman is a powerful basic melee unit...";
+    i.infoText = "The Swordsman is a strong melee unit...";
     i.active = true;
+    
   }
   @Override
   void draw(){
@@ -317,7 +319,6 @@ class swordsmanBuyButton extends UIElement{
     text("Sw",x,y,width, height);
   }
 }
-
 class archerBuyButton extends UIElement{
   archerBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
@@ -325,6 +326,7 @@ class archerBuyButton extends UIElement{
   @Override
   void onClickAction(){
     unitToSpawn = "Archer";
+    //throw text to infobox
     infoBox i = (infoBox)UIElements.get("info");
     
     i.infoText = "The Archer is a ranged unit...";
@@ -353,9 +355,10 @@ class mineBuyButton extends UIElement{
   @Override
   void onClickAction(){
     toBuildClass = "Gold";
+    //throw text to infobox
     infoBox i = (infoBox)UIElements.get("info");
     
-    i.infoText = "The mine will give you x gold per turn";
+    i.infoText = "The mine will gain you x gold per turn..,";
     i.active = true;
   }
   @Override
@@ -381,9 +384,10 @@ class barracksBuyButton extends UIElement{
   @Override
   void onClickAction(){
     toBuildClass = "Barrack";
+    //throw text to infobox
     infoBox i = (infoBox)UIElements.get("info");
     
-    i.infoText = "Barracks allow you to train units";
+    i.infoText = "The barracks will let you build units";
     i.active = true;
   }
   @Override
@@ -409,9 +413,10 @@ class libraryBuyButton extends UIElement{
   @Override
   void onClickAction(){
     toBuildClass = "Library";
+    //throw text to infobox
     infoBox i = (infoBox)UIElements.get("info");
     
-    i.infoText = "The Library gives you one Research point per turn";
+    i.infoText = "The Library will give you 1 RP per turn ";
     i.active = true;
   }
   @Override
@@ -426,6 +431,6 @@ class libraryBuyButton extends UIElement{
     textSize(40);
     fill(0);
     textAlign(CENTER,CENTER);
-    text("Li",x,y,width, height);
+    text("Lb",x,y,width, height);
   }
 }
