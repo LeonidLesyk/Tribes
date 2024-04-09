@@ -61,16 +61,11 @@ void setup(){
   gameBoard = new Board(size);
   
   gameBoard.grid[8][1].building = new Base(gameBoard.grid[8][1].position, player1, gameBoard.grid[8][1].size);
-  gameBoard.grid[2][9].building = new Base(gameBoard.grid[2][9].position, player2, gameBoard.grid[2][9].size);
+  gameBoard.grid[2][9].building = new Base(gameBoard.grid[1][8].position, player2, gameBoard.grid[2][9].size);
   
-  gameBoard.grid[8][0].building = new Library(gameBoard.grid[8][0].position, player1, gameBoard.grid[8][0].size);
-  gameBoard.grid[1][8].building = new Library(gameBoard.grid[1][8].position, player2, gameBoard.grid[1][8].size);
+  gameBoard.grid[7][1].unit = new Builder(player1);
+  gameBoard.grid[2][8].unit = new Builder(player2);
   
-  gameBoard.grid[7][0].building = new Wall(gameBoard.grid[7][0].position, player1, gameBoard.grid[7][0].size);
-  gameBoard.grid[2][8].building = new Wall(gameBoard.grid[2][8].position, player2, gameBoard.grid[2][8].size);
-  
-  gameBoard.grid[5][0].building = new Barrack(gameBoard.grid[5][0].position, player1, gameBoard.grid[5][0].size);
-  gameBoard.grid[4][8].building = new Barrack(gameBoard.grid[4][8].position, player2, gameBoard.grid[4][8].size);
   
   //add UI Elements
   UIElements = new HashMap<String,UIElement>();
@@ -207,7 +202,7 @@ void mouseReleased(){
 
     
     //If clicked on builder
-    else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder){
+    else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]){
       availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
       buildMode = true;
     }
@@ -215,24 +210,33 @@ void mouseReleased(){
     //Building logic
     else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile)){
       if(toBuildClass.equals("Barrack")){
-        pressedTile.building = new Barrack(pressedTile.position, players[turn%2], pressedTile.size);
-        toBuildClass = "";
-        buildMode = false;
-        availbleTiles = null;
+        if(players[turn%2].gold >= 100){
+          players[turn%2].gold -= 100;
+          pressedTile.building = new Barrack(pressedTile.position, players[turn%2], pressedTile.size);
+          toBuildClass = "";
+          buildMode = false;
+          availbleTiles = null;
+        }
       }
       else if(toBuildClass.equals("Library")){
-        pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
-        toBuildClass = "";
-        buildMode = false;
-        availbleTiles = null;
-
+        if(players[turn%2].gold >= 100){
+          players[turn%2].gold -= 100;
+          pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
+          toBuildClass = "";
+          buildMode = false;
+          availbleTiles = null;
+        }
       }
       else if(toBuildClass.equals("Gold")){
-        pressedTile.building = new GoldMine(pressedTile.position, players[turn%2], pressedTile.size);
-        toBuildClass = "";
-        buildMode = false;
-        availbleTiles = null;
+        if(players[turn%2].gold >= 50){
+          players[turn%2].gold -= 50;
+          pressedTile.building = new GoldMine(pressedTile.position, players[turn%2], pressedTile.size);
+          toBuildClass = "";
+          buildMode = false;
+          availbleTiles = null;
+        }        
       }
+
     }
     
     
@@ -247,7 +251,7 @@ void mouseReleased(){
     
     
     //Clicked Barrack
-    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn%2]){
+    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn%2] && pressedTile.building.built){
       
       for(Tile t : gameBoard.range(pressedTile,1)){
         t.colour = t.highlight;
@@ -264,22 +268,31 @@ void mouseReleased(){
       
       println("Spawn " + unitToSpawn);
       if(unitToSpawn.equals("Swordsman")){
-        pressedTile.unit = new Swordsman(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
+        if(players[turn%2].gold >= 50){
+          players[turn%2].gold -= 50;
+          pressedTile.unit = new Swordsman(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+        }
       }
       else if(unitToSpawn.equals("Archer")){
-        pressedTile.unit = new Archer(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
+        if(players[turn%2].gold >= 50){
+          players[turn%2].gold -= 50;
+          pressedTile.unit = new Archer(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+        }
       }
       else if(unitToSpawn.equals("Builder")){
-        pressedTile.unit = new Builder(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
+        if(players[turn%2].gold >= 50){
+          players[turn%2].gold -= 50;
+          pressedTile.unit = new Builder(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+        }
       }
     }
     

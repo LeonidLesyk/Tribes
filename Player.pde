@@ -18,7 +18,7 @@ class Player {
   Player(color colour) {
     teamColour = colour;
     
-    gold = 0;
+    gold = 1000;
     researchPoints = 0;
     tribesmenLevel = 0;
     dwarvesLevel = 0;

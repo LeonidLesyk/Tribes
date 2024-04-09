@@ -28,6 +28,26 @@ class Unit {
     fill(#000000); //black
     textSize(15);
     text(unitType, x-size/2, y + size/4 * 3);
+    
+    // HP Bar display
+    float hpBarWidth = size;
+    float hpBarHeight = size / 8;
+    float hpBarX = x - size / 2;
+    float hpBarY = y - size / 2 - hpBarHeight * 2;
+    
+    //HP Bar Background
+    fill(50); // Dark gray background
+    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    
+    float hpPercentage = (float) hp / maxhp; 
+    //Current HP
+    fill(0, 255, 0);
+    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
+    
+    //Lost HP
+    fill(255, 0, 0);
+    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
+    
   }
   
   //returns true if unit is fallen
