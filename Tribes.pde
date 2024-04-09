@@ -30,8 +30,9 @@ static Player player1;
 static Player player2;
 
 void settings(){
-  size(1500,800);
-  //fullScreen();
+  //size(1500,800);
+  size(1920,1080);
+  fullScreen();
   pixelDensity(displayDensity());
 }
 
@@ -91,10 +92,15 @@ void setup(){
   UIElement sorcererLabel = new treeLabel(tileZoneRight + tileZoneLeft*2/3,screen_height*9/10,tileZoneLeft/3,screen_height/10,"Sorcery");
   UIElements.put("Sorcery",sorcererLabel);
   
-  UIElement swBuy = new swordsmanBuyButton(0,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  //unit buy UIElements
+  UIElement bdBuy = new builderBuyButton(0,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("bdBuy",bdBuy);
+  UIElement swBuy = new swordsmanBuyButton(tileZoneLeft/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("swBuy",swBuy);
-  UIElement arBuy = new archerBuyButton(tileZoneLeft/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  UIElement arBuy = new archerBuyButton(tileZoneLeft*2/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("arBuy",arBuy);
+  
+  //bulding buy UIElements
   UIElement mineBuy = new mineBuyButton(0,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("mineBuy",mineBuy);
   UIElement barracksBuy = new barracksBuyButton(tileZoneLeft/6,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
@@ -345,6 +351,7 @@ void mouseReleased(){
       //check inside region
       if(mouseX > e.x && mouseX < e.x + e.width && mouseY > e.y && mouseY < e.y + e.height){
         e.onClickAction();
+        break;
       }
     }
   }
