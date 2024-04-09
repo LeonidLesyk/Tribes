@@ -495,7 +495,7 @@ class libraryBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(pressedTile!=null && pressedTile.unit instanceof Builder){
+    if(pressedTile!=null && pressedTile.unit instanceof Builder && players[turn].sorcerersLevel > 0){
       this.active = true;
       fill(255);
       if(toBuildClass == "Library"){

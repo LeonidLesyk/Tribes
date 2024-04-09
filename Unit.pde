@@ -48,7 +48,7 @@ class Swordsman extends Unit {
   // the actual values could vary depending on research perks
   private final int HP = 5; 
   private final int STRENGTH = 1;
-  private final int MOV = 2;
+  private final int MOV = 1;
   
   Swordsman(Player owner) {
     super(owner);
@@ -66,7 +66,7 @@ class Swordsman extends Unit {
 class Archer extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 1;
-  private final int MOV = 2;
+  private final int MOV = 1;
   
   Archer(Player owner) {
     super(owner);
@@ -84,7 +84,7 @@ class Archer extends Unit {
 class Builder extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 1;
-  private final int MOV = 2;
+  private final int MOV = 1;
   
   Builder(Player owner) {
     super(owner);
