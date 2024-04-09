@@ -15,6 +15,8 @@ HashMap<String,UIElement> UIElements;
 
 boolean gameEnd=false;
 
+Tile pressedTile;
+
 Building selectedBuilding = null;
 String unitToSpawn  = "";
 Set<Tile> availbleTiles;
@@ -178,7 +180,7 @@ void mouseReleased(){
   if(mouseX > tileZoneLeft && mouseX < tileZoneRight){
     int x = (mouseX - tileZoneLeft)/tileSizePixels;
     int y = mouseY/tileSizePixels;
-    Tile pressedTile = gameBoard.grid[x][y];
+    pressedTile = gameBoard.grid[x][y];
     
     //clear highlight on previous tile
     if(selectedTile != null) {
@@ -225,12 +227,16 @@ void mouseReleased(){
         toBuildClass = "";
         buildMode = false;
         availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
       }
       else if(toBuildClass.equals("Library")){
         pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
         toBuildClass = "";
         buildMode = false;
         availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
 
       }
       else if(toBuildClass.equals("Gold")){
@@ -238,6 +244,8 @@ void mouseReleased(){
         toBuildClass = "";
         buildMode = false;
         availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
       }
     }
     
@@ -274,18 +282,24 @@ void mouseReleased(){
         selectedBuilding = null; //Reset selection
         unitToSpawn = "";
         availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
       }
       else if(unitToSpawn.equals("Archer")){
         pressedTile.unit = new Archer(selectedBuilding.owner);
         selectedBuilding = null; //Reset selection
         unitToSpawn = "";
         availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
       }
       else if(unitToSpawn.equals("Builder")){
         pressedTile.unit = new Builder(selectedBuilding.owner);
         selectedBuilding = null; //Reset selection
         unitToSpawn = "";
         availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
       }
     }
     

@@ -254,8 +254,8 @@ class researchBuyBox extends UIElement{
     switch(type){
       case "t":
         if(players[turn].tribesmenLevel >= level){
-          fill(0,0,255);
-        }else if(players[turn].hasEnoughRP(cost)){
+          fill(players[turn].teamColour);
+        }else if(players[turn].hasEnoughRP(cost) && players[turn].tribesmenLevel == level-1){
           fill(255);
         }else{
           fill(128);
@@ -263,8 +263,8 @@ class researchBuyBox extends UIElement{
         break;
       case "d":
         if(players[turn].dwarvesLevel >= level){
-          fill(0,0,255);
-        }else if(players[turn].hasEnoughRP(cost)){
+          fill(players[turn].teamColour);
+        }else if(players[turn].hasEnoughRP(cost) && players[turn].dwarvesLevel == level-1){
           fill(255);
         }else{
           fill(128);
@@ -272,8 +272,8 @@ class researchBuyBox extends UIElement{
         break;
        case "s":
         if(players[turn].sorcerersLevel >= level){
-          fill(0,0,255);
-        }else if(players[turn].hasEnoughRP(cost)){
+          fill(players[turn].teamColour);
+        }else if(players[turn].hasEnoughRP(cost) && players[turn].sorcerersLevel == level-1){
           fill(255);
         }else{
           fill(128);
@@ -405,85 +405,110 @@ class builderBuyButton extends UIElement{
 }
 
 class mineBuyButton extends UIElement{
+  boolean active;
   mineBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
+    this.active = false;
   }
   @Override
   void onClickAction(){
-    toBuildClass = "Gold";
-    infoBox i = (infoBox)UIElements.get("info");
+    if(this.active){
+      toBuildClass = "Gold";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The mine will give you x gold per turn";
+      i.active = true;
+    }
     
-    i.infoText = "The mine will give you x gold per turn";
-    i.active = true;
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(toBuildClass == "Gold"){
-      fill(0,0,255);
+    if(pressedTile!=null && pressedTile.unit instanceof Builder){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Gold"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("GM",x,y,width, height);
+    }else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("GM",x,y,width, height);
-  }
+   }
+    
+   
 }
 
 class barracksBuyButton extends UIElement{
+  boolean active;
   barracksBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
   }
   @Override
   void onClickAction(){
-    toBuildClass = "Barrack";
-    infoBox i = (infoBox)UIElements.get("info");
-    
-    i.infoText = "Barracks allow you to train units";
-    i.active = true;
+    if(this.active){
+      toBuildClass = "Barrack";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "Barracks allow you to train units";
+      i.active = true;
+    }
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(toBuildClass == "Barrack"){
-      fill(0,0,255);
+    if(pressedTile!=null && pressedTile.unit instanceof Builder){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Barrack"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Br",x,y,width, height);
+    }else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("Br",x,y,width, height);
   }
 }
 
 class libraryBuyButton extends UIElement{
+  boolean active;
   libraryBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
   }
   @Override
   void onClickAction(){
-    toBuildClass = "Library";
-    infoBox i = (infoBox)UIElements.get("info");
-    
-    i.infoText = "The Library gives you one Research point per turn";
-    i.active = true;
+    if(this.active){
+      toBuildClass = "Library";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Library gives you one Research point per turn";
+      i.active = true;
+    }
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(toBuildClass == "Library"){
-      fill(0,0,255);
+    if(pressedTile!=null && pressedTile.unit instanceof Builder){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Library"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Li",x,y,width, height);
+    }else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("Li",x,y,width, height);
-  }
+   }
 }
