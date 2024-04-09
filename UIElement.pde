@@ -347,7 +347,7 @@ class archerBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(selectedBuilding instanceof Barrack){
+    if(selectedBuilding instanceof Barrack && players[turn].tribesmenLevel > 0){
       this.active = true;
       fill(255);
       if(unitToSpawn == "Archer"){
