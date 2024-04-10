@@ -64,16 +64,9 @@ void setup(){
   gameBoard = new Board(size);
   
   gameBoard.grid[8][1].building = new Base(gameBoard.grid[8][1].position, player1, gameBoard.grid[8][1].size);
-  gameBoard.grid[2][9].building = new Base(gameBoard.grid[2][9].position, player2, gameBoard.grid[2][9].size);
+  gameBoard.grid[1][8].building = new Base(gameBoard.grid[1][8].position, player2, gameBoard.grid[1][8].size);
   
-  gameBoard.grid[8][0].building = new Library(gameBoard.grid[8][0].position, player1, gameBoard.grid[8][0].size);
-  gameBoard.grid[1][8].building = new Library(gameBoard.grid[1][8].position, player2, gameBoard.grid[1][8].size);
-  
-  gameBoard.grid[7][0].building = new Wall(gameBoard.grid[7][0].position, player1, gameBoard.grid[7][0].size);
-  gameBoard.grid[2][8].building = new Wall(gameBoard.grid[2][8].position, player2, gameBoard.grid[2][8].size);
-  
-  gameBoard.grid[5][0].building = new Barrack(gameBoard.grid[5][0].position, player1, gameBoard.grid[5][0].size);
-  gameBoard.grid[4][8].building = new Barrack(gameBoard.grid[4][8].position, player2, gameBoard.grid[4][8].size);
+
   
   //add UI Elements
   UIElements = new HashMap<String,UIElement>();
@@ -216,15 +209,18 @@ void mouseReleased(){
     
     pressedTile.colour = pressedTile.highlight;
     
-    //Clicked Base
-    if(pressedTile.building != null && pressedTile.building instanceof Base){
+    //Clicked Base make builders
+    if(pressedTile.building != null && pressedTile.building instanceof Base &&  pressedTile.building.owner == players[turn]){
       println("Applying damage to Base");
    
-      if(pressedTile.building.applyDamage(250)){
-        print(pressedTile.building.owner + " lose");
-        gameEnd = true; //Make a method for ending scene?
+      for(Tile t : gameBoard.range(pressedTile,1)){
+        t.colour = t.highlight;
       }
-      println("Base HP: " + pressedTile.building.health);
+      
+      availbleTiles = gameBoard.range(pressedTile,1);
+
+      selectedBuilding = pressedTile.building;
+      println("Base selected");
       
     }
     
@@ -365,11 +361,23 @@ void mouseReleased(){
       }
 
     }
-    
+    //spawn wizard from library
     else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Library && !unitToSpawn.equals("")){
       println("Spawn " + unitToSpawn);
       if(unitToSpawn.equals("Wizard")){
         pressedTile.unit = new Wizard(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+        availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
+      }
+    }
+    
+    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Base && !unitToSpawn.equals("")){
+      println("Spawn " + unitToSpawn);
+      if(unitToSpawn.equals("Builder")){
+        pressedTile.unit = new Builder(selectedBuilding.owner);
         selectedBuilding = null; //Reset selection
         unitToSpawn = "";
         availbleTiles = null;

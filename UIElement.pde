@@ -322,7 +322,7 @@ class builderBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(selectedBuilding instanceof Barrack){
+    if(selectedBuilding instanceof Barrack || selectedBuilding instanceof Base){
       this.active = true;
       fill(255);
       if(unitToSpawn == "Builder"){
@@ -551,7 +551,7 @@ class mineBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(pressedTile!=null && pressedTile.unit instanceof Builder){
+    if(buildMode){
       this.active = true;
       fill(255);
       if(toBuildClass == "Gold"){
@@ -590,7 +590,7 @@ class wallBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(pressedTile!=null && pressedTile.unit instanceof Builder && players[turn].dwarvesLevel > 0){
+    if(buildMode && players[turn].dwarvesLevel > 0){
       this.active = true;
       fill(255);
       if(toBuildClass == "Wall"){
@@ -627,7 +627,7 @@ class barracksBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(pressedTile!=null && pressedTile.unit instanceof Builder){
+    if(buildMode){
       this.active = true;
       fill(255);
       if(toBuildClass == "Barrack"){
@@ -662,7 +662,7 @@ class libraryBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(pressedTile!=null && pressedTile.unit instanceof Builder && players[turn].sorcerersLevel > 0){
+    if(buildMode && players[turn].sorcerersLevel > 0){
       this.active = true;
       fill(255);
       if(toBuildClass == "Library"){
