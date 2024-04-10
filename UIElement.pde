@@ -49,6 +49,19 @@ class endTurnButton extends UIElement{
     i.active = false;
     b.active = false;
     
+    //clear selections
+    toBuildClass = "";
+    buildMode = false;
+    availbleTiles = null;
+    selectedTile = null;
+    
+    for(Tile[] row : gameBoard.grid){
+      for(Tile t : row){
+        t.colour = t.defaultColour;
+      }
+    }
+    
+      
     //end turn
     turn +=1;
     
@@ -550,6 +563,45 @@ class mineBuyButton extends UIElement{
       fill(0);
       textAlign(CENTER,CENTER);
       text("GM",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+   }
+    
+   
+}
+
+class wallBuyButton extends UIElement{
+  boolean active;
+  wallBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = false;
+  }
+  @Override
+  void onClickAction(){
+    if(this.active){
+      toBuildClass = "Wall";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "Walls ought to stop enemy units in their tracks!";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(pressedTile!=null && pressedTile.unit instanceof Builder && players[turn].dwarvesLevel > 0){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Wall"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Wa",x,y,width, height);
     }else{
       this.active = false;
     }

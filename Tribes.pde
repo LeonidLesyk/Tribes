@@ -115,6 +115,8 @@ void setup(){
   UIElements.put("barracksBuy",barracksBuy);
   UIElement libraryBuy = new libraryBuyButton(tileZoneLeft*2/6,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("libraryBuy",libraryBuy);
+  UIElement wallBuy = new wallBuyButton(tileZoneLeft*3/6,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("wallBuy",wallBuy);
   
   researchCap = 4;
   String[] tribesmenResearchDescriptions = new String[researchCap];
@@ -127,9 +129,9 @@ void setup(){
   tribesmenResearchDescriptions[0] = "You can now train Archers from barracks(implemented)";
   tribesmenResearchDescriptions[1] = "You can now train Cavaliers from barracks(implemented)";
   tribesmenResearchDescriptions[2] = "All of your units now have +1 bonus ATK(implemented)";
-  tribesmenResearchDescriptions[3] = "You can now train Giants from barracks(unimplemented)";
+  tribesmenResearchDescriptions[3] = "You can now train Giants from barracks(implemented)";
   
-  dwarvesResearchDescriptions[0] = "Your builders can now build Walls to stop the enemy(unimplemented)";
+  dwarvesResearchDescriptions[0] = "Your builders can now build Walls to stop the enemy(implemented)";
   dwarvesResearchDescriptions[1] = "Your buildings now build one turn faster(unimplemented)";
   dwarvesResearchDescriptions[2] = "Your buildings now have additional hp(unimplemented)";
   dwarvesResearchDescriptions[3] = "You now gain +1 extra gold from mines(unimplemented)";
@@ -255,6 +257,14 @@ void mouseReleased(){
       }
       else if(toBuildClass.equals("Gold")){
         pressedTile.building = new GoldMine(pressedTile.position, players[turn%2], pressedTile.size);
+        toBuildClass = "";
+        buildMode = false;
+        availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
+      }
+      else if(toBuildClass.equals("Wall")){
+        pressedTile.building = new Wall(pressedTile.position, players[turn%2], pressedTile.size);
         toBuildClass = "";
         buildMode = false;
         availbleTiles = null;
@@ -455,6 +465,7 @@ void keyPressed() {
     else if (key == 'E' || key == 'e') {
       toBuildClass = "Gold";
     }
+    //CHEATS!!!!!!
     else if (key == 'I' || key == 'i') {
       players[turn].tribesmenLevel +=1;
     }
