@@ -290,6 +290,44 @@ class researchBuyBox extends UIElement{
   }
 }
 
+class builderBuyButton extends UIElement{
+  boolean active;
+  builderBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    if(this.active){
+      unitToSpawn = "Builder";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Builder will allow you to build buildings...";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Barrack){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Builder"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Bd",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
 class swordsmanBuyButton extends UIElement{
   boolean active;
   swordsmanBuyButton(int x, int y, int width, int height){
@@ -365,30 +403,29 @@ class archerBuyButton extends UIElement{
     
   }
 }
-
-class builderBuyButton extends UIElement{
+class cavalierBuyButton extends UIElement{
   boolean active;
-  builderBuyButton(int x, int y, int width, int height){
+  cavalierBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
     this.active = true;
   }
   @Override
   void onClickAction(){
     if(this.active){
-      unitToSpawn = "Builder";
+      unitToSpawn = "Cavalier";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Builder will allow you to build buildings...";
+      i.infoText = "The Cavalier is a mobile and strong unit`...";
       i.active = true;
     }
     
   }
   @Override
   void draw(){
-    if(selectedBuilding instanceof Barrack){
+    if(selectedBuilding instanceof Barrack && players[turn].tribesmenLevel > 1){
       this.active = true;
       fill(255);
-      if(unitToSpawn == "Builder"){
+      if(unitToSpawn == "Cavalier"){
         fill(players[turn].teamColour);
       }
       stroke(128);
@@ -396,13 +433,91 @@ class builderBuyButton extends UIElement{
       textSize(40);
       fill(0);
       textAlign(CENTER,CENTER);
-      text("Bd",x,y,width, height);
+      text("Cv",x,y,width, height);
     }else{
       this.active = false;
     }
     
   }
 }
+
+class giantBuyButton extends UIElement{
+  boolean active;
+  giantBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    if(this.active){
+      unitToSpawn = "Giant";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Giant is a high HP high ATK but slow unit...";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Barrack && players[turn].tribesmenLevel > 3){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Giant"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Gi",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
+class wizardBuyButton extends UIElement{
+  boolean active;
+  wizardBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    println("clicked");
+    if(this.active){
+      unitToSpawn = "Wizard";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Wizard is a high ATK Unit with a large range but low hp...";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Library && players[turn].sorcerersLevel > 1){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Wizard"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Wz",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
 
 class mineBuyButton extends UIElement{
   boolean active;

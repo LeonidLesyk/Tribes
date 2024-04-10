@@ -98,3 +98,57 @@ class Builder extends Unit {
     atkRange = 1;
   }
 }
+
+class Cavalier extends Unit {
+  private final int HP = 4; 
+  private final int STRENGTH = 2;
+  private final int MOV = 2;
+  
+  Cavalier(Player owner) {
+    super(owner);
+    
+    unitType = "Cavalier";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 1;
+  }
+}
+
+class Giant extends Unit {
+  private final int HP = 10; 
+  private final int STRENGTH = 3;
+  private final int MOV = 1;
+  
+  Giant(Player owner) {
+    super(owner);
+    
+    unitType = "Giant";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 1;
+  }
+}
+
+class Wizard extends Unit {
+  private final int HP = 2; 
+  private final int STRENGTH = 3;
+  private final int MOV = 1;
+  
+  Wizard(Player owner) {
+    super(owner);
+    
+    unitType = "Wizard";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 3;
+  }
+}

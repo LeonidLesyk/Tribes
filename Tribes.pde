@@ -101,6 +101,12 @@ void setup(){
   UIElements.put("swBuy",swBuy);
   UIElement arBuy = new archerBuyButton(tileZoneLeft*2/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("arBuy",arBuy);
+  UIElement cvBuy = new cavalierBuyButton(tileZoneLeft*3/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("cvBuy",cvBuy);
+  UIElement  giBuy = new giantBuyButton(tileZoneLeft*4/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("giBuy",giBuy);
+  UIElement  wzBuy = new wizardBuyButton(tileZoneLeft*5/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("wzBuy",wzBuy);
   
   //bulding buy UIElements
   UIElement mineBuy = new mineBuyButton(0,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
@@ -119,15 +125,17 @@ void setup(){
   int[] sorcerersResearchCosts = new int[researchCap];
   
   tribesmenResearchDescriptions[0] = "You can now train Archers from barracks(implemented)";
-  tribesmenResearchDescriptions[1] = "You can now train Cavaliers from barracks(unimplemented)";
-  tribesmenResearchDescriptions[2] = "All of your units now have +1 bonus ATK(unimplemented)";
-  tribesmenResearchDescriptions[3] = "You can now train Giants from barracks/Giant caves?(unimplemented)";
+  tribesmenResearchDescriptions[1] = "You can now train Cavaliers from barracks(implemented)";
+  tribesmenResearchDescriptions[2] = "All of your units now have +1 bonus ATK(implemented)";
+  tribesmenResearchDescriptions[3] = "You can now train Giants from barracks(unimplemented)";
+  
   dwarvesResearchDescriptions[0] = "Your builders can now build Walls to stop the enemy(unimplemented)";
   dwarvesResearchDescriptions[1] = "Your buildings now build one turn faster(unimplemented)";
   dwarvesResearchDescriptions[2] = "Your buildings now have additional hp(unimplemented)";
   dwarvesResearchDescriptions[3] = "You now gain +1 extra gold from mines(unimplemented)";
-  sorcerersResearchDescriptions[0] = "Your builders can now build libraries(unimplemented)";
-  sorcerersResearchDescriptions[1] = "You can now train Wizards from your libraries(unimplemented)";
+  
+  sorcerersResearchDescriptions[0] = "Your builders can now build libraries(implemented)";
+  sorcerersResearchDescriptions[1] = "You can now train Wizards from your libraries(implemented)";
   sorcerersResearchDescriptions[2] = "All your units now have bonus HP(unimplemented)";
   sorcerersResearchDescriptions[3] = "You can now train Healers from your libraries(unimplemented)";
   
@@ -267,7 +275,7 @@ void mouseReleased(){
     
     
     //Clicked Barrack
-    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn%2]){
+    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn]){
       
       for(Tile t : gameBoard.range(pressedTile,1)){
         t.colour = t.highlight;
@@ -277,6 +285,19 @@ void mouseReleased(){
 
       selectedBuilding = pressedTile.building;
       println("Barrack selected");
+    }
+    
+    //Clicked library for wizard spawning
+    else if(pressedTile.building != null && pressedTile.building instanceof Library &&  pressedTile.building.owner == players[turn]){
+      
+      for(Tile t : gameBoard.range(pressedTile,1)){
+        t.colour = t.highlight;
+      }
+      
+      availbleTiles = gameBoard.range(pressedTile,1);
+
+      selectedBuilding = pressedTile.building;
+      println("Library selected");
     }
     
     //Clicked an empty tile to spawn a unit after clicking Barrack
@@ -307,6 +328,22 @@ void mouseReleased(){
         infoBox i = (infoBox)UIElements.get("info");
         i.active = false;
       }
+      else if(unitToSpawn.equals("Cavalier")){
+        pressedTile.unit = new Cavalier(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+        availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
+      }
+      else if(unitToSpawn.equals("Giant")){
+        pressedTile.unit = new Giant(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+        availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
+      }
     }
     
     else if(pressedTile.unit != null && pressedTile.unit.owner == players[turn%2]){
@@ -317,6 +354,18 @@ void mouseReleased(){
         t.colour = t.highlight;
       }
 
+    }
+    
+    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Library && !unitToSpawn.equals("")){
+      println("Spawn " + unitToSpawn);
+      if(unitToSpawn.equals("Wizard")){
+        pressedTile.unit = new Wizard(selectedBuilding.owner);
+        selectedBuilding = null; //Reset selection
+        unitToSpawn = "";
+        availbleTiles = null;
+        infoBox i = (infoBox)UIElements.get("info");
+        i.active = false;
+      }
     }
     
     //Check clicked swordsman
@@ -352,7 +401,7 @@ void mouseReleased(){
         Unit target = pressedTile.unit;
         
         //damage target unit. if fallen, remove from board
-        if(target.damage(attacker.strength)) {
+        if(target.damage(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0))) {
           pressedTile.unit = null;
           println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has fallen.");
         }
@@ -393,6 +442,10 @@ void keyPressed() {
       println("ToSpawn: Builder");
       unitToSpawn = "Builder";
     }
+    else if (key == '4') {
+      println("ToSpawn: Cavalier");
+      unitToSpawn = "Cavalier";
+    }
     else if (key == 'Q' || key == 'q') {
       toBuildClass = "Barrack";
     }
@@ -401,6 +454,15 @@ void keyPressed() {
     }
     else if (key == 'E' || key == 'e') {
       toBuildClass = "Gold";
+    }
+    else if (key == 'I' || key == 'i') {
+      players[turn].tribesmenLevel +=1;
+    }
+    else if (key == 'O' || key == 'o') {
+      players[turn].dwarvesLevel +=1;
+    }
+    else if (key == 'P' || key == 'p') {
+      players[turn].sorcerersLevel +=1;
     }
     else if(key == ESC){
       println("Cancelled");
