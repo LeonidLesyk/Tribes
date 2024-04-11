@@ -62,6 +62,11 @@ class Base extends Building {
      //this.destroyed = true;
   }
 
+  int turnEndAction() {
+    //Logic to calculate the amount of research point given
+    return 1;
+  }
+  
   @Override
   void display() {
     fill(255);
