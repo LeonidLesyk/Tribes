@@ -6,6 +6,9 @@ class Unit {
   int atkRange;
  
   String unitType;
+  
+  boolean canMove = true;
+  boolean canAttack = true;
     
   Player owner;
       
@@ -13,6 +16,7 @@ class Unit {
     //this.x = x;
     //this.y = y;
     this.owner = owner;
+    
   }
   
   //x and y should be center of tile. size maybe global??
@@ -59,6 +63,15 @@ class Unit {
     return false;
   }
   
+  String makeInfoText() {
+    String info = unitType + "\n";
+    info += "HP = " + hp + "/" + maxhp + "\n";
+    info += "Attack Strength = " + strength + "\n";
+    info += "Movement Range = " + mov + "\n";
+    info += "Attack Range = " + atkRange;
+    
+    return info;
+  }
 
 }
 
@@ -80,6 +93,7 @@ class Swordsman extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 1; //swordsmen should be melee only
+    
   }
 }
 
@@ -98,6 +112,7 @@ class Archer extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
+    
   }
 }
 
@@ -116,6 +131,7 @@ class Builder extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 1;
+    
   }
 }
 
