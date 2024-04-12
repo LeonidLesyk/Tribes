@@ -3,11 +3,24 @@ class UIElement{
   int y;
   int width;
   int height;
+  
+  int textSizeBig;
+  int textSizeSmaller;
+  
   UIElement(int x, int y, int width, int height){
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+    
+    if(displayDensity() == 1) {
+      textSizeBig = 40;
+      textSizeSmaller = 32;
+    }
+    else {
+      textSizeBig = 32;
+      textSizeSmaller = 24;
+    }
     
   }
   
@@ -35,18 +48,14 @@ class endTurnButton extends UIElement{
       for(int j=0; j<gameBoard.grid[i].length; j++){
         if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building.owner == players[currnetPlayer]){
           
-          if(gameBoard.grid[i][j].building instanceof Library || gameBoard.grid[i][j].building instanceof Base){
-            players[currnetPlayer].researchPoints += gameBoard.grid[i][j].building.turnEndAction();
-            println("Player " + turn + "RP: "+ players[currnetPlayer].researchPoints);          
-          }
-          else if(gameBoard.grid[i][j].building instanceof GoldMine || gameBoard.grid[i][j].building instanceof Base){
-            players[currnetPlayer].gold += gameBoard.grid[i][j].building.turnEndAction();
-            println("Player " + turn + "Gold: "+ players[currnetPlayer].gold);          
-          }
-          else{
+          
             gameBoard.grid[i][j].building.turnEndAction();
-          }
+          
 
+        }
+        if(gameBoard.grid[i][j].unit != null) {
+          gameBoard.grid[i][j].unit.canMove = true;
+          gameBoard.grid[i][j].unit.canAttack = true;
         }
       }
     }
@@ -83,7 +92,7 @@ class endTurnButton extends UIElement{
     fill(players[turn].teamColour);
     stroke(128);
     rect(x,y,width,height);
-    textSize(40);
+    textSize(textSizeBig);
     fill(0);
     textAlign(LEFT,CENTER);
     text("End Turn: \nPlayer " + str(turn+1),x,y,x+width, y+height);
@@ -100,7 +109,7 @@ class goldDisplay extends UIElement{
     fill(255);
     stroke(128);
     rect(x,y,width,height);
-    textSize(40);
+    textSize(textSizeBig);
     fill(0);
     textAlign(LEFT,CENTER);
     text("Gold: " + str(players[turn].gold),x,y,x+width, y+height);
@@ -117,7 +126,7 @@ class researchDisplay extends UIElement{
     fill(255);
     stroke(128);
     rect(x,y,width,height);
-    textSize(40);
+    textSize(textSizeBig);
     fill(0);
     textAlign(LEFT,CENTER);
     text("RP: " + str(players[turn].researchPoints),x,y,x+width, y+height);
@@ -147,7 +156,7 @@ class infoBox extends UIElement{
       fill(255);
       stroke(128);
       rect(x,y,width,height);
-      textSize(32);
+      textSize(textSizeSmaller);
       fill(0);
       textAlign(LEFT,TOP);
       text(infoText,x,y,x+width, y+height);
@@ -214,7 +223,7 @@ class researchBuyButton extends UIElement{
       fill(255);
       stroke(128);
       rect(x,y,width,height);
-      textSize(32);
+      textSize(textSizeSmaller);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Buy: " + str(cost),x,y,width, height);
@@ -235,7 +244,7 @@ class treeLabel extends UIElement{
     fill(255);
     stroke(128);
     rect(x,y,width,height);
-    textSize(40);
+    textSize(textSizeBig);
     fill(0);
     textAlign(CENTER,CENTER);
     text(tribe,x,y,width, height);
@@ -303,7 +312,7 @@ class researchBuyBox extends UIElement{
     
     stroke(128);
     rect(x,y,width,height);
-    textSize(40);
+    textSize(textSizeBig);
     fill(0);
     textAlign(CENTER,CENTER);
     text(str(level),x,y,width,height);
@@ -376,7 +385,7 @@ class swordsmanBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Sw",x,y,width, height);
@@ -413,7 +422,7 @@ class archerBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Ar",x,y,width, height);
@@ -450,7 +459,7 @@ class cavalierBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Cv",x,y,width, height);
@@ -488,7 +497,7 @@ class giantBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Gi",x,y,width, height);
@@ -527,7 +536,7 @@ class wizardBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Wz",x,y,width, height);
@@ -566,7 +575,7 @@ class mineBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("GM",x,y,width, height);
@@ -605,7 +614,7 @@ class wallBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Wa",x,y,width, height);
@@ -642,7 +651,7 @@ class barracksBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Br",x,y,width, height);
@@ -677,7 +686,7 @@ class libraryBuyButton extends UIElement{
       }
       stroke(128);
       rect(x,y,width,height);
-      textSize(40);
+      textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
       text("Li",x,y,width, height);
