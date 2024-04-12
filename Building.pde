@@ -66,11 +66,10 @@ class Base extends Building {
      //Set player lose
      println("Base Destroyed");
      gameEnd = true;
-
   }
 
   void turnEndAction() {
-    owner.gainGold(1);
+    owner.gainGold(2);
     owner.gainResearch(1);
   }
   
@@ -101,7 +100,7 @@ class Base extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -115,7 +114,7 @@ class Base extends Building {
 class Barrack extends Building {
   // Constructor
   Barrack(PVector position, Player owner, int size) {
-    super(position, 80, owner, size, 3);
+    super(position, 20, owner, size, 3);
   }
 
   void turnEndAction() {
@@ -159,7 +158,7 @@ class Barrack extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -174,7 +173,7 @@ class Barrack extends Building {
 class Library extends Building {
 
   Library(PVector position, Player owner, int size) {
-    super(position, 60, owner, size, 3);
+    super(position, 20, owner, size, 3);
   }
 
 
@@ -225,7 +224,7 @@ class Library extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -239,7 +238,7 @@ class Library extends Building {
 class GoldMine extends Building {
 
   GoldMine(PVector position, Player owner, int size) {
-    super(position, 100, owner, size, 1);
+    super(position, 10, owner, size, 1);
   }
 
 
@@ -290,7 +289,7 @@ class GoldMine extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -304,7 +303,7 @@ class GoldMine extends Building {
 class Wall extends Building {
   // Constructor
   Wall(PVector position, Player owner, int size) {
-    super(position, 100, owner, size, 1);
+    super(position, 30, owner, size, 1);
   }
   
   void turnEndAction() {
@@ -349,7 +348,7 @@ class Wall extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP

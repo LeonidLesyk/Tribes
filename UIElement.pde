@@ -596,6 +596,8 @@ class wallBuyButton extends UIElement{
   @Override
   void onClickAction(){
     if(this.active){
+      println("TO build wall");
+
       toBuildClass = "Wall";
       infoBox i = (infoBox)UIElements.get("info");
       
