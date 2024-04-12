@@ -6,7 +6,6 @@ class Unit {
   int atkRange;
  
   String unitType;
-  String infoText;
   
   boolean canMove = true;
   boolean canAttack = true;
@@ -46,7 +45,7 @@ class Unit {
   
   String makeInfoText() {
     String info = unitType + "\n";
-    info += "HP = " + hp + "/" + "maxhp\n";
+    info += "HP = " + hp + "/" + maxhp + "\n";
     info += "Attack Strength = " + strength + "\n";
     info += "Movement Range = " + mov + "\n";
     info += "Attack Range = " + atkRange;
@@ -75,7 +74,6 @@ class Swordsman extends Unit {
     mov = MOV;
     atkRange = 1; //swordsmen should be melee only
     
-    infoText = makeInfoText();
   }
 }
 
@@ -95,7 +93,6 @@ class Archer extends Unit {
     mov = MOV;
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
     
-    infoText = makeInfoText();
   }
 }
 
@@ -115,6 +112,5 @@ class Builder extends Unit {
     mov = MOV;
     atkRange = 1;
     
-    infoText = makeInfoText();
   }
 }

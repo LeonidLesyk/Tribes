@@ -290,7 +290,7 @@ void mouseReleased() {
     
     if (pressedTile.unit != null) {
       infoBox i = (infoBox)UIElements.get("info");
-      i.infoText = pressedTile.unit.infoText;
+      i.infoText = pressedTile.unit.makeInfoText();
       i.active = true;
     }
 
