@@ -41,7 +41,7 @@ class Unit {
     
     float hpPercentage = (float) hp / maxhp; 
     //Current HP
-    fill(0, 255, 0);
+    fill(51, 204, 51);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP

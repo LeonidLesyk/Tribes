@@ -223,7 +223,7 @@ void mouseReleased(){
           availbleTiles = null;
         }
       }
-      else if(toBuildClass.equals("Library") && players[turn%2].sorcerersLevel >= 1){
+      else if(toBuildClass.equals("Library")){
         if(players[turn%2].gold >= 100){
           players[turn%2].gold -= 100;
           pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
