@@ -67,7 +67,7 @@ class endTurnButton extends UIElement{
   
   @Override
   void draw(){
-    fill(255);
+    fill(players[turn].teamColour);
     stroke(128);
     rect(x,y,width,height);
     textSize(40);
@@ -298,58 +298,116 @@ class researchBuyBox extends UIElement{
 }
 
 class swordsmanBuyButton extends UIElement{
+  boolean active;
   swordsmanBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
+    this.active = false;
   }
   @Override
   void onClickAction(){
-    unitToSpawn = "Swordsman";
-    infoBox i = (infoBox)UIElements.get("info");
+    if(this.active){
+      unitToSpawn = "Swordsman";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The swordsman is a powerful basic melee unit...";
+      i.active = true;
+    }
     
-    i.infoText = "The swordsman is a powerful basic melee unit...";
-    i.active = true;
+    
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(unitToSpawn == "Swordsman"){
-      fill(0,0,255);
+    if(selectedBuilding instanceof Barrack){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Swordsman"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Sw",x,y,width, height);
+    } else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("Sw",x,y,width, height);
   }
 }
 
 class archerBuyButton extends UIElement{
+  boolean active;
   archerBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
+    this.active = true;
   }
   @Override
   void onClickAction(){
-    unitToSpawn = "Archer";
-    infoBox i = (infoBox)UIElements.get("info");
+    if(this.active){
+      unitToSpawn = "Archer";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Archer is a ranged unit...";
+      i.active = true;
+    }
     
-    i.infoText = "The Archer is a ranged unit...";
-    i.active = true;
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(unitToSpawn == "Archer"){
-      fill(0,0,255);
+    if(selectedBuilding instanceof Barrack){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Archer"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Ar",x,y,width, height);
+    }else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("Ar",x,y,width, height);
+    
+  }
+}
+
+class builderBuyButton extends UIElement{
+  boolean active;
+  builderBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    if(this.active){
+      unitToSpawn = "Builder";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Builder will allow you to build buildings...";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Barrack){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Builder"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Bd",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
   }
 }
 
