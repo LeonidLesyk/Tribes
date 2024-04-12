@@ -41,9 +41,8 @@ class Building {
     //this.destroyed = true;
   }
   
-  int turnEndAction() {
+  void turnEndAction() {
     //Logic to calculate the amount of gold given
-    return 0;
   }
 
 
@@ -66,12 +65,13 @@ class Base extends Building {
   void onDestroyed() {
      //Set player lose
      println("Base Destroyed");
-     //this.destroyed = true;
+     gameEnd = true;
+
   }
 
-  int turnEndAction() {
-    //Logic to calculate the amount of research point given
-    return 1;
+  void turnEndAction() {
+    owner.gainGold(1);
+    owner.gainResearch(1);
   }
   
   @Override
@@ -118,14 +118,13 @@ class Barrack extends Building {
     super(position, 80, owner, size, 3);
   }
 
-  int turnEndAction() {
+  void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
       if (currentBuildTurn == completeBuildTurns){
         built = true;
       }
     }
-    return 0;
   }
 
   @Override
@@ -179,15 +178,16 @@ class Library extends Building {
   }
 
 
-  int turnEndAction() {
+  void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
       if (currentBuildTurn == completeBuildTurns){
         built = true;
       }
-      return 0;
     }
-    else{return 1;}
+    else{
+      owner.gainResearch(1);
+    }
   }
 
 
@@ -243,15 +243,16 @@ class GoldMine extends Building {
   }
 
 
-  int turnEndAction() {
+  void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
       if (currentBuildTurn == completeBuildTurns){
         built = true;
       }
-      return 0;
     }
-    else{return 1;}
+    else{
+      owner.gainGold(1);
+    }
   }
 
 
@@ -306,14 +307,13 @@ class Wall extends Building {
     super(position, 100, owner, size, 1);
   }
   
-  int turnEndAction() {
+  void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
       if (currentBuildTurn == completeBuildTurns){
         built = true;
       }
     }
-    return 0;
   }
 
 
