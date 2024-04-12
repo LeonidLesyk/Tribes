@@ -68,7 +68,7 @@ class Swordsman extends Unit {
   // the actual values could vary depending on research perks
   private final int HP = 5; 
   private final int STRENGTH = 1;
-  private final int MOV = 2;
+  private final int MOV = 1;
   
   Swordsman(Player owner) {
     super(owner);
@@ -86,7 +86,7 @@ class Swordsman extends Unit {
 class Archer extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 1;
-  private final int MOV = 2;
+  private final int MOV = 1;
   
   Archer(Player owner) {
     super(owner);
@@ -104,7 +104,7 @@ class Archer extends Unit {
 class Builder extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 1;
-  private final int MOV = 2;
+  private final int MOV = 1;
   
   Builder(Player owner) {
     super(owner);
@@ -116,5 +116,59 @@ class Builder extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 1;
+  }
+}
+
+class Cavalier extends Unit {
+  private final int HP = 4; 
+  private final int STRENGTH = 2;
+  private final int MOV = 2;
+  
+  Cavalier(Player owner) {
+    super(owner);
+    
+    unitType = "Cavalier";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 1;
+  }
+}
+
+class Giant extends Unit {
+  private final int HP = 10; 
+  private final int STRENGTH = 3;
+  private final int MOV = 1;
+  
+  Giant(Player owner) {
+    super(owner);
+    
+    unitType = "Giant";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 1;
+  }
+}
+
+class Wizard extends Unit {
+  private final int HP = 2; 
+  private final int STRENGTH = 3;
+  private final int MOV = 1;
+  
+  Wizard(Player owner) {
+    super(owner);
+    
+    unitType = "Wizard";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV;
+    atkRange = 3;
   }
 }

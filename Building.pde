@@ -59,7 +59,7 @@ class Building {
 class Base extends Building {
 
   Base(PVector position, Player owner, int size) {
-    super(position, 500, owner, size, 0);
+    super(position, 50, owner, size, 0);
   }
 
 
@@ -69,6 +69,11 @@ class Base extends Building {
      //this.destroyed = true;
   }
 
+  int turnEndAction() {
+    //Logic to calculate the amount of research point given
+    return 1;
+  }
+  
   @Override
   void display() {
     fill(255);
@@ -81,6 +86,27 @@ class Base extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     text("Base", position.x+size/2, position.y+size/2);
+    
+    // HP Bar display
+    float hpBarWidth = size;
+    float hpBarHeight = size /12;
+    float hpBarX = position.x;
+    float hpBarY = position.y + size*0.9;
+    
+    noStroke();
+    
+    //HP Bar Background
+    fill(50); // Dark gray background
+    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    
+    float hpPercentage = (float) health / maxHealth; 
+    //Current HP
+    fill(51, 204, 51);
+    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
+    
+    //Lost HP
+    fill(255, 0, 0);
+    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
 
   }
 }
@@ -119,6 +145,27 @@ class Barrack extends Building {
     else{
       text("Barrack", position.x+size/2, position.y+size/2);
     }
+    
+    // HP Bar display
+    float hpBarWidth = size;
+    float hpBarHeight = size /12;
+    float hpBarX = position.x;
+    float hpBarY = position.y + size*0.9;
+    
+    noStroke();
+    
+    //HP Bar Background
+    fill(50); // Dark gray background
+    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    
+    float hpPercentage = (float) health / maxHealth; 
+    //Current HP
+    fill(51, 204, 51);
+    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
+    
+    //Lost HP
+    fill(255, 0, 0);
+    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
 
   }
 }
@@ -163,6 +210,28 @@ class Library extends Building {
     else{
       text("Library", position.x+size/2, position.y+size/2);
     }
+    
+    // HP Bar display
+    float hpBarWidth = size;
+    float hpBarHeight = size /12;
+    float hpBarX = position.x;
+    float hpBarY = position.y + size*0.9;
+    
+    noStroke();
+    
+    //HP Bar Background
+    fill(50); // Dark gray background
+    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    
+    float hpPercentage = (float) health / maxHealth; 
+    //Current HP
+    fill(51, 204, 51);
+    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
+    
+    //Lost HP
+    fill(255, 0, 0);
+    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
+
   }
 }
 
@@ -205,6 +274,28 @@ class GoldMine extends Building {
     else{
       text("GoldMine", position.x+size/2, position.y+size/2);
     }
+    
+    // HP Bar display
+    float hpBarWidth = size;
+    float hpBarHeight = size /12;
+    float hpBarX = position.x;
+    float hpBarY = position.y + size*0.9;
+    
+    noStroke();
+    
+    //HP Bar Background
+    fill(50); // Dark gray background
+    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    
+    float hpPercentage = (float) health / maxHealth; 
+    //Current HP
+    fill(51, 204, 51);
+    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
+    
+    //Lost HP
+    fill(255, 0, 0);
+    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
+
   }
 }
 
@@ -242,5 +333,29 @@ class Wall extends Building {
     }
     else{
       text("Wall", position.x+size/2, position.y+size/2);
-    }  }
+    }
+    
+    // HP Bar display
+    float hpBarWidth = size;
+    float hpBarHeight = size /12;
+    float hpBarX = position.x;
+    float hpBarY = position.y + size*0.9;
+    
+    noStroke();
+    
+    //HP Bar Background
+    fill(50); // Dark gray background
+    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    
+    float hpPercentage = (float) health / maxHealth; 
+    //Current HP
+    fill(51, 204, 51);
+    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
+    
+    //Lost HP
+    fill(255, 0, 0);
+    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
+
+
+  }
 }

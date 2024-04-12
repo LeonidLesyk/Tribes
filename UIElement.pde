@@ -56,6 +56,19 @@ class endTurnButton extends UIElement{
     i.active = false;
     b.active = false;
     
+    //clear selections
+    toBuildClass = "";
+    buildMode = false;
+    availbleTiles = null;
+    selectedTile = null;
+    
+    for(Tile[] row : gameBoard.grid){
+      for(Tile t : row){
+        t.colour = t.defaultColour;
+      }
+    }
+    
+      
     //end turn
     turn +=1;
     
@@ -261,8 +274,8 @@ class researchBuyBox extends UIElement{
     switch(type){
       case "t":
         if(players[turn].tribesmenLevel >= level){
-          fill(0,0,255);
-        }else if(players[turn].hasEnoughRP(cost)){
+          fill(players[turn].teamColour);
+        }else if(players[turn].hasEnoughRP(cost) && players[turn].tribesmenLevel == level-1){
           fill(255);
         }else{
           fill(128);
@@ -270,8 +283,8 @@ class researchBuyBox extends UIElement{
         break;
       case "d":
         if(players[turn].dwarvesLevel >= level){
-          fill(0,0,255);
-        }else if(players[turn].hasEnoughRP(cost)){
+          fill(players[turn].teamColour);
+        }else if(players[turn].hasEnoughRP(cost) && players[turn].dwarvesLevel == level-1){
           fill(255);
         }else{
           fill(128);
@@ -279,8 +292,8 @@ class researchBuyBox extends UIElement{
         break;
        case "s":
         if(players[turn].sorcerersLevel >= level){
-          fill(0,0,255);
-        }else if(players[turn].hasEnoughRP(cost)){
+          fill(players[turn].teamColour);
+        }else if(players[turn].hasEnoughRP(cost) && players[turn].sorcerersLevel == level-1){
           fill(255);
         }else{
           fill(128);
@@ -294,6 +307,44 @@ class researchBuyBox extends UIElement{
     fill(0);
     textAlign(CENTER,CENTER);
     text(str(level),x,y,width,height);
+  }
+}
+
+class builderBuyButton extends UIElement{
+  boolean active;
+  builderBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    if(this.active){
+      unitToSpawn = "Builder";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Builder will allow you to build buildings...";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Barrack || selectedBuilding instanceof Base){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Builder"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Bd",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
   }
 }
 
@@ -354,7 +405,7 @@ class archerBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(selectedBuilding instanceof Barrack){
+    if(selectedBuilding instanceof Barrack && players[turn].tribesmenLevel > 0){
       this.active = true;
       fill(255);
       if(unitToSpawn == "Archer"){
@@ -372,30 +423,29 @@ class archerBuyButton extends UIElement{
     
   }
 }
-
-class builderBuyButton extends UIElement{
+class cavalierBuyButton extends UIElement{
   boolean active;
-  builderBuyButton(int x, int y, int width, int height){
+  cavalierBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
     this.active = true;
   }
   @Override
   void onClickAction(){
     if(this.active){
-      unitToSpawn = "Builder";
+      unitToSpawn = "Cavalier";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Builder will allow you to build buildings...";
+      i.infoText = "The Cavalier is a mobile and strong unit`...";
       i.active = true;
     }
     
   }
   @Override
   void draw(){
-    if(selectedBuilding instanceof Barrack){
+    if(selectedBuilding instanceof Barrack && players[turn].tribesmenLevel > 1){
       this.active = true;
       fill(255);
-      if(unitToSpawn == "Builder"){
+      if(unitToSpawn == "Cavalier"){
         fill(players[turn].teamColour);
       }
       stroke(128);
@@ -403,7 +453,7 @@ class builderBuyButton extends UIElement{
       textSize(40);
       fill(0);
       textAlign(CENTER,CENTER);
-      text("Bd",x,y,width, height);
+      text("Cv",x,y,width, height);
     }else{
       this.active = false;
     }
@@ -411,86 +461,228 @@ class builderBuyButton extends UIElement{
   }
 }
 
-class mineBuyButton extends UIElement{
-  mineBuyButton(int x, int y, int width, int height){
+class giantBuyButton extends UIElement{
+  boolean active;
+  giantBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
+    this.active = true;
   }
   @Override
   void onClickAction(){
-    toBuildClass = "Gold";
-    infoBox i = (infoBox)UIElements.get("info");
+    if(this.active){
+      unitToSpawn = "Giant";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Giant is a high HP high ATK but slow unit...";
+      i.active = true;
+    }
     
-    i.infoText = "The mine will give you x gold per turn";
-    i.active = true;
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(toBuildClass == "Gold"){
-      fill(0,0,255);
+    if(selectedBuilding instanceof Barrack && players[turn].tribesmenLevel > 3){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Giant"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Gi",x,y,width, height);
+    }else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("GM",x,y,width, height);
+    
   }
 }
 
+class wizardBuyButton extends UIElement{
+  boolean active;
+  wizardBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    println("clicked");
+    if(this.active){
+      unitToSpawn = "Wizard";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Wizard is a high ATK Unit with a large range but low hp...";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Library && players[turn].sorcerersLevel > 1){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Wizard"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Wz",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
+
+class mineBuyButton extends UIElement{
+  boolean active;
+  mineBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = false;
+  }
+  @Override
+  void onClickAction(){
+    if(this.active){
+      toBuildClass = "Gold";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The mine will give you x gold per turn";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(buildMode){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Gold"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("GM",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+   }
+    
+   
+}
+
+class wallBuyButton extends UIElement{
+  boolean active;
+  wallBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = false;
+  }
+  @Override
+  void onClickAction(){
+    if(this.active){
+      toBuildClass = "Wall";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "Walls ought to stop enemy units in their tracks!";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(buildMode && players[turn].dwarvesLevel > 0){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Wall"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Wa",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+   }
+    
+   
+}
+
 class barracksBuyButton extends UIElement{
+  boolean active;
   barracksBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
   }
   @Override
   void onClickAction(){
-    toBuildClass = "Barrack";
-    infoBox i = (infoBox)UIElements.get("info");
-    
-    i.infoText = "Barracks allow you to train units";
-    i.active = true;
+    if(this.active){
+      toBuildClass = "Barrack";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "Barracks allow you to train units";
+      i.active = true;
+    }
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(toBuildClass == "Barrack"){
-      fill(0,0,255);
+    if(buildMode){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Barrack"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Br",x,y,width, height);
+    }else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("Br",x,y,width, height);
   }
 }
 
 class libraryBuyButton extends UIElement{
+  boolean active;
   libraryBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
   }
   @Override
   void onClickAction(){
-    toBuildClass = "Library";
-    infoBox i = (infoBox)UIElements.get("info");
-    
-    i.infoText = "The Library gives you one Research point per turn";
-    i.active = true;
+    if(this.active){
+      toBuildClass = "Library";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Library gives you one Research point per turn";
+      i.active = true;
+    }
   }
   @Override
   void draw(){
-    
-    fill(255);
-    if(toBuildClass == "Library"){
-      fill(0,0,255);
+    if(buildMode && players[turn].sorcerersLevel > 0){
+      this.active = true;
+      fill(255);
+      if(toBuildClass == "Library"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(40);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Li",x,y,width, height);
+    }else{
+      this.active = false;
     }
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(40);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("Li",x,y,width, height);
-  }
+   }
 }
