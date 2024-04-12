@@ -187,16 +187,15 @@ void mouseReleased(){
     
     pressedTile.colour = pressedTile.highlight;
     
-    //Clicked Base
+    //Clicked Base FOR TESTING TODO Delete 
     if(pressedTile.building != null && pressedTile.building instanceof Base){
-      println("Applying damage to Base");
+      //println("Applying damage to Base");
    
       //if(pressedTile.building.applyDamage(250)){
       //  print(pressedTile.building.owner + " lose");
       //  gameEnd = true; //Make a method for ending scene?
       //}
-      //println("Base HP: " + pressedTile.building.health);
-      
+      //println("Base HP: " + pressedTile.building.health);  
     }
     
 
@@ -218,7 +217,7 @@ void mouseReleased(){
           availbleTiles = null;
         }
       }
-      else if(toBuildClass.equals("Library")){
+      else if(toBuildClass.equals("Library") && players[turn%2].sorcerersLevel >= 1){
         if(players[turn%2].gold >= 100){
           players[turn%2].gold -= 100;
           pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
@@ -231,6 +230,15 @@ void mouseReleased(){
         if(players[turn%2].gold >= 50){
           players[turn%2].gold -= 50;
           pressedTile.building = new GoldMine(pressedTile.position, players[turn%2], pressedTile.size);
+          toBuildClass = "";
+          buildMode = false;
+          availbleTiles = null;
+        }        
+      }
+      else if(toBuildClass.equals("Wall") && players[turn%2].dwarvesLevel >= 1){
+        if(players[turn%2].gold >= 20){
+          players[turn%2].gold -= 20;
+          pressedTile.building = new Wall(pressedTile.position, players[turn%2], pressedTile.size);
           toBuildClass = "";
           buildMode = false;
           availbleTiles = null;
@@ -294,6 +302,27 @@ void mouseReleased(){
           availbleTiles = null;
         }
       }
+      //TODO CHANGE TO Cavalier
+      else if(unitToSpawn.equals("Cavalier") && players[turn%2].tribesmenLevel >= 2){
+        if(players[turn%2].gold >= 150){
+          players[turn%2].gold -= 150;
+          pressedTile.unit = new Builder(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+        }
+      }
+      //TODO CHANGE TO GIANT
+      else if(unitToSpawn.equals("Giant") && players[turn%2].tribesmenLevel >= 3){
+        if(players[turn%2].gold >= 150){
+          players[turn%2].gold -= 150;
+          pressedTile.unit = new Builder(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+        }
+      }
+      
     }
     
     else if(pressedTile.unit != null && pressedTile.unit.owner == players[turn%2]){
@@ -306,10 +335,9 @@ void mouseReleased(){
 
     }
     
-    //Check clicked swordsman
+    //Check clicked swordsman FOR TESTING TODO DELETE
     else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
       println("Clicked Swordsman");
-
     }
     
     else{
@@ -396,6 +424,14 @@ void keyPressed() {
       println("ToSpawn: Builder");
       unitToSpawn = "Builder";
     }
+    else if (key == '4') {
+      println("ToSpawn: Cavalier");
+      unitToSpawn = "Cavalier";
+    }
+    else if (key == '5') {
+      println("ToSpawn: Giant");
+      unitToSpawn = "Giant";
+    }
     else if (key == 'Q' || key == 'q') {
       toBuildClass = "Barrack";
     }
@@ -404,6 +440,9 @@ void keyPressed() {
     }
     else if (key == 'E' || key == 'e') {
       toBuildClass = "Gold";
+    }
+    else if (key == 'R' || key == 'r') {
+      toBuildClass = "Wall";
     }
     else if(key == ESC){
       println("Cancelled");
