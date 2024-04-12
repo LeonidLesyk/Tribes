@@ -9,6 +9,8 @@ class Unit {
   
   boolean canMove = true;
   boolean canAttack = true;
+  
+  PImage sprite;
     
   Player owner;
       
@@ -22,22 +24,40 @@ class Unit {
   //x and y should be center of tile. size maybe global??
   void display(float x, float y, float size) {
     
-    size = size * 3 / 4; // 3/4 tile size
+    float centerX = x;
+    float centerY = y;
+    float tileSize = size;
     
-    color c = owner.teamColour;  
+    size = size/2;
+    x = x + size;
+    y = y + size;
     
-    fill(c);
-    circle(x, y, size);
-    
-    fill(#000000); //black
-    textSize(15);
-    text(unitType, x-size/2, y + size/4 * 3);
     
     // HP Bar display
     float hpBarWidth = size;
     float hpBarHeight = size / 8;
     float hpBarX = x - size / 2;
-    float hpBarY = y - size / 2 - hpBarHeight * 2;
+    float hpBarY;
+    
+    if(sprite != null) {
+      image(sprite, centerX, centerY, tileSize, tileSize);
+      hpBarY = y + size / 2 + hpBarHeight * 2;
+    }
+    else {
+      size = size * 3 / 4; 
+      
+      color c = owner.teamColour;  
+      
+      fill(c);
+      circle(x, y, size);
+      
+      fill(#000000); //black
+      textSize(15);
+      text(unitType, x-size/2, y + size/4 * 3);
+      
+      hpBarY = y - size / 2 - hpBarHeight * 2;
+    }
+    
     
     //HP Bar Background
     fill(50); // Dark gray background
@@ -72,6 +92,15 @@ class Unit {
     
     return info;
   }
+  
+  PImage loadSprite() {
+    try {
+      return loadImage("resources/" + unitType + owner.playerNumber + ".png");
+    }
+    catch (Exception e) {
+      return null;
+    }
+  }
 
 }
 
@@ -94,6 +123,7 @@ class Swordsman extends Unit {
     mov = MOV;
     atkRange = 1; //swordsmen should be melee only
     
+    sprite = loadSprite();
   }
 }
 
@@ -113,6 +143,7 @@ class Archer extends Unit {
     mov = MOV;
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
     
+    sprite = loadSprite();
   }
 }
 
@@ -132,6 +163,7 @@ class Builder extends Unit {
     mov = MOV;
     atkRange = 1;
     
+    sprite = loadSprite();
   }
 }
 
@@ -150,6 +182,8 @@ class Cavalier extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 1;
+    
+    sprite = loadSprite();
   }
 }
 
@@ -168,6 +202,8 @@ class Giant extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 1;
+    
+    sprite = loadSprite();
   }
 }
 
@@ -175,6 +211,7 @@ class Wizard extends Unit {
   private final int HP = 2; 
   private final int STRENGTH = 3;
   private final int MOV = 1;
+  
   
   Wizard(Player owner) {
     super(owner);
@@ -186,5 +223,7 @@ class Wizard extends Unit {
     strength = STRENGTH;
     mov = MOV;
     atkRange = 3;
+    
+    sprite = loadSprite();
   }
 }
