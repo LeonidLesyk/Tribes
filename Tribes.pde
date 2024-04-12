@@ -227,7 +227,7 @@ void mouseReleased(){
 
     
     //If clicked on builder
-    else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder){
+    else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]){
       availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
       buildMode = true;
     }
@@ -235,12 +235,15 @@ void mouseReleased(){
     //Building logic
     else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile)){
       if(toBuildClass.equals("Barrack")){
-        pressedTile.building = new Barrack(pressedTile.position, players[turn%2], pressedTile.size);
-        toBuildClass = "";
-        buildMode = false;
-        availbleTiles = null;
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
+        if(players[turn%2].gold >= 100){
+          players[turn%2].gold -= 100;
+          pressedTile.building = new Barrack(pressedTile.position, players[turn%2], pressedTile.size);
+          toBuildClass = "";
+          buildMode = false;
+          availbleTiles = null;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }
       }
       else if(toBuildClass.equals("Library")){
         pressedTile.building = new Library(pressedTile.position, players[turn%2] , pressedTile.size);
@@ -259,17 +262,19 @@ void mouseReleased(){
         infoBox i = (infoBox)UIElements.get("info");
         i.active = false;
       }
-      else if(toBuildClass.equals("Wall")){
-        pressedTile.building = new Wall(pressedTile.position, players[turn%2], pressedTile.size);
-        toBuildClass = "";
-        buildMode = false;
-        availbleTiles = null;
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
-      }
     }
     
-    
+          else if(toBuildClass.equals("Wall") && players[turn%2].dwarvesLevel >= 1){
+        if(players[turn%2].gold >= 20){
+          players[turn%2].gold -= 20;
+          pressedTile.building = new Wall(pressedTile.position, players[turn%2], pressedTile.size);
+          toBuildClass = "";
+          buildMode = false;
+          availbleTiles = null;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }        
+      }
     
     
     
@@ -281,7 +286,7 @@ void mouseReleased(){
     
     
     //Clicked Barrack
-    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn]){
+    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn%2] && pressedTile.building.built){
       
       for(Tile t : gameBoard.range(pressedTile,1)){
         t.colour = t.highlight;
@@ -311,10 +316,13 @@ void mouseReleased(){
       
       println("Spawn " + unitToSpawn);
       if(unitToSpawn.equals("Swordsman")){
-        pressedTile.unit = new Swordsman(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
+        if(players[turn%2].gold >= 50){
+          players[turn%2].gold -= 50;
+          pressedTile.unit = new Swordsman(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+        }
         infoBox i = (infoBox)UIElements.get("info");
         i.active = false;
       }
@@ -386,10 +394,9 @@ void mouseReleased(){
       }
     }
     
-    //Check clicked swordsman
+    //Check clicked swordsman FOR TESTING TODO DELETE
     else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
       println("Clicked Swordsman");
-
     }
     
     else{
@@ -414,7 +421,7 @@ void mouseReleased(){
       }
       
       //if new tile has a unit belonging to other player, and is within unit's attack range
-      if(pressedTile.unit != null && pressedTile.unit.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+      if(pressedTile.unit != null && pressedTile.building == null && pressedTile.unit.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
         Unit attacker = selectedTile.unit;
         Unit target = pressedTile.unit;
         
@@ -427,6 +434,23 @@ void mouseReleased(){
           println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
         }
       }
+      
+            //if new tile has a unit belonging to other player, and is within unit's attack range
+      else if(pressedTile.unit == null && pressedTile.building != null && pressedTile.building.owner != players[turn%2] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+        Unit attacker = selectedTile.unit;
+        Building target = pressedTile.building;
+        
+        //damage target unit. if fallen, remove from board
+        if(target.applyDamage(attacker.strength)) {
+          pressedTile.building = null;
+          println(attacker.unitType + " attacked " + target.getClass().getName() + " has fallen.");
+        }
+        else {
+          println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
+        }
+      }
+      
+      
     }
     
     
@@ -464,6 +488,10 @@ void keyPressed() {
       println("ToSpawn: Cavalier");
       unitToSpawn = "Cavalier";
     }
+    else if (key == '5') {
+      println("ToSpawn: Giant");
+      unitToSpawn = "Giant";
+    }
     else if (key == 'Q' || key == 'q') {
       toBuildClass = "Barrack";
     }
@@ -472,6 +500,9 @@ void keyPressed() {
     }
     else if (key == 'E' || key == 'e') {
       toBuildClass = "Gold";
+    }
+    else if (key == 'R' || key == 'r') {
+      toBuildClass = "Wall";
     }
     //CHEATS!!!!!!
     else if (key == 'I' || key == 'i') {
