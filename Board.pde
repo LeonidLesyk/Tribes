@@ -42,7 +42,7 @@ final class Tile{
     }
     //Display the unit
     if (this.unit != null) {
-        this.unit.display(position.x+this.size/2, position.y+this.size/2, this.size/2);
+        this.unit.display(position.x, position.y, this.size);
     }
   }
   

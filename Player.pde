@@ -10,12 +10,14 @@ class Player {
   
   boolean alive;
   
+  int playerNumber;
+  
   
   //define colour when creating players
   // red: ee2a3e
   // blue: 6493E2
   
-  Player(color colour) {
+  Player(int num, color colour) {
     teamColour = colour;
     
     gold = 30;
@@ -23,6 +25,8 @@ class Player {
     tribesmenLevel = 0;
     dwarvesLevel = 0;
     sorcerersLevel = 0;
+    
+    playerNumber = num;
   }
   
   //returns true if spending was successful, false if not

@@ -76,8 +76,8 @@ void setup() {
 
   gameEnd = false;
 
-  player1 = new Player(color(255, 0, 0));
-  player2 = new Player(color(0, 0, 255));
+  player1 = new Player(1, color(255, 0, 0));
+  player2 = new Player(2, color(0, 0, 255));
   players[0] = player1;
   players[1] = player2;
 
