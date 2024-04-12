@@ -8,8 +8,8 @@ class Unit {
  
   String unitType;
   
-  boolean canMove = true;
-  boolean canAttack = true;
+  boolean canMove = false;
+  boolean canAttack = false;
   
   PImage sprite;
     

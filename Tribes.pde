@@ -477,13 +477,15 @@ void mouseReleased() {
       }
       
             //if new tile has a unit belonging to other player, and is within unit's attack range
-      else if(pressedTile.unit == null && pressedTile.building != null && pressedTile.building.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+      else if(pressedTile.unit == null && selectedTile.unit.canAttack && pressedTile.building != null && pressedTile.building.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
         Unit attacker = selectedTile.unit;
         Building target = pressedTile.building;
         
         //damage target unit. if fallen, remove from board
         if(target.applyDamage(attacker.strength)) {
           pressedTile.building = null;
+          attacker.canAttack = false;
+          attacker.canMove = false;
           println(attacker.unitType + " attacked " + target.getClass().getName() + " has fallen.");
         }
         else {

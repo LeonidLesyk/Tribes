@@ -70,6 +70,7 @@ class endTurnButton extends UIElement{
     buildMode = false;
     availbleTiles = null;
     selectedTile = null;
+    selectedBuilding = null;
     
     for(Tile[] row : gameBoard.grid){
       for(Tile t : row){
@@ -80,6 +81,7 @@ class endTurnButton extends UIElement{
       
     //end turn
     turn +=1;
+    println("End Turn");
     
     if( turn == 2){
       turn = 0;
