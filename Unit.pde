@@ -6,6 +6,9 @@ class Unit {
   int atkRange;
  
   String unitType;
+  
+  boolean canMove = true;
+  boolean canAttack = true;
     
   Player owner;
       

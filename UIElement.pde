@@ -41,6 +41,10 @@ class endTurnButton extends UIElement{
           players[currnetPlayer].gold += gameBoard.grid[i][j].building.turnEndAction();
           println("Player " + turn + "Gold: "+ players[currnetPlayer].gold);
         }
+        if(gameBoard.grid[i][j].unit != null) {
+          gameBoard.grid[i][j].unit.canMove = true;
+          gameBoard.grid[i][j].unit.canAttack = true;
+        }
       }
     }
     //deactivate info and buy button
