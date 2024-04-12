@@ -35,11 +35,11 @@ class endTurnButton extends UIElement{
       for(int j=0; j<gameBoard.grid[i].length; j++){
         if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building.owner == players[currnetPlayer]){
           
-          if(gameBoard.grid[i][j].building instanceof Library){
+          if(gameBoard.grid[i][j].building instanceof Library || gameBoard.grid[i][j].building instanceof Base){
             players[currnetPlayer].researchPoints += gameBoard.grid[i][j].building.turnEndAction();
             println("Player " + turn + "RP: "+ players[currnetPlayer].researchPoints);          
           }
-          else if(gameBoard.grid[i][j].building instanceof GoldMine){
+          else if(gameBoard.grid[i][j].building instanceof GoldMine || gameBoard.grid[i][j].building instanceof Base){
             players[currnetPlayer].gold += gameBoard.grid[i][j].building.turnEndAction();
             println("Player " + turn + "Gold: "+ players[currnetPlayer].gold);          
           }

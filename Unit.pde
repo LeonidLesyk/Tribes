@@ -4,6 +4,7 @@ class Unit {
   int strength;
   int mov;
   int atkRange;
+  int cost;
  
   String unitType;
     

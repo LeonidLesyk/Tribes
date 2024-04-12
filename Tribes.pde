@@ -31,6 +31,18 @@ int researchCap;
 static Player player1;
 static Player player2;
 
+final int swordCost = 10;
+final int archerCost = 10;
+final int builderCost = 10;
+final int wizardCost = 10;
+final int giantCost = 10;
+final int cavalierCost = 10;
+
+
+
+
+
+
 void settings(){
   //size(1500,800);
   size(1920,1080);
@@ -314,8 +326,8 @@ void mouseReleased(){
       
       println("Spawn " + unitToSpawn);
       if(unitToSpawn.equals("Swordsman")){
-        if(players[turn%2].gold >= 50){
-          players[turn%2].gold -= 50;
+        if(players[turn%2].gold >= swordCost){
+          players[turn%2].gold -= swordCost;
           pressedTile.unit = new Swordsman(selectedBuilding.owner);
           selectedBuilding = null; //Reset selection
           unitToSpawn = "";
@@ -325,20 +337,48 @@ void mouseReleased(){
         i.active = false;
       }
       else if(unitToSpawn.equals("Archer")){
-        pressedTile.unit = new Archer(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
+        if(players[turn%2].gold >= archerCost){
+          players[turn%2].gold -= archerCost;
+          pressedTile.unit = new Archer(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }
       }
       else if(unitToSpawn.equals("Builder")){
-        pressedTile.unit = new Builder(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
+        if(players[turn%2].gold >= builderCost){
+          players[turn%2].gold -= builderCost;
+          pressedTile.unit = new Builder(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }
+      }
+      else if(unitToSpawn.equals("Cavalier")){
+        if(players[turn%2].gold >= cavalierCost){
+          players[turn%2].gold -= cavalierCost;
+          pressedTile.unit = new Cavalier(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }
+      }
+      else if(unitToSpawn.equals("Giant")){
+        if(players[turn%2].gold >= giantCost){
+          players[turn%2].gold -= giantCost;
+          pressedTile.unit = new Giant(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }
       }
     }
     
@@ -355,12 +395,15 @@ void mouseReleased(){
     else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Library && !unitToSpawn.equals("")){
       println("Spawn " + unitToSpawn);
       if(unitToSpawn.equals("Wizard")){
-        pressedTile.unit = new Wizard(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
+        if(players[turn%2].gold >= wizardCost){
+          players[turn%2].gold -= wizardCost;
+          pressedTile.unit = new Wizard(selectedBuilding.owner);
+          selectedBuilding = null; //Reset selection
+          unitToSpawn = "";
+          availbleTiles = null;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }
       }
     }
     
@@ -375,39 +418,39 @@ void mouseReleased(){
         i.active = false;
       }
     }
-    //spawn wizard from library
-    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Library && !unitToSpawn.equals("")){
-      println("Spawn " + unitToSpawn);
-      if(unitToSpawn.equals("Wizard")){
-        pressedTile.unit = new Wizard(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
-      }
-    }
+    ////spawn wizard from library
+    //else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Library && !unitToSpawn.equals("")){
+    //  println("Spawn " + unitToSpawn);
+    //  if(unitToSpawn.equals("Wizard")){
+    //    pressedTile.unit = new Wizard(selectedBuilding.owner);
+    //    selectedBuilding = null; //Reset selection
+    //    unitToSpawn = "";
+    //    availbleTiles = null;
+    //    infoBox i = (infoBox)UIElements.get("info");
+    //    i.active = false;
+    //  }
+    //}
     
-    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Base && !unitToSpawn.equals("")){
-      println("Spawn " + unitToSpawn);
-      if(unitToSpawn.equals("Builder")){
-        pressedTile.unit = new Builder(selectedBuilding.owner);
-        selectedBuilding = null; //Reset selection
-        unitToSpawn = "";
-        availbleTiles = null;
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
-      }
-    }
+    //else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Base && !unitToSpawn.equals("")){
+    //  println("Spawn " + unitToSpawn);
+    //  if(unitToSpawn.equals("Builder")){
+    //    pressedTile.unit = new Builder(selectedBuilding.owner);
+    //    selectedBuilding = null; //Reset selection
+    //    unitToSpawn = "";
+    //    availbleTiles = null;
+    //    infoBox i = (infoBox)UIElements.get("info");
+    //    i.active = false;
+    //  }
+    //}
     
-    //Check clicked swordsman FOR TESTING TODO DELETE
-    else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
-      println("Clicked Swordsman");
-    }
+    ////Check clicked swordsman FOR TESTING TODO DELETE
+    //else if(pressedTile.unit != null  && pressedTile.unit instanceof Swordsman){
+    //  println("Clicked Swordsman");
+    //}
     
-    else{
-      println("Clicked other");
-    }
+    //else{
+    //  println("Clicked other");
+    //}
     
     
     //if previously selected tile has unit belonging to current player
