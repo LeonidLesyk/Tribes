@@ -80,7 +80,7 @@ void setup() {
   UIElements.put("gold", gold);
   UIElement research = new researchDisplay(tileZoneRight + (tileZoneLeft)/2, 0, (tileZoneLeft)/2, screen_height/10);
   UIElements.put("research", research);
-  UIElement info = new infoBox(0, screen_height*7/10, tileZoneLeft, screen_height/5, "default text");
+  UIElement info = new infoBox(0, screen_height*7/10, tileZoneLeft, screen_height/4, "default text");
   UIElements.put("info", info);
   UIElement buy = new researchBuyButton(0, screen_height*9/10, tileZoneLeft, screen_height/10);
   UIElements.put("buy", buy);
@@ -287,7 +287,12 @@ void mouseReleased() {
     } else {
       println("Clicked other");
     }
-
+    
+    if (pressedTile.unit != null) {
+      infoBox i = (infoBox)UIElements.get("info");
+      i.infoText = pressedTile.unit.infoText;
+      i.active = true;
+    }
 
     //if previously selected tile has unit belonging to current player
     if (selectedTile != null && selectedTile.unit != null && selectedTile.unit.owner == players[turn%2]) {
