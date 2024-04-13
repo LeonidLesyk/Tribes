@@ -223,7 +223,7 @@ class Wizard extends Unit {
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV;
-    atkRange = 3;
+    atkRange = 2;
     
     sprite = loadSprite();
   }
