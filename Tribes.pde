@@ -230,8 +230,10 @@ void mouseReleased() {
     
     //Clicked Base make builders
     if(pressedTile.building != null && pressedTile.building instanceof Base &&  pressedTile.building.owner == players[turn]){
-      println("Applying damage to Base");
    
+      buildMode = false;
+
+      
       for(Tile t : gameBoard.range(pressedTile,1)){
         t.colour = t.highlight;
       }
@@ -299,14 +301,7 @@ void mouseReleased() {
         }        
       }
     }
-    
 
-    
-    
-    
-    
-    
-    
     
     
     
@@ -314,6 +309,8 @@ void mouseReleased() {
     //Clicked Barrack
     else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn] && pressedTile.building.built){
       
+      buildMode = false;
+
       for(Tile t : gameBoard.range(pressedTile,1)){
         t.colour = t.highlight;
       }
@@ -326,7 +323,9 @@ void mouseReleased() {
     
     //Clicked library for wizard spawning
     else if(pressedTile.building != null && pressedTile.building instanceof Library &&  pressedTile.building.owner == players[turn]){
-      
+
+      buildMode = false;
+
       for(Tile t : gameBoard.range(pressedTile,1)){
         t.colour = t.highlight;
       }
