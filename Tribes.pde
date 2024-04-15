@@ -45,9 +45,6 @@ final int cavalierCost = 20;
 
 
 
-
-
-
 void settings(){
   pixelDensity(displayDensity());
   if(displayDensity() == 1) {
@@ -202,312 +199,327 @@ void mouseReleased() {
   if (gameEnd) {
     setup();
   }
-
-
-  //if in tile zone
-  if (mouseX > tileZoneLeft && mouseX < tileZoneRight) {
-    int x = (mouseX - tileZoneLeft)/tileSizePixels;
-    int y = mouseY/tileSizePixels;
-    pressedTile = gameBoard.grid[x][y];
-    
-    //clear highlight on previous tile
-    if (selectedTile != null) {
-      for (Tile t : gameBoard.range(selectedTile, 2)) {
-        t.colour = t.defaultColour;
-      }
-      selectedTile.colour = selectedTile.defaultColour;
-    }
-
-
-    /*
-    //tile interaction goes here
-     for(Tile t : gameBoard.range(pressedTile,2)){
-     t.colour = t.highlight;
-     }
-     */
-
-    pressedTile.colour = pressedTile.highlight;
-    
-    //Clicked Base make builders
-    if(pressedTile.building != null && pressedTile.building instanceof Base &&  pressedTile.building.owner == players[turn]){
-   
-      buildMode = false;
-
+  
+  
+  if (mouseButton == LEFT){
+    //if in tile zone
+    if (mouseX > tileZoneLeft && mouseX < tileZoneRight) {
+      int x = (mouseX - tileZoneLeft)/tileSizePixels;
+      int y = mouseY/tileSizePixels;
+      pressedTile = gameBoard.grid[x][y];
       
-      for(Tile t : gameBoard.range(pressedTile,1)){
-        t.colour = t.highlight;
+      //clear highlight on previous tile
+      if (selectedTile != null) {
+        for (Tile t : gameBoard.range(selectedTile, 2)) {
+          t.colour = t.defaultColour;
+        }
+        selectedTile.colour = selectedTile.defaultColour;
       }
+  
+  
+      /*
+      //tile interaction goes here
+       for(Tile t : gameBoard.range(pressedTile,2)){
+       t.colour = t.highlight;
+       }
+       */
+  
+      pressedTile.colour = pressedTile.highlight;
       
-      availbleTiles = gameBoard.range(pressedTile,1);
-
-      selectedBuilding = pressedTile.building;
-      println("Base selected");
-      
-    }
-
-
-
-    //If clicked on builder
-    else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]){
-      availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
-      buildMode = true;
-    }
-
-    //Building logic
-    else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile)){
-      if(toBuildClass.equals("Barrack")){
-        if(players[turn].gold >= barrackCost){
-          players[turn].gold -= barrackCost;
-          pressedTile.building = new Barrack(pressedTile.position, players[turn], pressedTile.size);
-          toBuildClass = "";
-          buildMode = false;
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-      else if(toBuildClass.equals("Library")){
-        if(players[turn].gold >= libraryCost){
-          players[turn].gold -= libraryCost;
-          pressedTile.building = new Library(pressedTile.position, players[turn] , pressedTile.size);
-          toBuildClass = "";
-          buildMode = false;
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-      else if(toBuildClass.equals("Gold")){
-        if(players[turn].gold >= goldMineCost){
-          players[turn].gold -= goldMineCost;
-          pressedTile.building = new GoldMine(pressedTile.position, players[turn], pressedTile.size);
-          toBuildClass = "";
-          buildMode = false;
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-      
-      else if(toBuildClass.equals("Wall")){
-        if(players[turn].gold >= wallCost){
-          players[turn].gold -= wallCost;
-          pressedTile.building = new Wall(pressedTile.position, players[turn], pressedTile.size);
-          toBuildClass = "";
-          buildMode = false;
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }        
-      }
-    }
-
-    
-    
-    
-    
-    //Clicked Barrack
-    else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn] && pressedTile.building.built){
-      
-      buildMode = false;
-
-      for(Tile t : gameBoard.range(pressedTile,1)){
-        t.colour = t.highlight;
-      }
-
-      availbleTiles = gameBoard.range(pressedTile, 1);
-
-      selectedBuilding = pressedTile.building;
-      println("Barrack selected");
-    }
-    
-    //Clicked library for wizard spawning
-    else if(pressedTile.building != null && pressedTile.building instanceof Library &&  pressedTile.building.owner == players[turn]){
-
-      buildMode = false;
-
-      for(Tile t : gameBoard.range(pressedTile,1)){
-        t.colour = t.highlight;
-      }
-      
-      availbleTiles = gameBoard.range(pressedTile,1);
-
-      selectedBuilding = pressedTile.building;
-      println("Library selected");
-    }
-    
-    //Clicked an empty tile to spawn a unit after clicking Barrack
-    else if (pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Barrack && !unitToSpawn.equals("")) {
-
-      println("Spawn " + unitToSpawn);
-      if(unitToSpawn.equals("Swordsman")){
-        if(players[turn].gold >= swordCost){
-          players[turn].gold -= swordCost;
-          pressedTile.unit = new Swordsman(selectedBuilding.owner);
-          selectedBuilding = null; //Reset selection
-          unitToSpawn = "";
-          availbleTiles = null;
-        }
-        infoBox i = (infoBox)UIElements.get("info");
-        i.active = false;
-      }
-      else if(unitToSpawn.equals("Archer")){
-        if(players[turn].gold >= archerCost){
-          players[turn].gold -= archerCost;
-          pressedTile.unit = new Archer(selectedBuilding.owner);
-          selectedBuilding = null; //Reset selection
-          unitToSpawn = "";
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-      else if(unitToSpawn.equals("Builder")){
-        if(players[turn].gold >= builderCost){
-          players[turn].gold -= builderCost;
-          pressedTile.unit = new Builder(selectedBuilding.owner);
-          selectedBuilding = null; //Reset selection
-          unitToSpawn = "";
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-      else if(unitToSpawn.equals("Cavalier")){
-        if(players[turn].gold >= cavalierCost){
-          players[turn].gold -= cavalierCost;
-          pressedTile.unit = new Cavalier(selectedBuilding.owner);
-          selectedBuilding = null; //Reset selection
-          unitToSpawn = "";
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-      else if(unitToSpawn.equals("Giant")){
-        if(players[turn].gold >= giantCost){
-          players[turn].gold -= giantCost;
-          pressedTile.unit = new Giant(selectedBuilding.owner);
-          selectedBuilding = null; //Reset selection
-          unitToSpawn = "";
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-    }
-    
-    else if(pressedTile.unit != null && pressedTile.unit.owner == players[turn]){
-      println("Clicked Unit");
-      Unit unit = pressedTile.unit;
-      
-      for(Tile t : gameBoard.range(pressedTile, unit.mov)){
-        t.colour = t.highlight;
-      }
-
-    }
-    //spawn wizard from library
-    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Library && !unitToSpawn.equals("")){
-      println("Spawn " + unitToSpawn);
-      if(unitToSpawn.equals("Wizard")){
-        if(players[turn].gold >= wizardCost){
-          players[turn].gold -= wizardCost;
-          pressedTile.unit = new Wizard(selectedBuilding.owner);
-          selectedBuilding = null; //Reset selection
-          unitToSpawn = "";
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-    }
-    
-    else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Base && !unitToSpawn.equals("")){
-      println("Spawn " + unitToSpawn);
-      if(unitToSpawn.equals("Builder")){
-        if(players[turn].gold >= builderCost){
-          players[turn].gold -= builderCost;
-          pressedTile.unit = new Builder(selectedBuilding.owner);
-          selectedBuilding = null; //Reset selection
-          unitToSpawn = "";
-          availbleTiles = null;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
-        }
-      }
-    }
-
-    
-    if (pressedTile.unit != null) {
-      infoBox i = (infoBox)UIElements.get("info");
-      i.infoText = pressedTile.unit.makeInfoText();
-      i.active = true;
-    }
-
-
-    //if previously selected tile has unit belonging to current player
-    if (selectedTile != null && selectedTile.unit != null && selectedTile.unit.owner == players[turn]) {
-
-      //if new tile has no buildings/units and is within that unit's mov range
-      if (pressedTile.unit == null && selectedTile.unit.canMove && pressedTile.building == null && gameBoard.range(selectedTile, selectedTile.unit.mov).contains(pressedTile)) {
-        pressedTile.unit = selectedTile.unit;
-        selectedTile.unit = null;
-
-        // below line: maybe we should have tiles have attributes for where they are in the array? just to make it easier for things like this
-        //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
-        println("Moved " + pressedTile.unit.unitType);
-        pressedTile.unit.canMove = false;
-      } 
-
-      //if new tile has a unit belonging to other player, and is within unit's attack range
-      else if (pressedTile.unit != null && selectedTile.unit.canAttack && pressedTile.unit.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
-        Unit attacker = selectedTile.unit;
-        Unit target = pressedTile.unit;
-
-        //damage target unit. if fallen, remove from board
-        if(target.damage(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0))) {
-          pressedTile.unit = null;
-          println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has fallen.");
-        } else {
-          println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
-        }
-        attacker.canMove = false;
-        attacker.canAttack = false;
-      }
-      
-            //if new tile has a unit belonging to other player, and is within unit's attack range
-      else if(pressedTile.unit == null && selectedTile.unit.canAttack && pressedTile.building != null && pressedTile.building.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
-        Unit attacker = selectedTile.unit;
-        Building target = pressedTile.building;
+      //Clicked Base make builders
+      if(pressedTile.building != null && pressedTile.building instanceof Base &&  pressedTile.building.owner == players[turn]){
+     
+        buildMode = false;
+  
         
-        //damage target unit. if fallen, remove from board
-        if(target.applyDamage(attacker.strength)) {
-          pressedTile.building = null;
-          attacker.canAttack = false;
+        for(Tile t : gameBoard.range(pressedTile,1)){
+          t.colour = t.highlight;
+        }
+        
+        availbleTiles = gameBoard.range(pressedTile,1);
+  
+        selectedBuilding = pressedTile.building;
+        println("Base selected");
+        
+      }
+  
+  
+  
+      //If clicked on builder
+      else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]){
+        availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
+        buildMode = true;
+      }
+  
+      //Building logic
+      else if(pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile)){
+        if(toBuildClass.equals("Barrack")){
+          if(players[turn].hasEnoughGold(barrackCost)){
+            players[turn].spendGold(barrackCost);
+            pressedTile.building = new Barrack(pressedTile.position, players[turn], pressedTile.size);
+            toBuildClass = "";
+            buildMode = false;
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+        else if(toBuildClass.equals("Library")){
+          if(players[turn].hasEnoughGold(libraryCost)){
+            players[turn].spendGold(libraryCost);
+            pressedTile.building = new Library(pressedTile.position, players[turn] , pressedTile.size);
+            toBuildClass = "";
+            buildMode = false;
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+        else if(toBuildClass.equals("Gold")){
+          if(players[turn].hasEnoughGold(goldMineCost)){
+            players[turn].spendGold(goldMineCost);
+            pressedTile.building = new GoldMine(pressedTile.position, players[turn], pressedTile.size);
+            toBuildClass = "";
+            buildMode = false;
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+        
+        else if(toBuildClass.equals("Wall")){
+          if(players[turn].hasEnoughGold(wallCost)){
+            players[turn].spendGold(wallCost);
+            pressedTile.building = new Wall(pressedTile.position, players[turn], pressedTile.size);
+            toBuildClass = "";
+            buildMode = false;
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }        
+        }
+      }
+  
+      
+      
+      
+      
+      //Clicked Barrack
+      else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn] && pressedTile.building.built){
+        
+        buildMode = false;
+  
+        for(Tile t : gameBoard.range(pressedTile,1)){
+          t.colour = t.highlight;
+        }
+  
+        availbleTiles = gameBoard.range(pressedTile, 1);
+  
+        selectedBuilding = pressedTile.building;
+        println("Barrack selected");
+      }
+      
+      //Clicked library for wizard spawning
+      else if(pressedTile.building != null && pressedTile.building instanceof Library &&  pressedTile.building.owner == players[turn]){
+  
+        buildMode = false;
+  
+        for(Tile t : gameBoard.range(pressedTile,1)){
+          t.colour = t.highlight;
+        }
+        
+        availbleTiles = gameBoard.range(pressedTile,1);
+  
+        selectedBuilding = pressedTile.building;
+        println("Library selected");
+      }
+      
+      //Clicked an empty tile to spawn a unit after clicking Barrack
+      else if (pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Barrack && !unitToSpawn.equals("")) {
+  
+        println("Spawn " + unitToSpawn);
+        if(unitToSpawn.equals("Swordsman")){
+          if(players[turn].hasEnoughGold(swordCost)){
+            players[turn].spendGold(swordCost);
+            pressedTile.unit = new Swordsman(selectedBuilding.owner);
+            selectedBuilding = null; //Reset selection
+            unitToSpawn = "";
+            availbleTiles = null;
+          }
+          infoBox i = (infoBox)UIElements.get("info");
+          i.active = false;
+        }
+        else if(unitToSpawn.equals("Archer")){
+          if(players[turn].hasEnoughGold(archerCost)){
+            players[turn].spendGold(archerCost);
+            pressedTile.unit = new Archer(selectedBuilding.owner);
+            selectedBuilding = null; //Reset selection
+            unitToSpawn = "";
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+        else if(unitToSpawn.equals("Builder")){
+          if(players[turn].hasEnoughGold(builderCost)){
+            players[turn].spendGold(builderCost);
+            pressedTile.unit = new Builder(selectedBuilding.owner);
+            selectedBuilding = null; //Reset selection
+            unitToSpawn = "";
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+        else if(unitToSpawn.equals("Cavalier")){
+          if(players[turn].hasEnoughGold(cavalierCost)){
+            players[turn].spendGold(cavalierCost);
+            pressedTile.unit = new Cavalier(selectedBuilding.owner);
+            selectedBuilding = null; //Reset selection
+            unitToSpawn = "";
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+        else if(unitToSpawn.equals("Giant")){
+          if(players[turn].hasEnoughGold(giantCost)){
+            players[turn].spendGold(giantCost);
+            pressedTile.unit = new Giant(selectedBuilding.owner);
+            selectedBuilding = null; //Reset selection
+            unitToSpawn = "";
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+      }
+      
+      else if(pressedTile.unit != null && pressedTile.unit.owner == players[turn]){
+        println("Clicked Unit");
+        Unit unit = pressedTile.unit;
+        
+        for(Tile t : gameBoard.range(pressedTile, unit.mov)){
+          t.colour = t.highlight;
+        }
+  
+      }
+      //spawn wizard from library
+      else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Library && !unitToSpawn.equals("")){
+        println("Spawn " + unitToSpawn);
+        if(unitToSpawn.equals("Wizard")){
+          if(players[turn].hasEnoughGold(wizardCost)){
+            players[turn].spendGold(wizardCost);
+            pressedTile.unit = new Wizard(selectedBuilding.owner);
+            selectedBuilding = null; //Reset selection
+            unitToSpawn = "";
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+      }
+      
+      else if(pressedTile.building == null && pressedTile.unit == null && availbleTiles != null && availbleTiles.contains(pressedTile) && selectedBuilding != null && selectedBuilding instanceof Base && !unitToSpawn.equals("")){
+        println("Spawn " + unitToSpawn);
+        if(unitToSpawn.equals("Builder")){
+          if(players[turn].hasEnoughGold(builderCost)){
+            players[turn].spendGold(builderCost);
+            pressedTile.unit = new Builder(selectedBuilding.owner);
+            selectedBuilding = null; //Reset selection
+            unitToSpawn = "";
+            availbleTiles = null;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.active = false;
+          }
+        }
+      }
+  
+      
+      if (pressedTile.unit != null) {
+        infoBox i = (infoBox)UIElements.get("info");
+        i.infoText = pressedTile.unit.makeInfoText();
+        i.active = true;
+      }
+  
+  
+      //if previously selected tile has unit belonging to current player
+      if (selectedTile != null && selectedTile.unit != null && selectedTile.unit.owner == players[turn]) {
+  
+        //if new tile has no buildings/units and is within that unit's mov range
+        if (pressedTile.unit == null && selectedTile.unit.canMove && pressedTile.building == null && gameBoard.range(selectedTile, selectedTile.unit.mov).contains(pressedTile)) {
+          pressedTile.unit = selectedTile.unit;
+          selectedTile.unit = null;
+  
+          // below line: maybe we should have tiles have attributes for where they are in the array? just to make it easier for things like this
+          //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
+          println("Moved " + pressedTile.unit.unitType);
+          pressedTile.unit.canMove = false;
+        } 
+  
+        //if new tile has a unit belonging to other player, and is within unit's attack range
+        else if (pressedTile.unit != null && selectedTile.unit.canAttack && pressedTile.unit.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+          Unit attacker = selectedTile.unit;
+          Unit target = pressedTile.unit;
+  
+          //damage target unit. if fallen, remove from board
+          if(target.damage(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0))) {
+            pressedTile.unit = null;
+            println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has fallen.");
+          } else {
+            println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
+          }
           attacker.canMove = false;
-          println(attacker.unitType + " attacked " + target.getClass().getName() + " has fallen.");
+          attacker.canAttack = false;
         }
-        else {
-          println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
+        
+              //if new tile has a unit belonging to other player, and is within unit's attack range
+        else if(pressedTile.unit == null && selectedTile.unit.canAttack && pressedTile.building != null && pressedTile.building.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
+          Unit attacker = selectedTile.unit;
+          Building target = pressedTile.building;
+          
+          //damage target unit. if fallen, remove from board
+          if(target.applyDamage(attacker.strength)) {
+            pressedTile.building = null;
+            attacker.canAttack = false;
+            attacker.canMove = false;
+            println(attacker.unitType + " attacked " + target.getClass().getName() + " has fallen.");
+          }
+          else {
+            println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
+          }
+          attacker.canMove = false;
+          attacker.canAttack = false;
         }
-        attacker.canMove = false;
-        attacker.canAttack = false;
+        
+        
       }
-      
-      
-    }
-
-
-    selectedTile = pressedTile;
-  } else {
-    //else inside ui elements
-    for (UIElement e : UIElements.values()) {
-      //check inside region
-      if (mouseX > e.x && mouseX < e.x + e.width && mouseY > e.y && mouseY < e.y + e.height) {
-        e.onClickAction();
-        break;
+  
+  
+      selectedTile = pressedTile;
+    } else {
+      //else inside ui elements
+      for (UIElement e : UIElements.values()) {
+        //check inside region
+        if (mouseX > e.x && mouseX < e.x + e.width && mouseY > e.y && mouseY < e.y + e.height) {
+          e.onClickAction();
+          break;
+        }
       }
     }
+  }
+  else if (mouseButton == RIGHT) {
+    pressedTile = null;
+    availbleTiles = null;
+    for (int i=0; i<gameBoard.grid.length; i++) {
+      for (int j=0; j<gameBoard.grid[i].length; j++) {
+        gameBoard.grid[i][j].colour = gameBoard.grid[i][j].defaultColour; 
+      }
+    }
+    selectedTile = null;
+    selectedBuilding = null;
+    toBuildClass = "";
+    unitToSpawn = "";
   }
 }
 
