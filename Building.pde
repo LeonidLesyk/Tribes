@@ -58,7 +58,7 @@ class Building {
 class Base extends Building {
 
   Base(PVector position, Player owner, int size) {
-    super(position, 50, owner, size, 0);
+    super(position, 20, owner, size, 0);
   }
 
 
@@ -114,7 +114,7 @@ class Base extends Building {
 class Barrack extends Building {
   // Constructor
   Barrack(PVector position, Player owner, int size) {
-    super(position, 20, owner, size, 3);
+    super(position, 15, owner, size, 3);
   }
 
   void turnEndAction() {
@@ -173,7 +173,7 @@ class Barrack extends Building {
 class Library extends Building {
 
   Library(PVector position, Player owner, int size) {
-    super(position, 20, owner, size, 3);
+    super(position, 10, owner, size, 3);
   }
 
 
@@ -238,7 +238,7 @@ class Library extends Building {
 class GoldMine extends Building {
 
   GoldMine(PVector position, Player owner, int size) {
-    super(position, 10, owner, size, 1);
+    super(position, 10, owner, size, 3);
   }
 
 
@@ -303,7 +303,7 @@ class GoldMine extends Building {
 class Wall extends Building {
   // Constructor
   Wall(PVector position, Player owner, int size) {
-    super(position, 30, owner, size, 1);
+    super(position, 20, owner, size, 1);
   }
   
   void turnEndAction() {
