@@ -32,14 +32,14 @@ static Player player1;
 static Player player2;
 
 final int barrackCost  = 10;
-final int libraryCost  = 10;
+final int libraryCost  = 15;
 final int wallCost     = 10;
 final int goldMineCost = 10;
 
 final int swordCost = 10;
 final int archerCost = 15;
 final int builderCost = 5;
-final int wizardCost = 15;
+final int wizardCost = 20;
 final int giantCost = 30;
 final int cavalierCost = 20;
 
