@@ -442,9 +442,12 @@ void mouseReleased() {
           }
           attacker.canMove = false;
           attacker.canAttack = false;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.infoText = target.makeInfoText();
+          i.active = true;
         }
         
-              //if new tile has a unit belonging to other player, and is within unit's attack range
+        //if new tile has a building belonging to other player, and is within unit's attack range
         else if(pressedTile.unit == null && selectedTile.unit.canAttack && pressedTile.building != null && pressedTile.building.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
           Unit attacker = selectedTile.unit;
           Building target = pressedTile.building;
