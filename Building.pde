@@ -257,7 +257,7 @@ class GoldMine extends Building {
       }
     }
     else{
-      owner.gainGold(1);
+      owner.gainGold(1 + (players[turn].dwarvesLevel>3?1:0));
     }
   }
 

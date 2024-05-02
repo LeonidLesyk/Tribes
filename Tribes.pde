@@ -134,7 +134,7 @@ void setup() {
   UIElement wallBuy = new wallBuyButton(tileZoneLeft*3/6,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("wallBuy",wallBuy);
   
-  researchCap = 4;
+  researchCap = 5;
   String[] tribesmenResearchDescriptions = new String[researchCap];
   String[] dwarvesResearchDescriptions = new String[researchCap];
   String[] sorcerersResearchDescriptions = new String[researchCap];
@@ -146,29 +146,37 @@ void setup() {
   tribesmenResearchDescriptions[1] = "You can now train Cavaliers from barracks(implemented)";
   tribesmenResearchDescriptions[2] = "All of your units now have +1 bonus ATK(implemented)";
   tribesmenResearchDescriptions[3] = "You can now train Giants from barracks(implemented)";
+  tribesmenResearchDescriptions[4] = "all of your units now have +1 movement(unimplemented)";
   
   dwarvesResearchDescriptions[0] = "Your buildings now build one turn faster(implemented)";
   dwarvesResearchDescriptions[1] = "Your builders can now build Walls to stop the enemy(implemented)";
   dwarvesResearchDescriptions[2] = "Your buildings now have additional hp(implemented)";
-  dwarvesResearchDescriptions[3] = "You now gain +1 extra gold from mines(unimplemented)";
+  dwarvesResearchDescriptions[3] = "You now gain +1 extra gold from mines(implemented)";
+  dwarvesResearchDescriptions[4] = "You can now train trebuchets from barracks(unimplemented)";
   
   sorcerersResearchDescriptions[0] = "Your builders can now build libraries(implemented)";
   sorcerersResearchDescriptions[1] = "You can now train Wizards from your libraries(implemented)";
   sorcerersResearchDescriptions[2] = "All your units now have bonus HP(unimplemented)";
-  sorcerersResearchDescriptions[3] = "You can now train Healers from your libraries(unimplemented)";
+  sorcerersResearchDescriptions[3] = "You can now train dragons from your libraries(unimplemented)";
+  sorcerersResearchDescriptions[4] = "Mastery of the Arcane! wizards now have +1 atk range(unimplemented)";
   
   tribesmenResearchCosts[0] = 5;
   tribesmenResearchCosts[1] = 7;
   tribesmenResearchCosts[2] = 9;
   tribesmenResearchCosts[3] = 11;
+  tribesmenResearchCosts[4] = 13;
+  
   dwarvesResearchCosts[0] = 5;
   dwarvesResearchCosts[1] = 7;
   dwarvesResearchCosts[2] = 9;
   dwarvesResearchCosts[3] = 11;
+  dwarvesResearchCosts[4] = 13;
+  
   sorcerersResearchCosts[0] = 5;
   sorcerersResearchCosts[1] = 7;
   sorcerersResearchCosts[2] = 9;
   sorcerersResearchCosts[3] = 11;
+  sorcerersResearchCosts[4] = 13;
   
   for(int i = 0; i<researchCap; i++){
     UIElement t = new researchBuyBox(tileZoneRight,screen_height*9/10 - screen_height*(i+1)/12,screen_height/12,screen_height/12,tribesmenResearchDescriptions[i],tribesmenResearchCosts[i],i+1,"t");

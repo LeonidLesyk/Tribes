@@ -719,3 +719,6 @@ void upgradeAllOwnedBuildings(Player p){
     
   }
 }
+
+void upgradeAllUnitsSpeed(Player p){
+}
