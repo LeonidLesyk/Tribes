@@ -559,6 +559,84 @@ class wizardBuyButton extends UIElement{
   }
 }
 
+class trebuchetBuyButton extends UIElement{
+  boolean active;
+  trebuchetBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    println("clicked");
+    if(this.active){
+      unitToSpawn = "Trebuchet";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Trebuchet is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Barrack && players[turn].dwarvesLevel >= 5){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Trebuchet"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(textSizeBig);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Tr",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
+class dragonBuyButton extends UIElement{
+  boolean active;
+  dragonBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    println("clicked");
+    if(this.active){
+      unitToSpawn = "Dragon";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Dragon is a terrifying beast that can hit multiple units in a blast area watch out that your own units are not burnt to a crisp!\n\nCost: " + str(dragonCost) + " Gold";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Library && players[turn].dwarvesLevel >= 5){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Dragon"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(textSizeBig);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Dr",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
 
 class mineBuyButton extends UIElement{
   boolean active;

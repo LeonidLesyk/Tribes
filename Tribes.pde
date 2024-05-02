@@ -126,6 +126,10 @@ void setup() {
   UIElements.put("giBuy",giBuy);
   UIElement  wzBuy = new wizardBuyButton(tileZoneLeft*5/6,screen_height/10,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("wzBuy",wzBuy);
+  UIElement  trBuy = new trebuchetBuyButton(0,screen_height/10 + tileZoneLeft/6,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("trBuy",trBuy);
+  UIElement  drBuy = new dragonBuyButton(tileZoneLeft/6,screen_height/10 + tileZoneLeft/6,tileZoneLeft/6,tileZoneLeft/6);
+  UIElements.put("drBuy",drBuy);
   
   //bulding buy UIElements
   UIElement mineBuy = new mineBuyButton(0,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
@@ -368,11 +372,14 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(giantCost)){
             players[turn].spendGold(giantCost);
             pressedTile.unit = new Giant(selectedBuilding.owner);
-            selectedBuilding = null; //Reset selection
-            unitToSpawn = "";
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetSelection();
+          }
+        }
+        else if(unitToSpawn.equals("Trebuchet")){
+          if(players[turn].hasEnoughGold(trebuchetCost)){
+            players[turn].spendGold(trebuchetCost);
+            pressedTile.unit = new Trebuchet(selectedBuilding.owner);
+            resetSelection();
           }
         }
       }
@@ -405,6 +412,14 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(wizardCost)){
             players[turn].spendGold(wizardCost);
             pressedTile.unit = new Wizard(selectedBuilding.owner);
+            resetSelection();
+          }
+        }
+        if(unitToSpawn.equals("Dragon")){
+          if(players[turn].hasEnoughGold(dragonCost)){
+            println("enough gold spawning dragon");
+            players[turn].spendGold(dragonCost);
+            pressedTile.unit = new Dragon(selectedBuilding.owner);
             resetSelection();
           }
         }
@@ -448,6 +463,9 @@ void mouseReleased() {
           //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
           println("Moved " + pressedTile.unit.unitType);
           pressedTile.unit.canMove = false;
+          if(pressedTile.unit instanceof Trebuchet){
+            pressedTile.unit.canAttack = false;
+          }
         } 
   
         //if new tile has a unit belonging to other player, and is within unit's attack range
@@ -462,6 +480,13 @@ void mouseReleased() {
           } else {
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
           }
+          //dragon splash implementation
+          if(attacker instanceof Dragon){
+            pressedTile.up.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            pressedTile.down.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            pressedTile.left.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            pressedTile.right.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+          }
           attacker.canMove = false;
           attacker.canAttack = false;
           infoBox i = (infoBox)UIElements.get("info");
@@ -475,7 +500,7 @@ void mouseReleased() {
           Building target = pressedTile.building;
           
           //damage target unit. if fallen, remove from board
-          if(target.applyDamage(attacker.strength)) {
+          if(target.applyDamage(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0))) {
             pressedTile.building = null;
             attacker.canAttack = false;
             attacker.canMove = false;
@@ -483,6 +508,13 @@ void mouseReleased() {
           }
           else {
             println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
+          }
+          //dragon splash implementation
+          if(attacker instanceof Dragon){
+            pressedTile.up.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            pressedTile.down.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            pressedTile.left.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            pressedTile.right.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
           }
           attacker.canMove = false;
           attacker.canAttack = false;

@@ -44,7 +44,18 @@ final class Tile{
         this.unit.display(position.x, position.y, this.size);
     }
   }
-  
+  void hit(int dmg){
+    if(this.unit!=null){
+      if(this.unit.damage(dmg)){
+        this.unit = null;
+      }
+    }else if(this.building!=null){
+      if(this.building.applyDamage(dmg)){
+        this.building = null;
+      }
+        
+    }
+  }
   
 }
 
