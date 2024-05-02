@@ -468,9 +468,22 @@ void mouseReleased() {
         else if (pressedTile.unit != null && selectedTile.unit.canAttack && pressedTile.unit.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
           Unit attacker = selectedTile.unit;
           Unit target = pressedTile.unit;
-  
+    
+          int damageToApply = attacker.strength;
+          //reduced damage if target unt is in torest
+          if(selectedTile.terrain instanceof Forest){
+            damageToApply *= 0.8;
+          }
+          
+          // Damage is boosted if tribesmen level is greater than 2
+          if (players[turn].tribesmenLevel > 2) {
+              damageToApply += 1;
+          }
+                
+          println("Damage to apply: " + damageToApply);
+
           //damage target unit. if fallen, remove from board
-          if(target.damage(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0))) {
+          if(target.damage(damageToApply)) {
             pressedTile.unit = null;
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has fallen.");
           } else {
@@ -480,13 +493,16 @@ void mouseReleased() {
           attacker.canAttack = false;
         }
         
-              //if new tile has a unit belonging to other player, and is within unit's attack range
+        //if new tile has a building belonging to other player, and is within unit's attack range
         else if(pressedTile.unit == null && selectedTile.unit.canAttack && pressedTile.building != null && pressedTile.building.owner != players[turn] && gameBoard.range(selectedTile, selectedTile.unit.atkRange).contains(pressedTile)) {
           Unit attacker = selectedTile.unit;
           Building target = pressedTile.building;
+
+          int damageToApply = attacker.strength;
+          println("Damage to apply: " + damageToApply);
           
           //damage target unit. if fallen, remove from board
-          if(target.applyDamage(attacker.strength)) {
+          if(target.applyDamage(damageToApply)) {
             pressedTile.building = null;
             attacker.canAttack = false;
             attacker.canMove = false;
