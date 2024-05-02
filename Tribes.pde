@@ -43,10 +43,10 @@ final int wizardCost = 15;
 final int giantCost = 25;
 final int cavalierCost = 20;
 
-final int barracksBuildTime = 3;
-final int mineBuildTime = 3;
-final int libraryBuildTime = 3;
-final int wallBuildTime = 1;
+int barracksBuildTime = 3;
+int mineBuildTime = 3;
+int libraryBuildTime = 3;
+int wallBuildTime = 1;
 
 
 void settings(){

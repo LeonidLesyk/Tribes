@@ -125,7 +125,7 @@ class Barrack extends Building {
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == barracksBuildTime){
+      if (currentBuildTurn >= barracksBuildTime){
         built = true;
       }
     }
@@ -185,7 +185,7 @@ class Library extends Building {
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == libraryBuildTime){
+      if (currentBuildTurn >= libraryBuildTime){
         built = true;
       }
     }
@@ -250,7 +250,7 @@ class GoldMine extends Building {
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == mineBuildTime){
+      if (currentBuildTurn >= mineBuildTime){
         built = true;
       }
     }
@@ -314,7 +314,7 @@ class Wall extends Building {
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == wallBuildTime){
+      if (currentBuildTurn >= wallBuildTime){
         built = true;
       }
     }
