@@ -210,7 +210,7 @@ void mouseReleased() {
       
       //clear highlight on previous tile
       if (selectedTile != null) {
-        for (Tile t : gameBoard.range(selectedTile, 2)) {
+        for (Tile t : gameBoard.range(selectedTile, 4)) {
           t.colour = t.defaultColour;
         }
         selectedTile.colour = selectedTile.defaultColour;
@@ -398,10 +398,23 @@ void mouseReleased() {
       else if(pressedTile.unit != null && pressedTile.unit.owner == players[turn]){
         println("Clicked Unit");
         Unit unit = pressedTile.unit;
-        
-        for(Tile t : gameBoard.range(pressedTile, unit.mov)){
-          t.colour = t.highlight;
+        if(unit.canAttack){
+          for(Tile t : gameBoard.range(pressedTile, unit.atkRange)){
+            t.colour = t.atkHighlight;
+          }
+          if(unit.canMove){
+            for(Tile t : gameBoard.range(pressedTile, unit.mov)){
+              if(t.unit!=null && t.unit.owner!=players[turn]){
+              }else{
+                t.colour = t.highlight;
+              }
+              
+            }
+          }
+          
         }
+        
+        
   
       }
       //spawn wizard from library
@@ -521,8 +534,7 @@ void mouseReleased() {
     toBuildClass = "";
     unitToSpawn = "";
     buildMode = false;
-    infoBox i = (infoBox)UIElements.get("info");
-    i.active = false;
+    clearBuyArea();
     
   }
 }
