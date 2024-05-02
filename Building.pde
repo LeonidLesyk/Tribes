@@ -9,10 +9,11 @@ class Building {
   int completeBuildTurns;
   int currentBuildTurn;
   boolean built;
+  String name;
 
 
   // Constructor
-  Building(PVector position, int health, Player owner, int size, int completeBuildTurns) {
+  Building(PVector position, int health, Player owner, int size, int completeBuildTurns, String name) {
     this.position = position;
     this.maxHealth = this.health = health;
     this.owner = owner;
@@ -20,6 +21,7 @@ class Building {
     this.size =  size;
     this.completeBuildTurns = completeBuildTurns;
     this.built = false;
+    this.name = name;
   }
 
   //Damage to building
@@ -46,8 +48,8 @@ class Building {
   }
 
   String makeInfoText() {
-    
-    String info = "HP = " + health + "/" + maxHealth + "\n";
+    String info = name + "\n";
+    info += "HP = " + health + "/" + maxHealth + "\n";
     
     return info;
   }
@@ -63,7 +65,7 @@ class Building {
 class Base extends Building {
 
   Base(PVector position, Player owner, int size) {
-    super(position, 20, owner, size, 0);
+    super(position, 20, owner, size, 0,"Base");
   }
 
 
@@ -119,7 +121,7 @@ class Base extends Building {
 class Barrack extends Building {
   // Constructor
   Barrack(PVector position, Player owner, int size) {
-    super(position, 15, owner, size, barracksBuildTime);
+    super(position, 15, owner, size, barracksBuildTime,"Barracks");
   }
 
   void turnEndAction() {
@@ -178,7 +180,7 @@ class Barrack extends Building {
 class Library extends Building {
 
   Library(PVector position, Player owner, int size) {
-    super(position, 10, owner, size, libraryBuildTime);
+    super(position, 10, owner, size, libraryBuildTime,"Library");
   }
 
 
@@ -243,7 +245,7 @@ class Library extends Building {
 class GoldMine extends Building {
 
   GoldMine(PVector position, Player owner, int size) {
-    super(position, 10, owner, size, mineBuildTime);
+    super(position, 10, owner, size, mineBuildTime,"Gold Mine");
   }
 
 
@@ -308,7 +310,7 @@ class GoldMine extends Building {
 class Wall extends Building {
   // Constructor
   Wall(PVector position, Player owner, int size) {
-    super(position, 20, owner, size, wallBuildTime);
+    super(position, 20, owner, size, wallBuildTime,"Wall");
   }
   
   void turnEndAction() {

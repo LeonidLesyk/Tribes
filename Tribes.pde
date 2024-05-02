@@ -409,11 +409,17 @@ void mouseReleased() {
           }
         }
       }
-  
+      
       
       if (pressedTile.unit != null) {
         infoBox i = (infoBox)UIElements.get("info");
         i.infoText = pressedTile.unit.makeInfoText();
+        i.active = true;
+      }
+      
+      if (pressedTile.building != null) {
+        infoBox i = (infoBox)UIElements.get("info");
+        i.infoText = pressedTile.building.makeInfoText();
         i.active = true;
       }
   
