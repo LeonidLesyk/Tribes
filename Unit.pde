@@ -142,7 +142,7 @@ class Swordsman extends Unit {
     maxhp = HP; 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1; //swordsmen should be melee only
     
     sprite = loadSprite();
@@ -162,7 +162,7 @@ class Archer extends Unit {
     maxhp = HP; 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
     
     sprite = loadSprite();
@@ -182,7 +182,7 @@ class Builder extends Unit {
     maxhp = HP; 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
     
     sprite = loadSprite();
@@ -202,7 +202,7 @@ class Cavalier extends Unit {
     maxhp = HP; 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
     
     sprite = loadSprite();
@@ -222,7 +222,7 @@ class Giant extends Unit {
     maxhp = HP; 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV; //giant will not have move bonus
     atkRange = 1;
     
     sprite = loadSprite();
@@ -243,7 +243,7 @@ class Wizard extends Unit {
     maxhp = HP; 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2;
     
     sprite = loadSprite();

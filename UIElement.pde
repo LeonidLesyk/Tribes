@@ -195,6 +195,10 @@ class researchBuyButton extends UIElement{
         if(level == players[turn].tribesmenLevel+1){
           players[turn].spendResearch(cost);
           players[turn].tribesmenLevel = level;
+          if(level == 5){
+            println("speed");
+            upgradeAllUnitsSpeed(players[turn]);
+          }
         }
         break;
         case "d":
@@ -202,7 +206,6 @@ class researchBuyButton extends UIElement{
           players[turn].spendResearch(cost);
           players[turn].dwarvesLevel = level;
           if(level == 3){
-            println("upgraded building health");
             upgradeAllOwnedBuildings(players[turn]);
             
           }
@@ -212,6 +215,8 @@ class researchBuyButton extends UIElement{
         if(level == players[turn].sorcerersLevel+1){
           players[turn].spendResearch(cost);
           players[turn].sorcerersLevel = level;
+          println(level);
+          
         }
         break;
     }
@@ -721,4 +726,13 @@ void upgradeAllOwnedBuildings(Player p){
 }
 
 void upgradeAllUnitsSpeed(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit!=null && t.unit.owner.equals(p)){
+        t.unit.mov+=1;
+        
+      }
+    }
+    
+  }
 }
