@@ -333,7 +333,7 @@ class builderBuyButton extends UIElement{
       unitToSpawn = "Builder";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Builder will allow you to build buildings...";
+      i.infoText = "The Builder will Allow you to Build Buildings\n\nCost: " + str(builderCost) + " Gold";
       i.active = true;
     }
     
@@ -371,7 +371,7 @@ class swordsmanBuyButton extends UIElement{
       unitToSpawn = "Swordsman";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The swordsman is a powerful basic melee unit...";
+      i.infoText = "The swordsman is a powerful basic melee unit\n\nCost: " + str(swordCost) + " Gold";
       i.active = true;
     }
     
@@ -409,7 +409,7 @@ class archerBuyButton extends UIElement{
       unitToSpawn = "Archer";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Archer is a ranged unit...";
+      i.infoText = "The Archer is a ranged unit\n\nCost: " + str(archerCost) + " Gold";
       i.active = true;
     }
     
@@ -446,7 +446,7 @@ class cavalierBuyButton extends UIElement{
       unitToSpawn = "Cavalier";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Cavalier is a mobile and strong unit`...";
+      i.infoText = "The Cavalier is a mobile and strong unit\n\nCost: " + str(cavalierCost) + " Gold";
       i.active = true;
     }
     
@@ -484,7 +484,7 @@ class giantBuyButton extends UIElement{
       unitToSpawn = "Giant";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Giant is a high HP high ATK but slow unit...";
+      i.infoText = "The Giant is a high HP high ATK but slow unit\n\nCost: " + str(giantCost) + " Gold";
       i.active = true;
     }
     
@@ -523,7 +523,7 @@ class wizardBuyButton extends UIElement{
       unitToSpawn = "Wizard";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Wizard is a high ATK Unit with a large range but low hp...";
+      i.infoText = "The Wizard is a high ATK Unit with a large range but low hp\n\nCost: " + str(wizardCost) + " Gold";
       i.active = true;
     }
     
@@ -562,7 +562,7 @@ class mineBuyButton extends UIElement{
       toBuildClass = "Gold";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The mine will give you x gold per turn";
+      i.infoText = "The mine will give you 1 gold per turn\n\nCost: " + str(goldMineCost) + " Gold";
       i.active = true;
     }
     
@@ -603,7 +603,7 @@ class wallBuyButton extends UIElement{
       toBuildClass = "Wall";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "Walls ought to stop enemy units in their tracks!";
+      i.infoText = "Walls ought to stop enemy units in their tracks!\n\nCost: " + str(wallCost) + " Gold";
       i.active = true;
     }
     
@@ -641,7 +641,7 @@ class barracksBuyButton extends UIElement{
       toBuildClass = "Barrack";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "Barracks allow you to train units";
+      i.infoText = "Barracks allow you to train units\n\nCost: " + str(barrackCost) + " Gold";
       i.active = true;
     }
   }
@@ -676,7 +676,7 @@ class libraryBuyButton extends UIElement{
       toBuildClass = "Library";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Library gives you one Research point per turn";
+      i.infoText = "The Library gives you one Research point per turn\n\nCost: " + str(libraryCost) + " Gold";
       i.active = true;
     }
   }
