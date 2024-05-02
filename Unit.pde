@@ -43,6 +43,7 @@ class Unit {
     if(sprite != null) {
       image(sprite, centerX, centerY, tileSize, tileSize);
       hpBarY = y + size / 2 + hpBarHeight * 2;
+      
     }
     else {
       size = size * 3 / 4; 
@@ -59,6 +60,22 @@ class Unit {
       hpBarY = y - size / 2 - hpBarHeight * 2;
     }
     
+    float actionBarY = hpBarY + hpBarHeight;
+    
+    //action Bar background
+    fill(50); // Dark gray background
+    rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
+    rect(hpBarX + hpBarWidth/2, actionBarY, hpBarWidth/2, hpBarHeight);
+    
+    
+    if(canMove){
+      fill(255); // Dark gray background
+      rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
+      rect(hpBarX + hpBarWidth/2, actionBarY, hpBarWidth/2, hpBarHeight);
+    }else if(canAttack){
+      fill(255); // Dark gray background
+      rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
+    }
     
     //HP Bar Background
     fill(50); // Dark gray background
