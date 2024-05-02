@@ -94,7 +94,7 @@ final class Board{
   Set<Tile> rangeRecurse(Tile start, int distance){
     Set<Tile> locations = new HashSet<Tile>(); 
     //base case
-    if(start == null || distance < 0){
+    if(start == null || distance < 0 || start.unit!=null||start.building!=null){
       //return empty list
       return new HashSet<Tile>();
     }
