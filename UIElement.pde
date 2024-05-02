@@ -618,7 +618,7 @@ class dragonBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(selectedBuilding instanceof Library && players[turn].dwarvesLevel >= 5){
+    if(selectedBuilding instanceof Library && players[turn].sorcerersLevel >= 4){
       this.active = true;
       fill(255);
       if(unitToSpawn == "Dragon"){

@@ -159,12 +159,12 @@ void setup() {
   dwarvesResearchDescriptions[1] = "Your builders can now build Walls to stop the enemy(implemented)";
   dwarvesResearchDescriptions[2] = "Your buildings now have" + dwarvesBonusHP + "additional hp(implemented)";
   dwarvesResearchDescriptions[3] = "You now gain +1 extra gold from mines(implemented)";
-  dwarvesResearchDescriptions[4] = "You can now train trebuchets from barracks(unimplemented)";
+  dwarvesResearchDescriptions[4] = "You can now train trebuchets from barracks(implemented)";
   
   sorcerersResearchDescriptions[0] = "Your builders can now build libraries(implemented)";
   sorcerersResearchDescriptions[1] = "You can now train Wizards from your libraries(implemented)";
   sorcerersResearchDescriptions[2] = "All your units now have bonus HP(unimplemented)";
-  sorcerersResearchDescriptions[3] = "You can now train dragons from your libraries(unimplemented)";
+  sorcerersResearchDescriptions[3] = "You can now train dragons from your libraries(implemented)";
   sorcerersResearchDescriptions[4] = "Mastery of the Arcane! wizards now have +2 atk (unimplemented)";
   
   tribesmenResearchCosts[0] = 5;
