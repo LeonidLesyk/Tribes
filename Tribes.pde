@@ -48,6 +48,7 @@ int mineBuildTime = 3;
 int libraryBuildTime = 3;
 int wallBuildTime = 1;
 
+final int dwarvesBonusHP = 5;
 
 void settings(){
   pixelDensity(displayDensity());
@@ -146,9 +147,9 @@ void setup() {
   tribesmenResearchDescriptions[2] = "All of your units now have +1 bonus ATK(implemented)";
   tribesmenResearchDescriptions[3] = "You can now train Giants from barracks(implemented)";
   
-  dwarvesResearchDescriptions[0] = "Your buildings now build one turn faster(unimplemented)";
+  dwarvesResearchDescriptions[0] = "Your buildings now build one turn faster(implemented)";
   dwarvesResearchDescriptions[1] = "Your builders can now build Walls to stop the enemy(implemented)";
-  dwarvesResearchDescriptions[2] = "Your buildings now have additional hp(unimplemented)";
+  dwarvesResearchDescriptions[2] = "Your buildings now have additional hp(implemented)";
   dwarvesResearchDescriptions[3] = "You now gain +1 extra gold from mines(unimplemented)";
   
   sorcerersResearchDescriptions[0] = "Your builders can now build libraries(implemented)";

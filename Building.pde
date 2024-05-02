@@ -15,7 +15,8 @@ class Building {
   // Constructor
   Building(PVector position, int health, Player owner, int size,String name) {
     this.position = position;
-    this.maxHealth = this.health = health;
+    this.maxHealth = health;
+    this.health = health;
     this.owner = owner;
     this.destroyed = false;
     this.size =  size;
@@ -120,7 +121,7 @@ class Base extends Building {
 class Barrack extends Building {
   // Constructor
   Barrack(PVector position, Player owner, int size) {
-    super(position, 15, owner, size,"Barracks");
+    super(position, 15 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Barracks");
   }
 
   void turnEndAction() {
@@ -179,7 +180,7 @@ class Barrack extends Building {
 class Library extends Building {
 
   Library(PVector position, Player owner, int size) {
-    super(position, 10, owner, size,"Library");
+    super(position, 10 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Library");
   }
 
 
@@ -244,7 +245,7 @@ class Library extends Building {
 class GoldMine extends Building {
 
   GoldMine(PVector position, Player owner, int size) {
-    super(position, 10, owner, size,"Gold Mine");
+    super(position, 10 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Gold Mine");
   }
 
 
@@ -309,7 +310,7 @@ class GoldMine extends Building {
 class Wall extends Building {
   // Constructor
   Wall(PVector position, Player owner, int size) {
-    super(position, 20, owner, size,"Wall");
+    super(position, 20 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Wall");
   }
   
   void turnEndAction() {

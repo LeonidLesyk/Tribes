@@ -201,6 +201,11 @@ class researchBuyButton extends UIElement{
         if(level == players[turn].dwarvesLevel+1){
           players[turn].spendResearch(cost);
           players[turn].dwarvesLevel = level;
+          if(level == 3){
+            println("upgraded building health");
+            upgradeAllOwnedBuildings(players[turn]);
+            
+          }
         }
         break;
         case "s":
@@ -702,4 +707,15 @@ class libraryBuyButton extends UIElement{
       this.active = false;
     }
    }
+}
+void upgradeAllOwnedBuildings(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.building!=null && t.building.owner.equals(p)){
+        t.building.maxHealth+=dwarvesBonusHP;
+        t.building.health +=dwarvesBonusHP;
+      }
+    }
+    
+  }
 }
