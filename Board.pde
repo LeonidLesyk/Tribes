@@ -2,6 +2,7 @@ import java.util.*;
 final class Tile{
   final color defaultColour = #69d242;
   final color highlight = #6181d2;
+  final color atkHighlight = #EE4B2B;
   PVector position;
   int size;
   Tile up;
@@ -94,9 +95,12 @@ final class Board{
   Set<Tile> rangeRecurse(Tile start, int distance){
     Set<Tile> locations = new HashSet<Tile>(); 
     //base case
-    if(start == null || distance < 0 || start.unit!=null||start.building!=null){
+    if(start == null || distance < 0){
       //return empty list
-      return new HashSet<Tile>();
+      return locations;
+    }else if( (start.unit!=null && start.unit.owner!=players[turn])||(start.building!=null && start.building.owner!=players[turn])){
+      locations.add(start);
+      return locations;
     }
     locations.add(start);
     locations.addAll(rangeRecurse(start.left,distance-1));
