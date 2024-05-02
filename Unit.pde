@@ -249,3 +249,45 @@ class Wizard extends Unit {
     sprite = loadSprite();
   }
 }
+
+class Trebuchet extends Unit {
+  private final int HP = 2; 
+  private final int STRENGTH = 1;
+  private final int MOV = 1;
+  
+  
+  Trebuchet(Player owner) {
+    super(owner);
+    
+    unitType = "Trebuchet";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
+    atkRange = 4;
+    
+    sprite = loadSprite();
+  }
+}
+
+class Dragon extends Unit {
+  private final int HP = 8; 
+  private final int STRENGTH = 2;
+  private final int MOV = 1;
+  
+  
+  Dragon(Player owner) {
+    super(owner);
+    
+    unitType = "Dragon";
+    
+    maxhp = HP; 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
+    atkRange = 2;
+    
+    sprite = loadSprite();
+  }
+}

@@ -42,6 +42,8 @@ final int builderCost = 5;
 final int wizardCost = 15;
 final int giantCost = 25;
 final int cavalierCost = 20;
+final int trebuchetCost = 20;
+final int dragonCost = 25;
 
 int barracksBuildTime = 3;
 int mineBuildTime = 3;
@@ -159,7 +161,7 @@ void setup() {
   sorcerersResearchDescriptions[1] = "You can now train Wizards from your libraries(implemented)";
   sorcerersResearchDescriptions[2] = "All your units now have bonus HP(unimplemented)";
   sorcerersResearchDescriptions[3] = "You can now train dragons from your libraries(unimplemented)";
-  sorcerersResearchDescriptions[4] = "Mastery of the Arcane! wizards now have +1 atk range(unimplemented)";
+  sorcerersResearchDescriptions[4] = "Mastery of the Arcane! wizards now have +2 atk (unimplemented)";
   
   tribesmenResearchCosts[0] = 5;
   tribesmenResearchCosts[1] = 7;
