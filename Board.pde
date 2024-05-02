@@ -1,7 +1,7 @@
 import java.util.*;
 final class Tile{
   final color defaultColour = #69d242;
-  final color highlight = #6181d2;
+  final color highlight = #6181d2;  
   PVector position;
   int size;
   Tile up;
@@ -11,6 +11,7 @@ final class Tile{
   int colour;
   Building building;
   Unit unit;
+  Terrain terrain;
   
   Tile(int size, PVector position, Tile up, Tile down, Tile left, Tile right){
     this.position = position;
@@ -22,17 +23,40 @@ final class Tile{
     this.colour = defaultColour;
     this.building = null;
     this.unit = null;
-
+    this.terrain = null;
   }
   
   void draw(){    
-    fill(colour);
-    stroke(128);
-    square(position.x,position.y,size);
-    fill(0);
-    textSize(10);
-    textAlign(LEFT);
-    text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
+
+    if(this.terrain instanceof Mountain){
+      fill(#8B97A6);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textSize(10);
+      textAlign(LEFT);
+      text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
+    }
+    else if(this.terrain instanceof Forest){
+      fill(#064A00);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textSize(10);
+      textAlign(LEFT);
+      text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
+    }
+    else{
+      fill(colour);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textSize(10);
+      textAlign(LEFT);      
+      text(str(int(position.x)) + "," +  str(int(position.y)) ,position.x,position.y+20);
+    }
+    
+    
     
     if (this.building != null && !this.building.destroyed) {
         this.building.display();
@@ -50,6 +74,7 @@ final class Tile{
 }
 
 final class Board{
+  Random random = new Random();
   
   Tile[][] grid;
   int size;
@@ -79,6 +104,38 @@ final class Board{
         up = grid[x][y];   
       }
     }
+    
+    grid[4][4].terrain = new Mountain();
+    grid[4][5].terrain = new Mountain();
+    grid[5][4].terrain = new Mountain();
+    grid[5][5].terrain = new Mountain();
+    
+    Tile selectedTile;
+    
+    //Initiate Mountains
+    for(int i=0; i<6; i++){
+     selectedTile = grid[random.nextInt(size)][random.nextInt(size)];
+     if (selectedTile.terrain == null){
+       selectedTile.terrain = new Mountain();
+     }
+     else{
+       i--;
+     }
+    }
+    for(int i=0; i<8; i++){
+     selectedTile = grid[random.nextInt(size)][random.nextInt(size)];
+     if (selectedTile.terrain == null){
+       selectedTile.terrain = new Forest();
+     }
+     else{
+       i--;
+     }
+    }
+    
+    
+    
+    
+    
   }
   
   

@@ -151,7 +151,7 @@ class Archer extends Unit {
 class Builder extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 1;
-  private final int MOV = 1;
+  private final int MOV = 1; 
   
   Builder(Player owner) {
     super(owner);
