@@ -247,8 +247,15 @@ void mouseReleased() {
   
       //If clicked on builder
       else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]){
+        unitToSpawn = "";
+        selectedBuilding = null;
         availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
         buildMode = true;
+        
+        for(Tile t : gameBoard.range(pressedTile, 1)){
+          t.colour = t.highlight;
+        }
+        
       }
   
       //Building logic
