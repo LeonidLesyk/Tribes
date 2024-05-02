@@ -563,6 +563,7 @@ class mineBuyButton extends UIElement{
       infoBox i = (infoBox)UIElements.get("info");
       
       i.infoText = "The mine will give you 1 gold per turn\n\nCost: " + str(goldMineCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(mineBuildTime) + " Turns";
       i.active = true;
     }
     
@@ -604,6 +605,7 @@ class wallBuyButton extends UIElement{
       infoBox i = (infoBox)UIElements.get("info");
       
       i.infoText = "Walls ought to stop enemy units in their tracks!\n\nCost: " + str(wallCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(wallBuildTime) + " Turns";
       i.active = true;
     }
     
@@ -642,6 +644,7 @@ class barracksBuyButton extends UIElement{
       infoBox i = (infoBox)UIElements.get("info");
       
       i.infoText = "Barracks allow you to train units\n\nCost: " + str(barrackCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(barracksBuildTime) + " Turns";
       i.active = true;
     }
   }
@@ -677,6 +680,7 @@ class libraryBuyButton extends UIElement{
       infoBox i = (infoBox)UIElements.get("info");
       
       i.infoText = "The Library gives you one Research point per turn\n\nCost: " + str(libraryCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(libraryBuildTime) + " Turns";
       i.active = true;
     }
   }

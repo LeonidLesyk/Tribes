@@ -45,7 +45,12 @@ class Building {
     //Logic to calculate the amount of gold given
   }
 
-
+  String makeInfoText() {
+    
+    String info = "HP = " + health + "/" + maxHealth + "\n";
+    
+    return info;
+  }
 
 
   void display() {
@@ -114,13 +119,13 @@ class Base extends Building {
 class Barrack extends Building {
   // Constructor
   Barrack(PVector position, Player owner, int size) {
-    super(position, 15, owner, size, 3);
+    super(position, 15, owner, size, barracksBuildTime);
   }
 
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn == barracksBuildTime){
         built = true;
       }
     }
@@ -173,14 +178,14 @@ class Barrack extends Building {
 class Library extends Building {
 
   Library(PVector position, Player owner, int size) {
-    super(position, 10, owner, size, 3);
+    super(position, 10, owner, size, libraryBuildTime);
   }
 
 
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn == libraryBuildTime){
         built = true;
       }
     }
@@ -238,14 +243,14 @@ class Library extends Building {
 class GoldMine extends Building {
 
   GoldMine(PVector position, Player owner, int size) {
-    super(position, 10, owner, size, 3);
+    super(position, 10, owner, size, mineBuildTime);
   }
 
 
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn == mineBuildTime){
         built = true;
       }
     }
@@ -303,13 +308,13 @@ class GoldMine extends Building {
 class Wall extends Building {
   // Constructor
   Wall(PVector position, Player owner, int size) {
-    super(position, 20, owner, size, 1);
+    super(position, 20, owner, size, wallBuildTime);
   }
   
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn == wallBuildTime){
         built = true;
       }
     }
