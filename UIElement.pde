@@ -610,7 +610,7 @@ class wallBuyButton extends UIElement{
   }
   @Override
   void draw(){
-    if(buildMode && players[turn].dwarvesLevel > 0){
+    if(buildMode && players[turn].dwarvesLevel > 1){
       this.active = true;
       fill(255);
       if(toBuildClass == "Wall"){
