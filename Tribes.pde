@@ -243,12 +243,12 @@ void mouseReleased() {
         
       }
   
-  
-  
       //If clicked on builder
       else if(pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]){
         availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
         buildMode = true;
+        selectedBuilding = null; //Reset any unit selection
+        unitToSpawn = "";
       }
   
       //Building logic
@@ -257,33 +257,21 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(barrackCost)){
             players[turn].spendGold(barrackCost);
             pressedTile.building = new Barrack(pressedTile.position, players[turn], pressedTile.size);
-            toBuildClass = "";
-            buildMode = false;
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetBuildSelection();
           }
         }
         else if(toBuildClass.equals("Library")){
           if(players[turn].hasEnoughGold(libraryCost)){
             players[turn].spendGold(libraryCost);
             pressedTile.building = new Library(pressedTile.position, players[turn] , pressedTile.size);
-            toBuildClass = "";
-            buildMode = false;
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetBuildSelection();
           }
         }
         else if(toBuildClass.equals("Gold")){
           if(players[turn].hasEnoughGold(goldMineCost)){
             players[turn].spendGold(goldMineCost);
             pressedTile.building = new GoldMine(pressedTile.position, players[turn], pressedTile.size);
-            toBuildClass = "";
-            buildMode = false;
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetBuildSelection();
           }
         }
         
@@ -291,19 +279,11 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(wallCost)){
             players[turn].spendGold(wallCost);
             pressedTile.building = new Wall(pressedTile.position, players[turn], pressedTile.size);
-            toBuildClass = "";
-            buildMode = false;
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetBuildSelection();
           }        
         }
       }
-  
-      
-      
-      
-      
+
       //Clicked Barrack
       else if(pressedTile.building != null && pressedTile.building instanceof Barrack &&  pressedTile.building.owner == players[turn] && pressedTile.building.built){
         
@@ -342,9 +322,7 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(swordCost)){
             players[turn].spendGold(swordCost);
             pressedTile.unit = new Swordsman(selectedBuilding.owner);
-            selectedBuilding = null; //Reset selection
-            unitToSpawn = "";
-            availbleTiles = null;
+            resetSelection();
           }
           infoBox i = (infoBox)UIElements.get("info");
           i.active = false;
@@ -353,33 +331,21 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(archerCost)){
             players[turn].spendGold(archerCost);
             pressedTile.unit = new Archer(selectedBuilding.owner);
-            selectedBuilding = null; //Reset selection
-            unitToSpawn = "";
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetSelection();
           }
         }
         else if(unitToSpawn.equals("Builder")){
           if(players[turn].hasEnoughGold(builderCost)){
             players[turn].spendGold(builderCost);
             pressedTile.unit = new Builder(selectedBuilding.owner);
-            selectedBuilding = null; //Reset selection
-            unitToSpawn = "";
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetSelection();
           }
         }
         else if(unitToSpawn.equals("Cavalier")){
           if(players[turn].hasEnoughGold(cavalierCost)){
             players[turn].spendGold(cavalierCost);
             pressedTile.unit = new Cavalier(selectedBuilding.owner);
-            selectedBuilding = null; //Reset selection
-            unitToSpawn = "";
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetSelection();
           }
         }
         else if(unitToSpawn.equals("Giant")){
@@ -411,7 +377,6 @@ void mouseReleased() {
               
             }
           }
-          
         }
         
         
@@ -424,11 +389,7 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(wizardCost)){
             players[turn].spendGold(wizardCost);
             pressedTile.unit = new Wizard(selectedBuilding.owner);
-            selectedBuilding = null; //Reset selection
-            unitToSpawn = "";
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetSelection();
           }
         }
       }
@@ -439,11 +400,8 @@ void mouseReleased() {
           if(players[turn].hasEnoughGold(builderCost)){
             players[turn].spendGold(builderCost);
             pressedTile.unit = new Builder(selectedBuilding.owner);
-            selectedBuilding = null; //Reset selection
-            unitToSpawn = "";
-            availbleTiles = null;
-            infoBox i = (infoBox)UIElements.get("info");
-            i.active = false;
+            resetSelection();
+            
           }
         }
       }
@@ -593,6 +551,26 @@ void keyPressed() {
 }
 
 void clearBuyArea(){
+  infoBox i = (infoBox)UIElements.get("info");
+  i.active = false;
+  researchBuyButton r = (researchBuyButton)UIElements.get("buy");
+  r.active = false;
+}
+
+void resetSelection(){
+  selectedBuilding = null; //Reset selection
+  unitToSpawn = "";
+  availbleTiles = null;
+  infoBox i = (infoBox)UIElements.get("info");
+  i.active = false;
+  researchBuyButton r = (researchBuyButton)UIElements.get("buy");
+  r.active = false;
+}
+
+void resetBuildSelection(){
+  toBuildClass = "";
+  buildMode = false;
+  availbleTiles = null;
   infoBox i = (infoBox)UIElements.get("info");
   i.active = false;
   researchBuyButton r = (researchBuyButton)UIElements.get("buy");
