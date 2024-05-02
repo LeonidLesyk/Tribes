@@ -520,6 +520,10 @@ void mouseReleased() {
     selectedBuilding = null;
     toBuildClass = "";
     unitToSpawn = "";
+    buildMode = false;
+    infoBox i = (infoBox)UIElements.get("info");
+    i.active = false;
+    
   }
 }
 
@@ -574,4 +578,11 @@ void keyPressed() {
       selectedBuilding = null;
       unitToSpawn = "";
     }
+}
+
+void clearBuyArea(){
+  infoBox i = (infoBox)UIElements.get("info");
+  i.active = false;
+  researchBuyButton r = (researchBuyButton)UIElements.get("buy");
+  r.active = false;
 }
