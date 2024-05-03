@@ -39,7 +39,7 @@ final class Tile{
       textSize(40);
       text("?",position.x,position.y,size,size);
     }
-    if(this.terrain instanceof Mountain){
+    else if(this.terrain instanceof Mountain){
       fill(#8B97A6);
       stroke(128);
       square(position.x,position.y,size);
@@ -122,7 +122,8 @@ final class Board{
       }
     }
     
-    grid[4][4].terrain = new Mountain(2);
+    //TODO add mountains count
+    grid[size/2][4].terrain = new Mountain(2);
     grid[4][5].terrain = new Mountain(2);
     grid[5][4].terrain = new Mountain(2);
     grid[5][5].terrain = new Mountain(2);
