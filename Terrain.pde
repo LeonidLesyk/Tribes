@@ -1,5 +1,5 @@
 class Terrain{
-
+  int bonus;
 }
 
 
@@ -12,7 +12,7 @@ class Forest extends Terrain{
 
 
 class Mountain extends Terrain{
-  Mountain(){
-  
+  Mountain(int bonus){
+    this.bonus = bonus;
   }
 }

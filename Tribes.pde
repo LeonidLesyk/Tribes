@@ -485,16 +485,16 @@ void mouseReleased() {
           Unit target = pressedTile.unit;
     
           int damageToApply = attacker.strength;
-          println("Damage1: " + damageToApply);
-          
-          //reduced damage if target unt is in torest
-          if(selectedTile.terrain instanceof Forest){
-            damageToApply = constrain(damageToApply, 1, damageToApply-1);
-          }
+          println("Damage1: " + damageToApply);      
           
           // Damage is boosted if tribesmen level is greater than 2
           if (players[turn].tribesmenLevel > 2) {
               damageToApply += 1;
+          }
+          
+          //reduced damage if target unt is in torest
+          if(selectedTile.terrain instanceof Forest){
+            damageToApply = constrain(damageToApply-1, 1, damageToApply-1);
           }
                 
           println("Damage to apply: " + damageToApply);

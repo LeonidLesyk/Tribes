@@ -105,10 +105,10 @@ final class Board{
       }
     }
     
-    grid[4][4].terrain = new Mountain();
-    grid[4][5].terrain = new Mountain();
-    grid[5][4].terrain = new Mountain();
-    grid[5][5].terrain = new Mountain();
+    grid[4][4].terrain = new Mountain(2);
+    grid[4][5].terrain = new Mountain(2);
+    grid[5][4].terrain = new Mountain(2);
+    grid[5][5].terrain = new Mountain(2);
     
     Tile selectedTile;
     
@@ -116,7 +116,7 @@ final class Board{
     for(int i=0; i<6; i++){
      selectedTile = grid[random.nextInt(size)][random.nextInt(size)];
      if (selectedTile.terrain == null){
-       selectedTile.terrain = new Mountain();
+       selectedTile.terrain = new Mountain(1);
      }
      else{
        i--;
