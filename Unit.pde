@@ -216,7 +216,7 @@ class Cavalier extends Unit {
 }
 
 class Giant extends Unit {
-  private final int HP = 10; 
+  private final int HP = 15; 
   private final int STRENGTH = 3;
   private final int MOV = 1;
   private final int SIGHT = 2;
@@ -281,7 +281,7 @@ class Trebuchet extends Unit {
 }
 
 class Dragon extends Unit {
-  private final int HP = 8; 
+  private final int HP = 12; 
   private final int STRENGTH = 2;
   private final int MOV = 2;
   private final int SIGHT = 4;

@@ -79,7 +79,7 @@ void setup() {
 
   //initialise game variables
   turn = 0;
-  int size = 14;
+  int size = 15;
   tileSizePixels = screen_height/size;
   players = new Player[2];
 
@@ -243,6 +243,7 @@ void mouseReleased() {
     //if in tile zone
     if (mouseX > tileZoneLeft && mouseX < tileZoneRight) {
       int x = (mouseX - tileZoneLeft)/tileSizePixels;
+      
       int y = mouseY/tileSizePixels;
       pressedTile = gameBoard.grid[x][y];
       
