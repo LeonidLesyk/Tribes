@@ -87,6 +87,7 @@ class endTurnButton extends UIElement{
       turn = 0;
     }
     reCalculateFog();
+    transition = true;
   }
   
   @Override

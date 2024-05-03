@@ -283,7 +283,7 @@ class Trebuchet extends Unit {
 class Dragon extends Unit {
   private final int HP = 8; 
   private final int STRENGTH = 2;
-  private final int MOV = 1;
+  private final int MOV = 2;
   private final int SIGHT = 4;
   
   

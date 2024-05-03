@@ -12,8 +12,9 @@ static Board gameBoard;
 int tileSizePixels;
 int turn;
 HashMap<String, UIElement> UIElements;
-
+ArrayList<Projectile> Projectiles;
 boolean gameEnd=false;
+boolean transition = false;
 
 Tile pressedTile;
 
@@ -144,6 +145,8 @@ void setup() {
   UIElement wallBuy = new wallBuyButton(tileZoneLeft*3/6,screen_height/10 + tileZoneLeft*2/6,tileZoneLeft/6,tileZoneLeft/6);
   UIElements.put("wallBuy",wallBuy);
   
+  Projectiles = new ArrayList<Projectile>();
+  
   researchCap = 5;
   String[] tribesmenResearchDescriptions = new String[researchCap];
   String[] dwarvesResearchDescriptions = new String[researchCap];
@@ -201,27 +204,38 @@ void setup() {
 }
 
 void draw() {
-  if (!gameEnd) {
-    background(0);
+  if (gameEnd) {//Game end scene
+    background(0); // Dark background for the game over screen
+    fill(255, 0, 0); // Set text color to red
+    textSize(64); // Increase text size for impact
+    textAlign(CENTER, CENTER); // Center the text horizontally and vertically
+    text("GAME OVER", screen_width / 2, screen_height / 2); // Display "GAME OVER" at the center of the screen
+   
+  } else if(transition){
+    //transition scene
+    background(0); // Dark background for the game over screen
+    fill(players[turn].teamColour); // Set text color to red
+    textSize(64); // Increase text size for impact
+    textAlign(CENTER, CENTER); // Center the text horizontally and vertically
+    text("Player" + (turn+1), screen_width / 2, screen_height / 2); // Display "GAME OVER" at the center of the screen
+  }
+  else{
+     background(0);
     //println(frameRate);
     gameBoard.draw();
     //draw UI Elements
     for (UIElement e : UIElements.values()) {
       e.draw();
     }
-  } else {
-    //Game end scene
-    background(0); // Dark background for the game over screen
-    fill(255, 0, 0); // Set text color to red
-    textSize(64); // Increase text size for impact
-    textAlign(CENTER, CENTER); // Center the text horizontally and vertically
-    text("GAME OVER", screen_width / 2, screen_height / 2); // Display "GAME OVER" at the center of the screen
   }
 }
 
 void mouseReleased() {
   if (gameEnd) {
     setup();
+    gameEnd = false;
+  }else if(transition){
+    transition = false;
   }
   
   
