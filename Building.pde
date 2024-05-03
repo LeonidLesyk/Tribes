@@ -41,7 +41,7 @@ class Building {
     //this.destroyed = true;
   }
   
-  void turnEndAction() {
+  void turnEndAction(boolean mountainBool) {
     //Logic to calculate the amount of gold given
   }
 
@@ -68,7 +68,7 @@ class Base extends Building {
      gameEnd = true;
   }
 
-  void turnEndAction() {
+  void turnEndAction(boolean mountainBool) {
     owner.gainGold(2);
     owner.gainResearch(1);
   }
@@ -117,7 +117,7 @@ class Barrack extends Building {
     super(position, 15, owner, size, 3);
   }
 
-  void turnEndAction() {
+  void turnEndAction(boolean mountainBool) {
     if(!built){
       currentBuildTurn += 1;
       if (currentBuildTurn == completeBuildTurns){
@@ -177,7 +177,7 @@ class Library extends Building {
   }
 
 
-  void turnEndAction() {
+  void turnEndAction(boolean mountainBool) {
     if(!built){
       currentBuildTurn += 1;
       if (currentBuildTurn == completeBuildTurns){
@@ -242,7 +242,7 @@ class GoldMine extends Building {
   }
 
 
-  void turnEndAction() {
+  void turnEndAction(boolean mountainBool) {
     if(!built){
       currentBuildTurn += 1;
       if (currentBuildTurn == completeBuildTurns){
@@ -250,7 +250,12 @@ class GoldMine extends Building {
       }
     }
     else{
-      owner.gainGold(1);
+      if (mountainBool){
+        owner.gainGold(2);
+      }
+      else{
+        owner.gainGold(1);
+      }
     }
   }
 

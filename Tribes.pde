@@ -472,7 +472,7 @@ void mouseReleased() {
           int damageToApply = attacker.strength;
           //reduced damage if target unt is in torest
           if(selectedTile.terrain instanceof Forest){
-            damageToApply *= 0.8;
+            damageToApply = constrain(damageToApply, 1, damageToApply-1);
           }
           
           // Damage is boosted if tribesmen level is greater than 2

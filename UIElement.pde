@@ -49,7 +49,7 @@ class endTurnButton extends UIElement{
         if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building.owner == players[currnetPlayer]){
           
           
-            gameBoard.grid[i][j].building.turnEndAction();
+            gameBoard.grid[i][j].building.turnEndAction(gameBoard.grid[i][j].terrain instanceof Mountain);
           
 
         }
