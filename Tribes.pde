@@ -106,7 +106,7 @@ void setup() {
   UIElements.put("info",info);
   UIElement buy = new researchBuyButton(0,screen_height*9/10,tileZoneLeft,screen_height/10);
   UIElements.put("buy",buy);
-  UIElement tribesmanLabel = new treeLabel(tileZoneRight,screen_height*9/10,tileZoneLeft/3,screen_height/10,"Tribesmen");
+  UIElement tribesmanLabel = new treeLabel(tileZoneRight,screen_height*9/10,tileZoneLeft/3,screen_height/10,"Chivalry");
   UIElements.put("Tribesmen",tribesmanLabel);
   UIElement dwarfLabel = new treeLabel(tileZoneRight + tileZoneLeft/3,screen_height*9/10,tileZoneLeft/3,screen_height/10,"Dwarves");
   UIElements.put("Dwarves",dwarfLabel);
@@ -149,23 +149,23 @@ void setup() {
   int[] dwarvesResearchCosts = new int[researchCap];
   int[] sorcerersResearchCosts = new int[researchCap];
   
-  tribesmenResearchDescriptions[0] = "You can now train Archers from barracks(implemented)";
-  tribesmenResearchDescriptions[1] = "You can now train Cavaliers from barracks(implemented)";
-  tribesmenResearchDescriptions[2] = "All of your units now have +1 bonus ATK(implemented)";
-  tribesmenResearchDescriptions[3] = "You can now train Giants from barracks(implemented)";
-  tribesmenResearchDescriptions[4] = "all of your units now have +1 movement(implemented)";
+  tribesmenResearchDescriptions[0] = "Archers from Neighbouring Towns have Come to your Aid!\nYou can now train Archers from barracks";
+  tribesmenResearchDescriptions[1] = "The Finest Knights have Joined your Barracks!\nYou can now Train Cavaliers from Barracks";
+  tribesmenResearchDescriptions[2] = "Improved Instruction Yields Results!\nAll of your Units now Have +1 Bonus ATK";
+  tribesmenResearchDescriptions[3] = "Scouting nearby Caves has Led us to some tameable Ogres\nYou can now Train Giants from Barracks";
+  tribesmenResearchDescriptions[4] = "Soldiers March better on Increased Rations!\nAll of your Units now Have +1 Movement";
   
-  dwarvesResearchDescriptions[0] = "Your buildings now build one turn faster(implemented)";
-  dwarvesResearchDescriptions[1] = "Your builders can now build Walls to stop the enemy(implemented)";
-  dwarvesResearchDescriptions[2] = "Your buildings now have " + dwarvesBonusHP + " additional hp(implemented)";
-  dwarvesResearchDescriptions[3] = "You now gain +1 extra gold from mines(implemented)";
-  dwarvesResearchDescriptions[4] = "You can now train trebuchets from barracks(implemented)";
+  dwarvesResearchDescriptions[0] = "Us Dwarves were Born with a Hammer in Our Hands\nYour Buildings now Build one Turn faster";
+  dwarvesResearchDescriptions[1] = "Only the strongest Dwarvish Stone\nYour Builders can now Build Walls to Stop the Enemy";
+  dwarvesResearchDescriptions[2] = "Ancient Dwarvish Metals discovered in the mines! Your Architecture\n Your buildings now have " + dwarvesBonusHP + " additional hp";
+  dwarvesResearchDescriptions[3] = "Use of Drills increases Mining Efficiency by 100%!\nYou now Gain +1 extra Gold from Mines";
+  dwarvesResearchDescriptions[4] = "Advances in Mathematics and Engineering have Lead to this Marvel...\n You can now train trebuchets from barracks";
   
-  sorcerersResearchDescriptions[0] = "Your builders can now build libraries(implemented)";
-  sorcerersResearchDescriptions[1] = "You can now train Wizards from your libraries(implemented)";
-  sorcerersResearchDescriptions[2] = "All your units now have " + sorcererBonusHP + " bonus HP(implemented)";
-  sorcerersResearchDescriptions[3] = "You can now train dragons from your libraries(implemented)";
-  sorcerersResearchDescriptions[4] = "Mastery of the Arcane! wizards now have +2 atk (unimplemented)";
+  sorcerersResearchDescriptions[0] = "It's best to Study up Before Heading out to War\nYour Builders Can now Build libraries";
+  sorcerersResearchDescriptions[1] = "Interesting Incantations...\nYou Can now Train Wizards from your Libraries";
+  sorcerersResearchDescriptions[2] = "Enchanted Embroidery and Imbued Armour...\nAll Your Units now have " + sorcererBonusHP + " Bonus HP";
+  sorcerersResearchDescriptions[3] = "Reticent Rituals lead to pacts with antediluvian Beasts...You can now Train Dragons from your Libraries";
+  sorcerersResearchDescriptions[4] = "Mastery of the Arcane! Wizards now Have +2 ATK";
   
   tribesmenResearchCosts[0] = 5;
   tribesmenResearchCosts[1] = 7;
