@@ -88,7 +88,8 @@ class endTurnButton extends UIElement{
     if( turn == 2){
       turn = 0;
     }
-    
+    reCalculateFog();
+    transition = true;
   }
   
   @Override
@@ -197,18 +198,35 @@ class researchBuyButton extends UIElement{
         if(level == players[turn].tribesmenLevel+1){
           players[turn].spendResearch(cost);
           players[turn].tribesmenLevel = level;
+          if(level == 5){
+            println("speed");
+            upgradeAllUnitsSpeed(players[turn]);
+          }
         }
         break;
         case "d":
         if(level == players[turn].dwarvesLevel+1){
           players[turn].spendResearch(cost);
           players[turn].dwarvesLevel = level;
+          if(level == 3){
+            upgradeAllOwnedBuildings(players[turn]);
+            
+          }
         }
         break;
         case "s":
         if(level == players[turn].sorcerersLevel+1){
           players[turn].spendResearch(cost);
           players[turn].sorcerersLevel = level;
+          if(level == 3){
+            upgradeAllUnitsHealth(players[turn]);
+            
+          }
+          else if(level == 5){
+            upgradeAllWizards(players[turn]);
+            
+          }
+          
         }
         break;
     }
@@ -335,7 +353,7 @@ class builderBuyButton extends UIElement{
       unitToSpawn = "Builder";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Builder will allow you to build buildings...";
+      i.infoText = "The Builder will Allow you to Build Buildings\n\nCost: " + str(builderCost) + " Gold";
       i.active = true;
     }
     
@@ -373,7 +391,7 @@ class swordsmanBuyButton extends UIElement{
       unitToSpawn = "Swordsman";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The swordsman is a powerful basic melee unit...";
+      i.infoText = "The swordsman is a powerful basic melee unit\n\nCost: " + str(swordCost) + " Gold";
       i.active = true;
     }
     
@@ -411,7 +429,7 @@ class archerBuyButton extends UIElement{
       unitToSpawn = "Archer";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Archer is a ranged unit...";
+      i.infoText = "The Archer is a ranged unit\n\nCost: " + str(archerCost) + " Gold";
       i.active = true;
     }
     
@@ -448,7 +466,7 @@ class cavalierBuyButton extends UIElement{
       unitToSpawn = "Cavalier";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Cavalier is a mobile and strong unit`...";
+      i.infoText = "The Cavalier is a mobile and strong unit\n\nCost: " + str(cavalierCost) + " Gold";
       i.active = true;
     }
     
@@ -486,7 +504,7 @@ class giantBuyButton extends UIElement{
       unitToSpawn = "Giant";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Giant is a high HP high ATK but slow unit...";
+      i.infoText = "The Giant is a high HP high ATK but slow unit\n\nCost: " + str(giantCost) + " Gold";
       i.active = true;
     }
     
@@ -525,7 +543,7 @@ class wizardBuyButton extends UIElement{
       unitToSpawn = "Wizard";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Wizard is a high ATK Unit with a large range but low hp...";
+      i.infoText = "The Wizard is a high ATK Unit with a large range but low hp\n\nCost: " + str(wizardCost) + " Gold";
       i.active = true;
     }
     
@@ -551,6 +569,84 @@ class wizardBuyButton extends UIElement{
   }
 }
 
+class trebuchetBuyButton extends UIElement{
+  boolean active;
+  trebuchetBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    println("clicked");
+    if(this.active){
+      unitToSpawn = "Trebuchet";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Trebuchet is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Barrack && players[turn].dwarvesLevel >= 5){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Trebuchet"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(textSizeBig);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Tr",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
+class dragonBuyButton extends UIElement{
+  boolean active;
+  dragonBuyButton(int x, int y, int width, int height){
+    super(x,y,width,height);
+    this.active = true;
+  }
+  @Override
+  void onClickAction(){
+    println("clicked");
+    if(this.active){
+      unitToSpawn = "Dragon";
+      infoBox i = (infoBox)UIElements.get("info");
+      
+      i.infoText = "The Dragon is a terrifying beast that can hit multiple units in a blast area watch out that your own units are not burnt to a crisp!\n\nCost: " + str(dragonCost) + " Gold";
+      i.active = true;
+    }
+    
+  }
+  @Override
+  void draw(){
+    if(selectedBuilding instanceof Library && players[turn].sorcerersLevel >= 4){
+      this.active = true;
+      fill(255);
+      if(unitToSpawn == "Dragon"){
+        fill(players[turn].teamColour);
+      }
+      stroke(128);
+      rect(x,y,width,height);
+      textSize(textSizeBig);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      text("Dr",x,y,width, height);
+    }else{
+      this.active = false;
+    }
+    
+  }
+}
+
 
 class mineBuyButton extends UIElement{
   boolean active;
@@ -564,7 +660,8 @@ class mineBuyButton extends UIElement{
       toBuildClass = "Gold";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The mine will give you x gold per turn";
+      i.infoText = "The mine will give you 1 gold per turn\n\nCost: " + str(goldMineCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(mineBuildTime) + " Turns";
       i.active = true;
     }
     
@@ -605,14 +702,15 @@ class wallBuyButton extends UIElement{
       toBuildClass = "Wall";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "Walls ought to stop enemy units in their tracks!";
+      i.infoText = "Walls ought to stop enemy units in their tracks!\n\nCost: " + str(wallCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(wallBuildTime) + " Turns";
       i.active = true;
     }
     
   }
   @Override
   void draw(){
-    if(buildMode && players[turn].dwarvesLevel > 0){
+    if(buildMode && players[turn].dwarvesLevel > 1){
       this.active = true;
       fill(255);
       if(toBuildClass == "Wall"){
@@ -643,7 +741,8 @@ class barracksBuyButton extends UIElement{
       toBuildClass = "Barrack";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "Barracks allow you to train units";
+      i.infoText = "Barracks allow you to train units\n\nCost: " + str(barrackCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(barracksBuildTime) + " Turns";
       i.active = true;
     }
   }
@@ -678,7 +777,8 @@ class libraryBuyButton extends UIElement{
       toBuildClass = "Library";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Library gives you one Research point per turn";
+      i.infoText = "The Library gives you one Research point per turn\n\nCost: " + str(libraryCost) + " Gold";
+      i.infoText += "\nBuildTime: " + str(libraryBuildTime) + " Turns";
       i.active = true;
     }
   }
@@ -700,4 +800,51 @@ class libraryBuyButton extends UIElement{
       this.active = false;
     }
    }
+}
+void upgradeAllOwnedBuildings(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.building!=null && t.building.owner.equals(p)){
+        t.building.maxHealth+=dwarvesBonusHP;
+        t.building.health +=dwarvesBonusHP;
+      }
+    }
+    
+  }
+}
+
+void upgradeAllUnitsSpeed(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit!=null && t.unit.owner.equals(p)){
+        t.unit.mov+=1;
+        
+      }
+    }
+    
+  }
+}
+
+void upgradeAllUnitsHealth(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit!=null && t.unit.owner.equals(p)){
+        t.unit.maxhp+=sorcererBonusHP;
+        t.unit.hp+=sorcererBonusHP;
+      }
+    }
+    
+  }
+}
+
+void upgradeAllWizards(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit instanceof Wizard && t.unit.owner.equals(p)){
+        t.unit.strength+=sorcererBonusArcane;
+        
+      }
+    }
+    
+  }
 }

@@ -6,20 +6,22 @@ class Building {
   boolean destroyed;
   int size;
   int cost;
-  int completeBuildTurns;
+  
   int currentBuildTurn;
   boolean built;
+  String name;
 
 
   // Constructor
-  Building(PVector position, int health, Player owner, int size, int completeBuildTurns) {
+  Building(PVector position, int health, Player owner, int size,String name) {
     this.position = position;
-    this.maxHealth = this.health = health;
+    this.maxHealth = health;
+    this.health = health;
     this.owner = owner;
     this.destroyed = false;
     this.size =  size;
-    this.completeBuildTurns = completeBuildTurns;
     this.built = false;
+    this.name = name;
   }
 
   //Damage to building
@@ -45,7 +47,12 @@ class Building {
     //Logic to calculate the amount of gold given
   }
 
-
+  String makeInfoText() {
+    String info = name + "\n";
+    info += "HP = " + health + "/" + maxHealth + "\n";
+    
+    return info;
+  }
 
 
   void display() {
@@ -58,7 +65,7 @@ class Building {
 class Base extends Building {
 
   Base(PVector position, Player owner, int size) {
-    super(position, 20, owner, size, 0);
+    super(position, 20, owner, size,"Base");
   }
 
 
@@ -114,13 +121,13 @@ class Base extends Building {
 class Barrack extends Building {
   // Constructor
   Barrack(PVector position, Player owner, int size) {
-    super(position, 15, owner, size, 3);
+    super(position, 15 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Barracks");
   }
 
   void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= barracksBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
     }
@@ -138,7 +145,7 @@ class Barrack extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Barrack\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Barrack\n" + currentBuildTurn +"/"+ (barracksBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("Barrack", position.x+size/2, position.y+size/2);
@@ -173,14 +180,14 @@ class Barrack extends Building {
 class Library extends Building {
 
   Library(PVector position, Player owner, int size) {
-    super(position, 10, owner, size, 3);
+    super(position, 10 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Library");
   }
 
 
   void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= libraryBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
     }
@@ -204,7 +211,7 @@ class Library extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Library\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Library\n" + currentBuildTurn +"/"+ (libraryBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("Library", position.x+size/2, position.y+size/2);
@@ -238,19 +245,19 @@ class Library extends Building {
 class GoldMine extends Building {
 
   GoldMine(PVector position, Player owner, int size) {
-    super(position, 10, owner, size, 3);
+    super(position, 10 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Gold Mine");
   }
 
 
   void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= mineBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
     }
     else{
-        owner.gainGold(bonus);
+        owner.gainGold(bonus + (players[turn].dwarvesLevel>3?1:0));
     }
   }
 
@@ -269,7 +276,7 @@ class GoldMine extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Gold Mine\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Gold Mine\n" + currentBuildTurn +"/"+ (mineBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("GoldMine", position.x+size/2, position.y+size/2);
@@ -303,13 +310,13 @@ class GoldMine extends Building {
 class Wall extends Building {
   // Constructor
   Wall(PVector position, Player owner, int size) {
-    super(position, 20, owner, size, 1);
+    super(position, 20 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Wall");
   }
   
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= wallBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
     }
@@ -328,7 +335,7 @@ class Wall extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Wall\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Wall\n" + currentBuildTurn +"/"+ (wallBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("Wall", position.x+size/2, position.y+size/2);

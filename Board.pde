@@ -1,7 +1,8 @@
 import java.util.*;
 final class Tile{
   final color defaultColour = #69d242;
-  final color highlight = #6181d2;  
+  final color highlight = #6181d2;
+  final color atkHighlight = #EE4B2B;
   PVector position;
   int size;
   Tile up;
@@ -11,6 +12,7 @@ final class Tile{
   int colour;
   Building building;
   Unit unit;
+  Boolean hidden;
   Terrain terrain;
   
   Tile(int size, PVector position, Tile up, Tile down, Tile left, Tile right){
@@ -23,11 +25,20 @@ final class Tile{
     this.colour = defaultColour;
     this.building = null;
     this.unit = null;
+    this.hidden = true;
     this.terrain = null;
   }
   
   void draw(){    
-
+    if(hidden){
+      fill(64);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      textSize(40);
+      text("?",position.x,position.y,size,size);
+    }
     if(this.terrain instanceof Mountain){
       fill(#8B97A6);
       stroke(128);
@@ -46,30 +57,36 @@ final class Tile{
       textAlign(LEFT);
       text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
     }
-    else{
+    else{//in sight range
       fill(colour);
       stroke(128);
       square(position.x,position.y,size);
       fill(0);
-      textSize(10);
-      textAlign(LEFT);      
-      text(str(int(position.x)) + "," +  str(int(position.y)) ,position.x,position.y+20);
+      if (this.building != null && !this.building.destroyed) {
+          this.building.display();
+      }
+      else if (this.building != null && this.building.destroyed) {
+          this.building = null;//Unbind building
+      }
+      //Display the unit
+      if (this.unit != null) {
+          this.unit.display(position.x, position.y, this.size);
+      }
     }
-    
-    
-    
-    if (this.building != null && !this.building.destroyed) {
-        this.building.display();
     }
-    else if (this.building != null && this.building.destroyed) {
-        this.building = null;//Unbind building
-    }
-    //Display the unit
-    if (this.unit != null) {
-        this.unit.display(position.x, position.y, this.size);
+   
+  void hit(int dmg){
+    if(this.unit!=null){
+      if(this.unit.damage(dmg)){
+        this.unit = null;
+      }
+    }else if(this.building!=null){
+      if(this.building.applyDamage(dmg)){
+        this.building = null;
+      }
+        
     }
   }
-  
   
 }
 
@@ -155,7 +172,10 @@ final class Board{
     //base case
     if(start == null || distance < 0){
       //return empty list
-      return new HashSet<Tile>();
+      return locations;
+    }else if( (start.unit!=null && start.unit.owner!=players[turn])||(start.building!=null && start.building.owner!=players[turn])){
+      locations.add(start);
+      return locations;
     }
     locations.add(start);
     locations.addAll(rangeRecurse(start.left,distance-1));
