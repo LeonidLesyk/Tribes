@@ -36,7 +36,7 @@ final int libraryCost  = 15;
 final int wallCost     = 5;
 final int goldMineCost = 20;
 
-final int swordCost = 7;
+final int swordCost = 5;
 final int archerCost = 10;
 final int builderCost = 5;
 final int wizardCost = 15;
