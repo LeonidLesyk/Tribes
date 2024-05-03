@@ -408,7 +408,9 @@ void mouseReleased() {
         
         int tempRange = unit.mov;
         if (pressedTile.terrain instanceof Forest){
-          tempRange = constrain(tempRange, 1, tempRange-1);
+          tempRange = Math.max(1, tempRange-1);
+          println("tempRange: " + tempRange);
+
         }
           
         
@@ -460,8 +462,9 @@ void mouseReleased() {
       if (selectedTile != null && selectedTile.unit != null && selectedTile.unit.owner == players[turn]) {
   
         int tempRange = selectedTile.unit.mov;
-        if (pressedTile.terrain instanceof Forest){
-          tempRange = constrain(tempRange, 1, tempRange-1);
+        if (selectedTile.terrain instanceof Forest){
+          tempRange = Math.max(1, tempRange-1);;
+          println("tempRange: " + tempRange);
         }
         
         
