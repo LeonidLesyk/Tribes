@@ -15,6 +15,7 @@ final class Tile{
   Boolean hidden;
   Terrain terrain;
   
+  
   Tile(int size, PVector position, Tile up, Tile down, Tile left, Tile right){
     this.position = position;
     this.size = screen_height/size;
@@ -39,31 +40,55 @@ final class Tile{
       textSize(40);
       text("?",position.x,position.y,size,size);
     }
-    else if(this.terrain instanceof Mountain){
-      fill(#8B97A6);
-      stroke(128);
-      square(position.x,position.y,size);
-      fill(0);
-      textSize(10);
-      textAlign(LEFT);
-      text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
-    }
-    else if(this.terrain instanceof Forest){
-      fill(#064A00);
-      stroke(128);
-      square(position.x,position.y,size);
-      fill(0);
-      textSize(10);
-      textAlign(LEFT);
-      text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
-    }
-    else{//in sight range
+    else {
+      
+      //fill to green
       fill(colour);
       stroke(128);
       square(position.x,position.y,size);
       fill(0);
+        
+      if(this.terrain instanceof Mountain){
+        image(loader.mountain, position.x, position.y, size, size);
+        /*
+        fill(#8B97A6);
+        stroke(128);
+        square(position.x,position.y,size);
+        fill(0);
+        textSize(10);
+        textAlign(LEFT);
+        text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
+        */
+        
+      }
+      else if(this.terrain instanceof Forest){
+        image(loader.forest, position.x, position.y, size, size);
+        /*
+        fill(#064A00);
+        stroke(128);
+        square(position.x,position.y,size);
+        fill(0);
+        textSize(10);
+        textAlign(LEFT);
+        text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
+        */
+        
+      }
+      /*
+      else {
+        //in sight range
+        fill(colour);
+        stroke(128);
+        square(position.x,position.y,size);
+        fill(0);
+      }*/
       if (this.building != null && !this.building.destroyed) {
+        if (this.terrain instanceof Mountain) {
+          this.building.displayOnMountain();
+        }
+        else {
           this.building.display();
+        }
       }
       else if (this.building != null && this.building.destroyed) {
           this.building = null;//Unbind building

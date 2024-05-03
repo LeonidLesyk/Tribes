@@ -10,6 +10,8 @@ class Building {
   int currentBuildTurn;
   boolean built;
   String name;
+  
+  PImage sprite;
 
 
   // Constructor
@@ -22,6 +24,8 @@ class Building {
     this.size =  size;
     this.built = false;
     this.name = name;
+    
+    sprite = this.loadSprite();
   }
 
   //Damage to building
@@ -56,8 +60,34 @@ class Building {
 
 
   void display() {
-    fill(255, 0, 0);
-    rect(position.x + 5, position.y + 5, size-10, size-10); //TODO Change or Delete
+    
+    if(sprite != null) {
+      image(sprite, position.x, position.y, size, size);
+    }
+    else {
+      /*fill(255, 0, 0);
+      rect(position.x + 5, position.y + 5, size-10, size-10); //TODO Change or Delete*/
+      this.drawShape();
+    }
+  }
+  
+  void displayOnMountain() {
+    this.display();
+  }
+  
+  void drawShape() {
+    return;
+  }
+  
+  PImage loadSprite() {
+    try {
+      println("loading " + name + " sprite");
+      return loadImage("resources/" + name + owner.playerNumber + ".png");
+    }
+    catch (Exception e) {
+      println("failed to load " + name + " sprite");
+      return null;
+    }
   }
 }
 
@@ -81,7 +111,7 @@ class Base extends Building {
   }
   
   @Override
-  void display() {
+  void drawShape() {
     fill(255);
     stroke(owner.teamColour);
     strokeWeight(2);
@@ -134,7 +164,7 @@ class Barrack extends Building {
   }
 
   @Override
-    void display() {   
+    void drawShape() {   
     fill(255);
     stroke(owner.teamColour);
     strokeWeight(2);
@@ -199,7 +229,7 @@ class Library extends Building {
 
 
   @Override
-    void display(){
+    void drawShape(){
     
     fill(255);
     stroke(owner.teamColour);
@@ -243,9 +273,11 @@ class Library extends Building {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GoldMine extends Building {
+  PImage onMountain;
 
   GoldMine(PVector position, Player owner, int size) {
     super(position, 10 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Gold Mine");
+    onMountain = loadImage("resources/mountain mine" + owner.playerNumber + ".png");
   }
 
 
@@ -261,10 +293,13 @@ class GoldMine extends Building {
     }
   }
 
-
+  @Override
+  void displayOnMountain() {
+    image(onMountain, position.x, position.y, size, size);
+  }
 
   @Override
-    void display(){
+    void drawShape(){
     
     fill(255);
     stroke(owner.teamColour);
@@ -324,7 +359,7 @@ class Wall extends Building {
 
 
   @Override
-  void display() {
+  void drawShape() {
     fill(255);
     stroke(owner.teamColour);
     strokeWeight(2);
