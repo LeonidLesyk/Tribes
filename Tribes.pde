@@ -470,6 +470,8 @@ void mouseReleased() {
           Unit target = pressedTile.unit;
     
           int damageToApply = attacker.strength;
+          println("Damage1: " + damageToApply);
+          
           //reduced damage if target unt is in torest
           if(selectedTile.terrain instanceof Forest){
             damageToApply *= 0.8;
