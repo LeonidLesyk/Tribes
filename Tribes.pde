@@ -406,7 +406,13 @@ void mouseReleased() {
         println("Clicked Unit");
         Unit unit = pressedTile.unit;
         
-        for(Tile t : gameBoard.range(pressedTile, unit.mov)){
+        int tempRange = unit.mov;
+        if (pressedTile.terrain instanceof Forest){
+          tempRange = constrain(tempRange, 1, tempRange-1);
+        }
+          
+        
+        for(Tile t : gameBoard.range(pressedTile, tempRange)){
           t.colour = t.highlight;
         }
   
@@ -453,8 +459,14 @@ void mouseReleased() {
       //if previously selected tile has unit belonging to current player
       if (selectedTile != null && selectedTile.unit != null && selectedTile.unit.owner == players[turn]) {
   
+        int tempRange = selectedTile.unit.mov;
+        if (pressedTile.terrain instanceof Forest){
+          tempRange = constrain(tempRange, 1, tempRange-1);
+        }
+        
+        
         //if new tile has no buildings/units and is within that unit's mov range
-        if (pressedTile.unit == null && selectedTile.unit.canMove && pressedTile.building == null && gameBoard.range(selectedTile, selectedTile.unit.mov).contains(pressedTile)) {
+        if (pressedTile.unit == null && selectedTile.unit.canMove && pressedTile.building == null && gameBoard.range(selectedTile,tempRange).contains(pressedTile)) {
           pressedTile.unit = selectedTile.unit;
           selectedTile.unit = null;
   
