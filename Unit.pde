@@ -242,7 +242,7 @@ class Wizard extends Unit {
     
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
-    strength = STRENGTH;
+    strength = STRENGTH + (players[turn].sorcerersLevel>=5?2:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2;
     

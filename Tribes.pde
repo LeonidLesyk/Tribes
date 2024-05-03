@@ -52,7 +52,7 @@ int wallBuildTime = 1;
 
 final int dwarvesBonusHP = 5;
 final int sorcererBonusHP = 1;
-
+final int sorcererBonusArcane = 2;
 void settings(){
   pixelDensity(displayDensity());
   if(displayDensity() == 1) {
@@ -163,7 +163,7 @@ void setup() {
   
   sorcerersResearchDescriptions[0] = "Your builders can now build libraries(implemented)";
   sorcerersResearchDescriptions[1] = "You can now train Wizards from your libraries(implemented)";
-  sorcerersResearchDescriptions[2] = "All your units now have " + sorcererBonusHP + " bonus HP(unimplemented)";
+  sorcerersResearchDescriptions[2] = "All your units now have " + sorcererBonusHP + " bonus HP(implemented)";
   sorcerersResearchDescriptions[3] = "You can now train dragons from your libraries(implemented)";
   sorcerersResearchDescriptions[4] = "Mastery of the Arcane! wizards now have +2 atk (unimplemented)";
   
@@ -518,6 +518,9 @@ void mouseReleased() {
           }
           attacker.canMove = false;
           attacker.canAttack = false;
+          infoBox i = (infoBox)UIElements.get("info");
+          i.infoText = target.makeInfoText();
+          i.active = true;
         }
         
         

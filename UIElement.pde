@@ -219,6 +219,10 @@ class researchBuyButton extends UIElement{
             upgradeAllUnitsHealth(players[turn]);
             
           }
+          else if(level == 5){
+            upgradeAllWizards(players[turn]);
+            
+          }
           
         }
         break;
@@ -824,6 +828,18 @@ void upgradeAllUnitsHealth(Player p){
       if(t.unit!=null && t.unit.owner.equals(p)){
         t.unit.maxhp+=sorcererBonusHP;
         t.unit.hp+=sorcererBonusHP;
+      }
+    }
+    
+  }
+}
+
+void upgradeAllWizards(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit instanceof Wizard && t.unit.owner.equals(p)){
+        t.unit.strength+=sorcererBonusArcane;
+        
       }
     }
     
