@@ -2,6 +2,7 @@ import java.util.*;
 final class Tile{
   final color defaultColour = #69d242;
   final color highlight = #6181d2;
+  final color atkHighlight = #EE4B2B;
   PVector position;
   int size;
   Tile up;
@@ -11,6 +12,8 @@ final class Tile{
   int colour;
   Building building;
   Unit unit;
+  Boolean hidden;
+  Terrain terrain;
   
   Tile(int size, PVector position, Tile up, Tile down, Tile left, Tile right){
     this.position = position;
@@ -22,34 +25,73 @@ final class Tile{
     this.colour = defaultColour;
     this.building = null;
     this.unit = null;
-
+    this.hidden = true;
+    this.terrain = null;
   }
   
   void draw(){    
-    fill(colour);
-    stroke(128);
-    square(position.x,position.y,size);
-    fill(0);
-    textSize(10);
-    textAlign(LEFT);
-    text(str(int(position.x)) + "," +  str(int(position.y)),position.x,position.y+20);
-    
-    if (this.building != null && !this.building.destroyed) {
-        this.building.display();
+    if(hidden){
+      fill(64);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      textSize(40);
+      text("?",position.x,position.y,size,size);
     }
-    else if (this.building != null && this.building.destroyed) {
-        this.building = null;//Unbind building
+    else if(this.terrain instanceof Mountain){
+      fill(#8B97A6);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textSize(10);
+      textAlign(LEFT);
+      text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
     }
-    //Display the unit
-    if (this.unit != null) {
-        this.unit.display(position.x, position.y, this.size);
+    else if(this.terrain instanceof Forest){
+      fill(#064A00);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textSize(10);
+      textAlign(LEFT);
+      text(str(int(position.x)) + "," +  str(int(position.y)) +" "+ this.terrain.getClass().getSimpleName() ,position.x,position.y+20);
+    }
+    else{//in sight range
+      fill(colour);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      if (this.building != null && !this.building.destroyed) {
+          this.building.display();
+      }
+      else if (this.building != null && this.building.destroyed) {
+          this.building = null;//Unbind building
+      }
+      //Display the unit
+      if (this.unit != null) {
+          this.unit.display(position.x, position.y, this.size);
+      }
+    }
+    }
+   
+  void hit(int dmg){
+    if(this.unit!=null){
+      if(this.unit.damage(dmg)){
+        this.unit = null;
+      }
+    }else if(this.building!=null){
+      if(this.building.applyDamage(dmg)){
+        this.building = null;
+      }
+        
     }
   }
-  
   
 }
 
 final class Board{
+  Random random = new Random();
   
   Tile[][] grid;
   int size;
@@ -79,6 +121,39 @@ final class Board{
         up = grid[x][y];   
       }
     }
+    
+    //TODO add mountains count
+    grid[size/2][4].terrain = new Mountain(2);
+    grid[4][5].terrain = new Mountain(2);
+    grid[5][4].terrain = new Mountain(2);
+    grid[5][5].terrain = new Mountain(2);
+    
+    Tile selectedTile;
+    
+    //Initiate Mountains
+    for(int i=0; i<6; i++){
+     selectedTile = grid[random.nextInt(size)][random.nextInt(size)];
+     if (selectedTile.terrain == null){
+       selectedTile.terrain = new Mountain(1);
+     }
+     else{
+       i--;
+     }
+    }
+    for(int i=0; i<8; i++){
+     selectedTile = grid[random.nextInt(size)][random.nextInt(size)];
+     if (selectedTile.terrain == null){
+       selectedTile.terrain = new Forest();
+     }
+     else{
+       i--;
+     }
+    }
+    
+    
+    
+    
+    
   }
   
   
@@ -98,7 +173,10 @@ final class Board{
     //base case
     if(start == null || distance < 0){
       //return empty list
-      return new HashSet<Tile>();
+      return locations;
+    }else if( (start.unit!=null && start.unit.owner!=players[turn])||(start.building!=null && start.building.owner!=players[turn])){
+      locations.add(start);
+      return locations;
     }
     locations.add(start);
     locations.addAll(rangeRecurse(start.left,distance-1));

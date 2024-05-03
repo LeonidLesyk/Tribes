@@ -6,20 +6,22 @@ class Building {
   boolean destroyed;
   int size;
   int cost;
-  int completeBuildTurns;
+  
   int currentBuildTurn;
   boolean built;
+  String name;
 
 
   // Constructor
-  Building(PVector position, int health, Player owner, int size, int completeBuildTurns) {
+  Building(PVector position, int health, Player owner, int size,String name) {
     this.position = position;
-    this.maxHealth = this.health = health;
+    this.maxHealth = health;
+    this.health = health;
     this.owner = owner;
     this.destroyed = false;
     this.size =  size;
-    this.completeBuildTurns = completeBuildTurns;
     this.built = false;
+    this.name = name;
   }
 
   //Damage to building
@@ -41,12 +43,16 @@ class Building {
     //this.destroyed = true;
   }
   
-  int turnEndAction() {
+  void turnEndAction(int bonus) {
     //Logic to calculate the amount of gold given
-    return 0;
   }
 
-
+  String makeInfoText() {
+    String info = name + "\n";
+    info += "HP = " + health + "/" + maxHealth + "\n";
+    
+    return info;
+  }
 
 
   void display() {
@@ -59,19 +65,19 @@ class Building {
 class Base extends Building {
 
   Base(PVector position, Player owner, int size) {
-    super(position, 50, owner, size, 0);
+    super(position, 20, owner, size,"Base");
   }
 
 
   void onDestroyed() {
      //Set player lose
      println("Base Destroyed");
-     //this.destroyed = true;
+     gameEnd = true;
   }
 
-  int turnEndAction() {
-    //Logic to calculate the amount of research point given
-    return 1;
+  void turnEndAction(int bonus) {
+    owner.gainGold(2);
+    owner.gainResearch(1);
   }
   
   @Override
@@ -101,7 +107,7 @@ class Base extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -115,17 +121,16 @@ class Base extends Building {
 class Barrack extends Building {
   // Constructor
   Barrack(PVector position, Player owner, int size) {
-    super(position, 80, owner, size, 3);
+    super(position, 15 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Barracks");
   }
 
-  int turnEndAction() {
+  void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= barracksBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
     }
-    return 0;
   }
 
   @Override
@@ -140,7 +145,7 @@ class Barrack extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Barrack\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Barrack\n" + currentBuildTurn +"/"+ (barracksBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("Barrack", position.x+size/2, position.y+size/2);
@@ -160,7 +165,7 @@ class Barrack extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -175,19 +180,20 @@ class Barrack extends Building {
 class Library extends Building {
 
   Library(PVector position, Player owner, int size) {
-    super(position, 60, owner, size, 3);
+    super(position, 10 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Library");
   }
 
 
-  int turnEndAction() {
+  void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= libraryBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
-      return 0;
     }
-    else{return 1;}
+    else{
+      owner.gainResearch(1);
+    }
   }
 
 
@@ -205,7 +211,7 @@ class Library extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Library\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Library\n" + currentBuildTurn +"/"+ (libraryBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("Library", position.x+size/2, position.y+size/2);
@@ -225,7 +231,7 @@ class Library extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -239,19 +245,20 @@ class Library extends Building {
 class GoldMine extends Building {
 
   GoldMine(PVector position, Player owner, int size) {
-    super(position, 100, owner, size, 1);
+    super(position, 10 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Gold Mine");
   }
 
 
-  int turnEndAction() {
+  void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= mineBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
-      return 0;
     }
-    else{return 1;}
+    else{
+        owner.gainGold(bonus + (players[turn].dwarvesLevel>3?1:0));
+    }
   }
 
 
@@ -269,7 +276,7 @@ class GoldMine extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Gold Mine\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Gold Mine\n" + currentBuildTurn +"/"+ (mineBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("GoldMine", position.x+size/2, position.y+size/2);
@@ -289,7 +296,7 @@ class GoldMine extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -303,17 +310,16 @@ class GoldMine extends Building {
 class Wall extends Building {
   // Constructor
   Wall(PVector position, Player owner, int size) {
-    super(position, 100, owner, size, 1);
+    super(position, 20 + (players[turn].dwarvesLevel>2?dwarvesBonusHP:0), owner, size,"Wall");
   }
   
-  int turnEndAction() {
+  void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
-      if (currentBuildTurn == completeBuildTurns){
+      if (currentBuildTurn >= wallBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
     }
-    return 0;
   }
 
 
@@ -329,7 +335,7 @@ class Wall extends Building {
     textAlign(CENTER, CENTER);
     textSize(12);
     if(!built){
-      text("Wall\n" + currentBuildTurn +"/"+ completeBuildTurns, position.x+size/2, position.y+size/2);
+      text("Wall\n" + currentBuildTurn +"/"+ (wallBuildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
     else{
       text("Wall", position.x+size/2, position.y+size/2);
@@ -349,7 +355,7 @@ class Wall extends Building {
     
     float hpPercentage = (float) health / maxHealth; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP

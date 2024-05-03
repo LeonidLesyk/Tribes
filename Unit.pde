@@ -4,11 +4,12 @@ class Unit {
   int strength;
   int mov;
   int atkRange;
- 
+  int cost;
+  int sightRange;
   String unitType;
   
-  boolean canMove = true;
-  boolean canAttack = true;
+  boolean canMove = false;
+  boolean canAttack = false;
   
   PImage sprite;
     
@@ -42,6 +43,7 @@ class Unit {
     if(sprite != null) {
       image(sprite, centerX, centerY, tileSize, tileSize);
       hpBarY = y + size / 2 + hpBarHeight * 2;
+      
     }
     else {
       size = size * 3 / 4; 
@@ -58,6 +60,26 @@ class Unit {
       hpBarY = y - size / 2 - hpBarHeight * 2;
     }
     
+    if(this.owner == players[turn]){
+      float actionBarY = hpBarY + hpBarHeight;
+      //action Bar background
+      fill(50); // Dark gray background
+      rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
+      rect(hpBarX + hpBarWidth/2, actionBarY, hpBarWidth/2, hpBarHeight);
+      
+      
+      if(canMove){
+        fill(255); // Dark gray background
+        rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
+        rect(hpBarX + hpBarWidth/2, actionBarY, hpBarWidth/2, hpBarHeight);
+      }else if(canAttack){
+        fill(255); // Dark gray background
+        rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
+      }
+    }
+    
+    
+    
     
     //HP Bar Background
     fill(50); // Dark gray background
@@ -65,7 +87,7 @@ class Unit {
     
     float hpPercentage = (float) hp / maxhp; 
     //Current HP
-    fill(51, 204, 51);
+    fill(255, 255, 0);
     rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
     
     //Lost HP
@@ -88,7 +110,8 @@ class Unit {
     info += "HP = " + hp + "/" + maxhp + "\n";
     info += "Attack Strength = " + strength + "\n";
     info += "Movement Range = " + mov + "\n";
-    info += "Attack Range = " + atkRange;
+    info += "Attack Range = " + atkRange + "\n";
+    info += "Sight Range = " + sightRange;
     
     return info;
   }
@@ -109,19 +132,21 @@ class Swordsman extends Unit {
   // defaults for swordsman.
   // the actual values could vary depending on research perks
   private final int HP = 5; 
-  private final int STRENGTH = 1;
+  private final int STRENGTH = 2;
   private final int MOV = 1;
+  private final int SIGHT = 2;
   
   Swordsman(Player owner) {
     super(owner);
     
     unitType = "Swordsman";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1; //swordsmen should be melee only
+    sightRange = SIGHT;
     
     sprite = loadSprite();
   }
@@ -131,38 +156,40 @@ class Archer extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 1;
   private final int MOV = 1;
+  private final int SIGHT = 2;
   
   Archer(Player owner) {
     super(owner);
     
     unitType = "Archer";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
 
 class Builder extends Unit {
   private final int HP = 4; 
-  private final int STRENGTH = 1;
+  private final int STRENGTH = 0;
   private final int MOV = 1;
+  private final int SIGHT = 3;
   
   Builder(Player owner) {
     super(owner);
     
     unitType = "Builder";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -170,39 +197,41 @@ class Builder extends Unit {
 class Cavalier extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 2;
-  private final int MOV = 2;
+  private final int MOV = 3;
+  private final int SIGHT = 3;
   
   Cavalier(Player owner) {
     super(owner);
     
     unitType = "Cavalier";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
 
 class Giant extends Unit {
-  private final int HP = 10; 
+  private final int HP = 15; 
   private final int STRENGTH = 3;
   private final int MOV = 1;
+  private final int SIGHT = 2;
   
   Giant(Player owner) {
     super(owner);
     
     unitType = "Giant";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
+    mov = MOV; //giant will not have move bonus
     atkRange = 1;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -211,6 +240,7 @@ class Wizard extends Unit {
   private final int HP = 2; 
   private final int STRENGTH = 3;
   private final int MOV = 1;
+  private final int SIGHT = 3;
   
   
   Wizard(Player owner) {
@@ -218,12 +248,56 @@ class Wizard extends Unit {
     
     unitType = "Wizard";
     
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
+    hp = maxhp;
+    strength = STRENGTH + (players[turn].sorcerersLevel>=5?2:0);
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
+    atkRange = 2;
+    sightRange = SIGHT;
+    sprite = loadSprite();
+  }
+}
+
+class Trebuchet extends Unit {
+  private final int HP = 2 + (players[turn].sorcerersLevel>=3?1:0); 
+  private final int STRENGTH = 1;
+  private final int MOV = 1;
+  private final int SIGHT = 4;
+  
+  
+  Trebuchet(Player owner) {
+    super(owner);
+    
+    unitType = "Trebuchet";
+    
     maxhp = HP; 
     hp = maxhp;
     strength = STRENGTH;
-    mov = MOV;
-    atkRange = 3;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
+    atkRange = 4;
+    sightRange = SIGHT;
+    sprite = loadSprite();
+  }
+}
+
+class Dragon extends Unit {
+  private final int HP = 12; 
+  private final int STRENGTH = 2;
+  private final int MOV = 2;
+  private final int SIGHT = 4;
+  
+  
+  Dragon(Player owner) {
+    super(owner);
     
+    unitType = "Dragon";
+    
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
+    hp = maxhp;
+    strength = STRENGTH;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
+    atkRange = 2;
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
