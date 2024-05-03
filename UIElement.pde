@@ -215,7 +215,10 @@ class researchBuyButton extends UIElement{
         if(level == players[turn].sorcerersLevel+1){
           players[turn].spendResearch(cost);
           players[turn].sorcerersLevel = level;
-          println(level);
+          if(level == 3){
+            upgradeAllUnitsHealth(players[turn]);
+            
+          }
           
         }
         break;
@@ -809,6 +812,18 @@ void upgradeAllUnitsSpeed(Player p){
       if(t.unit!=null && t.unit.owner.equals(p)){
         t.unit.mov+=1;
         
+      }
+    }
+    
+  }
+}
+
+void upgradeAllUnitsHealth(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit!=null && t.unit.owner.equals(p)){
+        t.unit.maxhp+=sorcererBonusHP;
+        t.unit.hp+=sorcererBonusHP;
       }
     }
     

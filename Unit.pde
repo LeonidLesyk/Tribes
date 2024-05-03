@@ -139,7 +139,7 @@ class Swordsman extends Unit {
     
     unitType = "Swordsman";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
@@ -159,7 +159,7 @@ class Archer extends Unit {
     
     unitType = "Archer";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
@@ -179,7 +179,7 @@ class Builder extends Unit {
     
     unitType = "Builder";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
@@ -199,7 +199,7 @@ class Cavalier extends Unit {
     
     unitType = "Cavalier";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
@@ -219,7 +219,7 @@ class Giant extends Unit {
     
     unitType = "Giant";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV; //giant will not have move bonus
@@ -240,7 +240,7 @@ class Wizard extends Unit {
     
     unitType = "Wizard";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
@@ -251,7 +251,7 @@ class Wizard extends Unit {
 }
 
 class Trebuchet extends Unit {
-  private final int HP = 2; 
+  private final int HP = 2 + (players[turn].sorcerersLevel>=3?1:0); 
   private final int STRENGTH = 1;
   private final int MOV = 1;
   
@@ -282,7 +282,7 @@ class Dragon extends Unit {
     
     unitType = "Dragon";
     
-    maxhp = HP; 
+    maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
