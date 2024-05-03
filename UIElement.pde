@@ -86,7 +86,7 @@ class endTurnButton extends UIElement{
     if( turn == 2){
       turn = 0;
     }
-    
+    reCalculateFog();
   }
   
   @Override

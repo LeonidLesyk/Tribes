@@ -53,6 +53,9 @@ int wallBuildTime = 2;
 final int dwarvesBonusHP = 5;
 final int sorcererBonusHP = 1;
 final int sorcererBonusArcane = 2;
+
+final int buildingSightRange = 2;
+
 void settings(){
   pixelDensity(displayDensity());
   if(displayDensity() == 1) {
@@ -75,7 +78,7 @@ void setup() {
 
   //initialise game variables
   turn = 0;
-  int size = 10;
+  int size = 14;
   tileSizePixels = screen_height/size;
   players = new Player[2];
 
@@ -89,8 +92,8 @@ void setup() {
 
   gameBoard = new Board(size);
 
-  gameBoard.grid[8][1].building = new Base(gameBoard.grid[8][1].position, player1, gameBoard.grid[8][1].size);
-  gameBoard.grid[1][8].building = new Base(gameBoard.grid[1][8].position, player2, gameBoard.grid[1][8].size);
+  gameBoard.grid[size-2][1].building = new Base(gameBoard.grid[size-2][1].position, player1, gameBoard.grid[size-2][1].size);
+  gameBoard.grid[1][size-2].building = new Base(gameBoard.grid[1][size-2].position, player2, gameBoard.grid[1][size-2].size);
   
 
   
@@ -194,6 +197,7 @@ void setup() {
     UIElements.put("s"+str(i),s);
     
   }
+  reCalculateFog();
 }
 
 void draw() {
@@ -343,15 +347,16 @@ void mouseReleased() {
             players[turn].spendGold(swordCost);
             pressedTile.unit = new Swordsman(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
-          infoBox i = (infoBox)UIElements.get("info");
-          i.active = false;
+          
         }
         else if(unitToSpawn.equals("Archer")){
           if(players[turn].hasEnoughGold(archerCost)){
             players[turn].spendGold(archerCost);
             pressedTile.unit = new Archer(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
         }
         else if(unitToSpawn.equals("Builder")){
@@ -359,6 +364,7 @@ void mouseReleased() {
             players[turn].spendGold(builderCost);
             pressedTile.unit = new Builder(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
         }
         else if(unitToSpawn.equals("Cavalier")){
@@ -366,6 +372,7 @@ void mouseReleased() {
             players[turn].spendGold(cavalierCost);
             pressedTile.unit = new Cavalier(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
         }
         else if(unitToSpawn.equals("Giant")){
@@ -373,6 +380,7 @@ void mouseReleased() {
             players[turn].spendGold(giantCost);
             pressedTile.unit = new Giant(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
         }
         else if(unitToSpawn.equals("Trebuchet")){
@@ -380,6 +388,7 @@ void mouseReleased() {
             players[turn].spendGold(trebuchetCost);
             pressedTile.unit = new Trebuchet(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
         }
       }
@@ -413,6 +422,7 @@ void mouseReleased() {
             players[turn].spendGold(wizardCost);
             pressedTile.unit = new Wizard(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
         }
         if(unitToSpawn.equals("Dragon")){
@@ -421,6 +431,7 @@ void mouseReleased() {
             players[turn].spendGold(dragonCost);
             pressedTile.unit = new Dragon(selectedBuilding.owner);
             resetSelection();
+            reCalculateFog();
           }
         }
       }
@@ -432,7 +443,7 @@ void mouseReleased() {
             players[turn].spendGold(builderCost);
             pressedTile.unit = new Builder(selectedBuilding.owner);
             resetSelection();
-            
+            reCalculateFog();
           }
         }
       }
@@ -466,6 +477,7 @@ void mouseReleased() {
           if(pressedTile.unit instanceof Trebuchet){
             pressedTile.unit.canAttack = false;
           }
+          reCalculateFog();
         } 
   
         //if new tile has a unit belonging to other player, and is within unit's attack range
@@ -635,4 +647,32 @@ void resetBuildSelection(){
   i.active = false;
   researchBuyButton r = (researchBuyButton)UIElements.get("buy");
   r.active = false;
+}
+
+void reCalculateFog(){
+  //hide everything
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      t.hidden = true;
+    }
+  }
+      
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit!=null && t.unit.owner.equals(players[turn])){
+        for(Tile see : gameBoard.range(t, t.unit.sightRange)){
+            see.hidden = false;
+        }
+        t.hidden = false;
+        
+      }else if(t.building!=null && t.building.owner.equals(players[turn])){
+        
+        for(Tile see : gameBoard.range(t, buildingSightRange)){
+            see.hidden = false;
+        }
+        t.hidden = false;
+      }
+    }
+    
+  }
 }

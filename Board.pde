@@ -12,6 +12,7 @@ final class Tile{
   int colour;
   Building building;
   Unit unit;
+  Boolean hidden;
   
   Tile(int size, PVector position, Tile up, Tile down, Tile left, Tile right){
     this.position = position;
@@ -23,27 +24,37 @@ final class Tile{
     this.colour = defaultColour;
     this.building = null;
     this.unit = null;
+    this.hidden = true;
 
   }
   
   void draw(){    
-    fill(colour);
-    stroke(128);
-    square(position.x,position.y,size);
-    fill(0);
-    
-    
-    if (this.building != null && !this.building.destroyed) {
-        this.building.display();
+    if(hidden){
+      fill(64);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      textAlign(CENTER,CENTER);
+      textSize(40);
+      text("?",position.x,position.y,size,size);
+    }else{//in sight range
+      fill(colour);
+      stroke(128);
+      square(position.x,position.y,size);
+      fill(0);
+      if (this.building != null && !this.building.destroyed) {
+          this.building.display();
+      }
+      else if (this.building != null && this.building.destroyed) {
+          this.building = null;//Unbind building
+      }
+      //Display the unit
+      if (this.unit != null) {
+          this.unit.display(position.x, position.y, this.size);
+      }
     }
-    else if (this.building != null && this.building.destroyed) {
-        this.building = null;//Unbind building
     }
-    //Display the unit
-    if (this.unit != null) {
-        this.unit.display(position.x, position.y, this.size);
-    }
-  }
+   
   void hit(int dmg){
     if(this.unit!=null){
       if(this.unit.damage(dmg)){

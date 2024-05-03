@@ -5,7 +5,7 @@ class Unit {
   int mov;
   int atkRange;
   int cost;
- 
+  int sightRange;
   String unitType;
   
   boolean canMove = false;
@@ -110,7 +110,8 @@ class Unit {
     info += "HP = " + hp + "/" + maxhp + "\n";
     info += "Attack Strength = " + strength + "\n";
     info += "Movement Range = " + mov + "\n";
-    info += "Attack Range = " + atkRange;
+    info += "Attack Range = " + atkRange + "\n";
+    info += "Sight Range = " + sightRange;
     
     return info;
   }
@@ -133,6 +134,7 @@ class Swordsman extends Unit {
   private final int HP = 5; 
   private final int STRENGTH = 2;
   private final int MOV = 1;
+  private final int SIGHT = 2;
   
   Swordsman(Player owner) {
     super(owner);
@@ -144,6 +146,7 @@ class Swordsman extends Unit {
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1; //swordsmen should be melee only
+    sightRange = SIGHT;
     
     sprite = loadSprite();
   }
@@ -153,6 +156,7 @@ class Archer extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 1;
   private final int MOV = 1;
+  private final int SIGHT = 2;
   
   Archer(Player owner) {
     super(owner);
@@ -164,7 +168,7 @@ class Archer extends Unit {
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -173,6 +177,7 @@ class Builder extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 0;
   private final int MOV = 1;
+  private final int SIGHT = 3;
   
   Builder(Player owner) {
     super(owner);
@@ -184,7 +189,7 @@ class Builder extends Unit {
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -192,7 +197,8 @@ class Builder extends Unit {
 class Cavalier extends Unit {
   private final int HP = 4; 
   private final int STRENGTH = 2;
-  private final int MOV = 2;
+  private final int MOV = 3;
+  private final int SIGHT = 3;
   
   Cavalier(Player owner) {
     super(owner);
@@ -204,7 +210,7 @@ class Cavalier extends Unit {
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -213,6 +219,7 @@ class Giant extends Unit {
   private final int HP = 10; 
   private final int STRENGTH = 3;
   private final int MOV = 1;
+  private final int SIGHT = 2;
   
   Giant(Player owner) {
     super(owner);
@@ -224,7 +231,7 @@ class Giant extends Unit {
     strength = STRENGTH;
     mov = MOV; //giant will not have move bonus
     atkRange = 1;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -233,6 +240,7 @@ class Wizard extends Unit {
   private final int HP = 2; 
   private final int STRENGTH = 3;
   private final int MOV = 1;
+  private final int SIGHT = 3;
   
   
   Wizard(Player owner) {
@@ -245,7 +253,7 @@ class Wizard extends Unit {
     strength = STRENGTH + (players[turn].sorcerersLevel>=5?2:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -254,6 +262,7 @@ class Trebuchet extends Unit {
   private final int HP = 2 + (players[turn].sorcerersLevel>=3?1:0); 
   private final int STRENGTH = 1;
   private final int MOV = 1;
+  private final int SIGHT = 4;
   
   
   Trebuchet(Player owner) {
@@ -266,7 +275,7 @@ class Trebuchet extends Unit {
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 4;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
@@ -275,6 +284,7 @@ class Dragon extends Unit {
   private final int HP = 8; 
   private final int STRENGTH = 2;
   private final int MOV = 1;
+  private final int SIGHT = 4;
   
   
   Dragon(Player owner) {
@@ -287,7 +297,7 @@ class Dragon extends Unit {
     strength = STRENGTH;
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2;
-    
+    sightRange = SIGHT;
     sprite = loadSprite();
   }
 }
