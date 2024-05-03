@@ -152,20 +152,20 @@ void setup() {
   tribesmenResearchDescriptions[0] = "Archers from Neighbouring Towns have Come to your Aid!\nYou can now train Archers from barracks";
   tribesmenResearchDescriptions[1] = "The Finest Knights have Joined your Barracks!\nYou can now Train Cavaliers from Barracks";
   tribesmenResearchDescriptions[2] = "Improved Instruction Yields Results!\nAll of your Units now Have +1 Bonus ATK";
-  tribesmenResearchDescriptions[3] = "Scouting nearby Caves has Led us to some tameable Ogres\nYou can now Train Giants from Barracks";
+  tribesmenResearchDescriptions[3] = "Scouting nearby Caves has Led Us to some tameable Ogres\nYou can now Train Giants from Barracks";
   tribesmenResearchDescriptions[4] = "Soldiers March better on Increased Rations!\nAll of your Units now Have +1 Movement";
   
   dwarvesResearchDescriptions[0] = "Us Dwarves were Born with a Hammer in Our Hands\nYour Buildings now Build one Turn faster";
-  dwarvesResearchDescriptions[1] = "Only the strongest Dwarvish Stone\nYour Builders can now Build Walls to Stop the Enemy";
-  dwarvesResearchDescriptions[2] = "Ancient Dwarvish Metals discovered in the mines! Your Architecture\n Your buildings now have " + dwarvesBonusHP + " additional hp";
+  dwarvesResearchDescriptions[1] = "Only the strongest Dwarvish Stone!\nYour Builders can now Build Walls to Stop the Enemy";
+  dwarvesResearchDescriptions[2] = "Ancient Dwarvish Metals discovered in the mines!\n Your buildings now have " + dwarvesBonusHP + " additional hp";
   dwarvesResearchDescriptions[3] = "Use of Drills increases Mining Efficiency by 100%!\nYou now Gain +1 extra Gold from Mines";
-  dwarvesResearchDescriptions[4] = "Advances in Mathematics and Engineering have Lead to this Marvel...\n You can now train trebuchets from barracks";
+  dwarvesResearchDescriptions[4] = "Advances in Mathematics and Engineering have Led to this Marvel...\n You can now train trebuchets from barracks";
   
   sorcerersResearchDescriptions[0] = "It's best to Study up Before Heading out to War\nYour Builders Can now Build libraries";
   sorcerersResearchDescriptions[1] = "Interesting Incantations...\nYou Can now Train Wizards from your Libraries";
   sorcerersResearchDescriptions[2] = "Enchanted Embroidery and Imbued Armour...\nAll Your Units now have " + sorcererBonusHP + " Bonus HP";
-  sorcerersResearchDescriptions[3] = "Reticent Rituals lead to pacts with antediluvian Beasts...You can now Train Dragons from your Libraries";
-  sorcerersResearchDescriptions[4] = "Mastery of the Arcane! Wizards now Have +2 ATK";
+  sorcerersResearchDescriptions[3] = "Reticent Rituals lead to Pacts with Antediluvian Beasts...\nYou can now Train Dragons from your Libraries";
+  sorcerersResearchDescriptions[4] = "Mastery of the Arcane! \nWizards now Have +2 ATK";
   
   tribesmenResearchCosts[0] = 5;
   tribesmenResearchCosts[1] = 7;
