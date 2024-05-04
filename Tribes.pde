@@ -83,7 +83,7 @@ void setup() {
 
   //initialise game variables
   turn = 0;
-  int size = 6;
+  int size = 15;
   tileSizePixels = screen_height/size;
   players = new Player[2];
 
@@ -704,7 +704,7 @@ void reCalculateFog() {
   //hide everything
   for (Tile[] ts : gameBoard.grid) {
     for (Tile t : ts) {
-      t.hidden = false; //TODO change
+      t.hidden = true;
     }
   }
 
