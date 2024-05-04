@@ -46,10 +46,12 @@ final int cavalierCost = 20;
 final int trebuchetCost = 20;
 final int dragonCost = 25;
 
+
 int barracksBuildTime = 3;
 int mineBuildTime = 3;
 int libraryBuildTime = 3;
 int wallBuildTime = 2;
+
 
 final int dwarvesBonusHP = 5;
 final int sorcererBonusHP = 1;
