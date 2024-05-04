@@ -41,7 +41,20 @@ class Unit {
     float hpBarY;
     
     if(sprite != null) {
-      image(sprite, centerX, centerY, tileSize, tileSize);
+      //image(sprite, centerX, centerY, tileSize, tileSize);
+      if(owner.playerNumber == 1) {
+        
+        translate(centerX, centerY);
+        scale(-1, 1);
+        image(sprite, 0 - tileSize, 0, tileSize, tileSize);
+        scale(-1, 1);
+        translate(-centerX, -centerY);
+        
+      }
+      else {
+        image(sprite, centerX, centerY, tileSize, tileSize);
+      }
+      
       hpBarY = y + size / 2 + hpBarHeight * 2;
       
     }
@@ -107,6 +120,7 @@ class Unit {
   
   String makeInfoText() {
     String info = unitType + "\n";
+    info += "Owner: Player " + owner.playerNumber + "\n";
     info += "HP = " + hp + "/" + maxhp + "\n";
     info += "Attack Strength = " + strength + "\n";
     info += "Movement Range = " + mov + "\n";
