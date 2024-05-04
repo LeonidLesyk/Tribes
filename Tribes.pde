@@ -520,6 +520,7 @@ void mouseReleased() {
           //damage target unit. if fallen, remove from board
           if (target.damage(damageToApply)) {
             pressedTile.unit = null;
+            reCalculateFog();
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has fallen.");
           } else {
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
