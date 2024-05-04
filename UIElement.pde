@@ -73,7 +73,7 @@ class endTurnButton extends UIElement{
     availbleTiles = null;
     selectedTile = null;
     selectedBuilding = null;
-    
+    unitToSpawn = "";
     for(Tile[] row : gameBoard.grid){
       for(Tile t : row){
         t.colour = t.defaultColour;
