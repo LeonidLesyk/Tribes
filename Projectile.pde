@@ -6,6 +6,7 @@ class Projectile {
     int totalFrames;
     PImage sprite;  // The image to be drawn for this projectile
     int size;
+    float angle;
 
     Projectile(PVector start, PVector end, String spriteName, int frames, int size) {
         this.pos = new PVector(start.x, start.y);
@@ -13,23 +14,27 @@ class Projectile {
         this.size = size;
         this.speed = PVector.sub(dest, start);
         this.speed.div(frames);
+        this.angle = atan2(speed.y, speed.x);
         this.totalFrames = frames;
         this.frameCounter = 0;
         this.sprite = loadSprite(spriteName);
     }
 
     void draw() {
-        if (frameCounter < totalFrames) {
-            pos.add(speed);
-            if (sprite != null) {
-                image(sprite, pos.x-size/2, pos.y-size/2, size/2, size/2);
-            } else {
-                fill(255, 0, 0);  // Default drawing if sprite fails to load
-                circle(pos.x, pos.y, 20);
-            }
-            frameCounter++;
+    if (frameCounter < totalFrames) {
+        pos.add(speed);
+        pushMatrix(); // Save the current transformation matrix
+        translate(pos.x, pos.y); // Move the origin to the projectile's position
+        rotate(angle); // Rotate the coordinate system around the new origin
+        if (sprite != null) {
+            image(sprite, -size/4, -size/4, size/2, size/2); // Draw the image centered at the origin
         }
+        popMatrix(); // Restore the original transformation matrix
+        frameCounter++;
     }
+}
+
+
 
     boolean isDone() {
         return frameCounter >= totalFrames;

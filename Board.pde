@@ -159,7 +159,7 @@ final class Board{
     Tile selectedTile;
     
     //Initiate Mountains
-    for(int i=0; i<6; i++){
+    for(int i=0; i<1; i++){
       int randomx = random.nextInt(size);
       int randomy = random.nextInt(size);
       selectedTile = grid[randomx][randomy];
@@ -170,7 +170,7 @@ final class Board{
         i--;
       }
     }
-    for(int i=0; i<8; i++){
+    for(int i=0; i<1; i++){
      int randomx = random.nextInt(size);
      int randomy = random.nextInt(size);
      selectedTile = grid[randomx][randomy];

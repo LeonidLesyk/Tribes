@@ -83,7 +83,7 @@ void setup() {
 
   //initialise game variables
   turn = 0;
-  int size = 10;
+  int size = 6;
   tileSizePixels = screen_height/size;
   players = new Player[2];
 
