@@ -188,7 +188,7 @@ class Archer extends Unit {
 }
 
 class Builder extends Unit {
-  private final int HP = 4; 
+  private final int HP = 3; 
   private final int STRENGTH = 0;
   private final int MOV = 1;
   private final int SIGHT = 3;
@@ -209,7 +209,7 @@ class Builder extends Unit {
 }
 
 class Cavalier extends Unit {
-  private final int HP = 4; 
+  private final int HP = 6; 
   private final int STRENGTH = 2;
   private final int MOV = 3;
   private final int SIGHT = 3;
@@ -230,8 +230,8 @@ class Cavalier extends Unit {
 }
 
 class Giant extends Unit {
-  private final int HP = 15; 
-  private final int STRENGTH = 3;
+  private final int HP = 25; 
+  private final int STRENGTH = 5;
   private final int MOV = 1;
   private final int SIGHT = 2;
   
@@ -244,6 +244,7 @@ class Giant extends Unit {
     hp = maxhp;
     strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     atkRange = 1;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     sightRange = SIGHT;
     sprite = loadSprite();
   }
@@ -294,7 +295,7 @@ class Trebuchet extends Unit {
 }
 
 class Dragon extends Unit {
-  private final int HP = 12; 
+  private final int HP = 14; 
   private final int STRENGTH = 2;
   private final int MOV = 2;
   private final int SIGHT = 4;

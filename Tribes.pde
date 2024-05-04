@@ -37,8 +37,8 @@ final int libraryCost  = 15;
 final int wallCost     = 5;
 final int goldMineCost = 20;
 
-final int swordCost = 5;
-final int archerCost = 10;
+final int swordCost = 7;
+final int archerCost = 8;
 final int builderCost = 5;
 final int wizardCost = 15;
 final int giantCost = 25;
@@ -491,7 +491,8 @@ void mouseReleased() {
           //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
           println("Moved " + pressedTile.unit.unitType);
           pressedTile.unit.canMove = false;
-          if (pressedTile.unit instanceof Trebuchet) {
+          //disable move attack on Giant and Trebuchet
+          if (pressedTile.unit instanceof Trebuchet||pressedTile.unit instanceof Giant) {
             pressedTile.unit.canAttack = false;
           }
           reCalculateFog();
