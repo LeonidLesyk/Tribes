@@ -201,6 +201,9 @@ class researchBuyButton extends UIElement{
           if(level == 5){
             println("speed");
             upgradeAllUnitsSpeed(players[turn]);
+          }else if(level == 3){
+            println("speed");
+            upgradeAllUnitsDamage(players[turn]);
           }
         }
         break;
@@ -831,6 +834,17 @@ void upgradeAllUnitsHealth(Player p){
       if(t.unit!=null && t.unit.owner.equals(p)){
         t.unit.maxhp+=sorcererBonusHP;
         t.unit.hp+=sorcererBonusHP;
+      }
+    }
+    
+  }
+}
+
+void upgradeAllUnitsDamage(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit!=null && t.unit.owner.equals(p)){
+        t.unit.strength+=1;
       }
     }
     
