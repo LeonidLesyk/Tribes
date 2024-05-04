@@ -240,7 +240,7 @@ void mouseReleased() {
   }
 
 
-  if (mouseButton == LEFT) {
+  else if (mouseButton == LEFT) {
     //if in tile zone
     if (mouseX > tileZoneLeft && mouseX < tileZoneRight) {
       int x = (mouseX - tileZoneLeft)/tileSizePixels;
