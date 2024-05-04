@@ -210,7 +210,7 @@ class Builder extends Unit {
 
 class Cavalier extends Unit {
   private final int HP = 6; 
-  private final int STRENGTH = 2;
+  private final int STRENGTH = 3;
   private final int MOV = 3;
   private final int SIGHT = 3;
   
@@ -264,7 +264,7 @@ class Wizard extends Unit {
     
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0); 
     hp = maxhp;
-    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0) + (players[turn].sorcerersLevel>=3?2:0);
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0) + (players[turn].sorcerersLevel>=5?2:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2;
     sightRange = SIGHT;

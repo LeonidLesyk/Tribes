@@ -15,7 +15,10 @@ HashMap<String, UIElement> UIElements;
 ArrayList<Projectile> Projectiles;
 boolean gameEnd=false;
 boolean transition = false;
+boolean startMenu = true; 
 
+int gameSize;
+boolean fowSetting;
 Tile pressedTile;
 
 Building selectedBuilding = null;
@@ -34,7 +37,7 @@ static Player player2;
 
 final int barrackCost  = 10;
 final int libraryCost  = 15;
-final int wallCost     = 5;
+final int wallCost     = 10;
 final int goldMineCost = 20;
 
 final int swordCost = 7;
@@ -71,8 +74,29 @@ void settings() {
   fullScreen();
 }
 
-void setup() {
+void setup(){
+  screen_width = width;
+  screen_height = height;
+  startMenu = true; 
+  //default game settings
+  gameSize = 10;
+  fowSetting = true;
+  //add UI Elements
+  UIElements  = new HashMap<String, UIElement>();
+  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*3/5, screen_width/5, screen_height/10); 
+  UIElements.put("sizeSelect",sizeSelect);
+  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*7/10, screen_width/5, screen_height/10); 
+  UIElements.put("fowSelect",fowSelect);
+  UIElement start = new gameStart(screen_width*2/5, screen_height*8/10, screen_width/5, screen_height/10); 
+  UIElements.put("start",start);
+  
+  
+  //start game
+  //GameSetup();
+}
 
+void GameSetup() {
+  startMenu = false;
   screen_width = width;
   screen_height = height;
 
@@ -83,8 +107,8 @@ void setup() {
 
   //initialise game variables
   turn = 0;
-  int size = 15;
-  tileSizePixels = screen_height/size;
+  
+  tileSizePixels = screen_height/gameSize;
   players = new Player[2];
 
   gameEnd = false;
@@ -95,10 +119,10 @@ void setup() {
   players[1] = player2;
 
 
-  gameBoard = new Board(size);
+  gameBoard = new Board(gameSize);
 
-  gameBoard.grid[size-2][1].building = new Base(gameBoard.grid[size-2][1].position, player1, gameBoard.grid[size-2][1].size);
-  gameBoard.grid[1][size-2].building = new Base(gameBoard.grid[1][size-2].position, player2, gameBoard.grid[1][size-2].size);
+  gameBoard.grid[gameSize-2][1].building = new Base(gameBoard.grid[gameSize-2][1].position, player1, gameBoard.grid[gameSize-2][1].size);
+  gameBoard.grid[1][gameSize-2].building = new Base(gameBoard.grid[1][gameSize-2].position, player2, gameBoard.grid[1][gameSize-2].size);
 
   
 
@@ -207,7 +231,16 @@ void setup() {
 }
 
 void draw() {
-  if (gameEnd) {//Game end scene
+  if(startMenu){
+    //draw UI Elements
+   // println("start menu");
+   background(0);
+    for (UIElement e : UIElements.values()) {
+      //println("some");
+      e.draw();
+    }
+  }
+  else if (gameEnd) {//Game end scene
     background(0); // Dark background for the game over screen
     fill(255, 0, 0); // Set text color to red
     textSize(64); // Increase text size for impact
@@ -669,7 +702,7 @@ void reCalculateFog() {
   //hide everything
   for (Tile[] ts : gameBoard.grid) {
     for (Tile t : ts) {
-      t.hidden = true;
+      t.hidden = true&&fowSetting;
     }
   }
 

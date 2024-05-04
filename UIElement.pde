@@ -32,6 +32,91 @@ class UIElement{
   }
 }
 
+class Title extends UIElement{
+  Title(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    //silly stuff here
+  }
+  @Override
+  void draw(){
+    //println("drawing");
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(textSizeBig);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Board Size: " + str(gameSize),x,y,width, height);
+  }
+}
+
+class sizeSelector extends UIElement{
+  sizeSelector(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    gameSize+=2;
+    if(gameSize > 20){
+      gameSize = 8;
+    }
+  }
+  @Override
+  void draw(){
+    //println("drawing");
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(textSizeBig);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Board Size: " + str(gameSize),x,y,width, height);
+  }
+}
+
+class fowSelector extends UIElement{
+  fowSelector(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    fowSetting = !fowSetting;
+  }
+  @Override
+  void draw(){
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(textSizeBig);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Fog: " + (fowSetting?"on":"off"),x,y,width, height);
+  }
+}
+
+class gameStart extends UIElement{
+  gameStart(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    GameSetup();
+  }
+  @Override
+  void draw(){
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(textSizeBig);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Start",x,y,width, height);
+  }
+}
+
 class endTurnButton extends UIElement{
   endTurnButton(int x, int y, int width, int height){
     super(x,y,width,height);
