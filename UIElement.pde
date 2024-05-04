@@ -266,7 +266,12 @@ class treeLabel extends UIElement{
     fill(255);
     stroke(128);
     rect(x,y,width,height);
-    textSize(textSizeBig);
+    if(displayDensity() == 1) {
+      textSize(textSizeBig);
+    }
+    else {
+      textSize(textSizeSmaller);
+    }
     fill(0);
     textAlign(CENTER,CENTER);
     text(tribe,x,y,width, height);
@@ -569,9 +574,9 @@ class wizardBuyButton extends UIElement{
   }
 }
 
-class trebuchetBuyButton extends UIElement{
+class catapultBuyButton extends UIElement{
   boolean active;
-  trebuchetBuyButton(int x, int y, int width, int height){
+  catapultBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
     this.active = true;
   }
@@ -579,10 +584,10 @@ class trebuchetBuyButton extends UIElement{
   void onClickAction(){
     println("clicked");
     if(this.active){
-      unitToSpawn = "Trebuchet";
+      unitToSpawn = "Catapult";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Trebuchet is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
+      i.infoText = "The Catapult is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(catapultCost) + " Gold";
       i.active = true;
     }
     
@@ -592,7 +597,7 @@ class trebuchetBuyButton extends UIElement{
     if(selectedBuilding instanceof Barrack && players[turn].dwarvesLevel >= 5){
       this.active = true;
       fill(255);
-      if(unitToSpawn == "Trebuchet"){
+      if(unitToSpawn == "Catapult"){
         fill(players[turn].teamColour);
       }
       stroke(128);
@@ -600,7 +605,7 @@ class trebuchetBuyButton extends UIElement{
       textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
-      text("Tr",x,y,width, height);
+      text("Ca",x,y,width, height);
     }else{
       this.active = false;
     }

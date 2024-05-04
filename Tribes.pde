@@ -1,7 +1,5 @@
 import java.util.*;
 
-//final int screen_width = 1920;// fullHD :)
-//final int screen_height = 1080;
 int tileZoneLeft;
 int tileZoneRight;
 
@@ -43,7 +41,7 @@ final int builderCost = 5;
 final int wizardCost = 15;
 final int giantCost = 25;
 final int cavalierCost = 20;
-final int trebuchetCost = 20;
+final int catapultCost = 20;
 final int dragonCost = 25;
 
 
@@ -63,11 +61,13 @@ SpriteLoader loader;
 
 void settings() {
   pixelDensity(displayDensity());
+  /*
   if (displayDensity() == 1) {
     size(1920, 1080);
   } else {
     size(1500, 800);
   }
+  */
   fullScreen();
 }
 
@@ -134,7 +134,7 @@ void setup() {
   UIElements.put("giBuy", giBuy);
   UIElement  wzBuy = new wizardBuyButton(tileZoneLeft*5/6, screen_height/10, tileZoneLeft/6, tileZoneLeft/6);
   UIElements.put("wzBuy", wzBuy);
-  UIElement  trBuy = new trebuchetBuyButton(0, screen_height/10 + tileZoneLeft/6, tileZoneLeft/6, tileZoneLeft/6);
+  UIElement  trBuy = new catapultBuyButton(0, screen_height/10 + tileZoneLeft/6, tileZoneLeft/6, tileZoneLeft/6);
   UIElements.put("trBuy", trBuy);
   UIElement  drBuy = new dragonBuyButton(tileZoneLeft/6, screen_height/10 + tileZoneLeft/6, tileZoneLeft/6, tileZoneLeft/6);
   UIElements.put("drBuy", drBuy);
@@ -169,7 +169,7 @@ void setup() {
   dwarvesResearchDescriptions[1] = "Only the strongest Dwarvish Stone!\nYour Builders can now Build Walls to Stop the Enemy";
   dwarvesResearchDescriptions[2] = "Ancient Dwarvish Metals discovered in the mines!\n Your buildings now have " + dwarvesBonusHP + " additional hp";
   dwarvesResearchDescriptions[3] = "Use of Drills increases Mining Efficiency by 100%!\nYou now Gain +1 extra Gold from Mines";
-  dwarvesResearchDescriptions[4] = "Advances in Mathematics and Engineering have Led to this Marvel...\n You can now train trebuchets from barracks";
+  dwarvesResearchDescriptions[4] = "Advances in Mathematics and Engineering have Led to this Marvel...\n You can now train catapults from barracks";
 
   sorcerersResearchDescriptions[0] = "It's best to Study up Before Heading out to War\nYour Builders Can now Build libraries";
   sorcerersResearchDescriptions[1] = "Interesting Incantations...\nYou Can now Train Wizards from your Libraries";
@@ -394,10 +394,10 @@ void mouseReleased() {
             resetSelection();
             reCalculateFog();
           }
-        } else if (unitToSpawn.equals("Trebuchet")) {
-          if (players[turn].hasEnoughGold(trebuchetCost)) {
-            players[turn].spendGold(trebuchetCost);
-            pressedTile.unit = new Trebuchet(selectedBuilding.owner);
+        } else if (unitToSpawn.equals("Catapult")) {
+          if (players[turn].hasEnoughGold(catapultCost)) {
+            players[turn].spendGold(catapultCost);
+            pressedTile.unit = new Catapult(selectedBuilding.owner);
             resetSelection();
             reCalculateFog();
           }
@@ -491,7 +491,7 @@ void mouseReleased() {
           //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
           println("Moved " + pressedTile.unit.unitType);
           pressedTile.unit.canMove = false;
-          if (pressedTile.unit instanceof Trebuchet) {
+          if (pressedTile.unit instanceof Catapult) {
             pressedTile.unit.canAttack = false;
           }
           reCalculateFog();
