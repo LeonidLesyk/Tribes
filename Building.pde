@@ -16,7 +16,7 @@ class Building {
   Building(PVector position, int health, Player owner, int size,String name) {
     this.position = position;
     this.maxHealth = health;
-    this.health = health;
+    this.health = 0;
     this.owner = owner;
     this.destroyed = false;
     this.size =  size;
@@ -127,6 +127,7 @@ class Barrack extends Building {
   void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
+      health = maxHealth * currentBuildTurn/barracksBuildTime;
       if (currentBuildTurn >= barracksBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
@@ -187,6 +188,7 @@ class Library extends Building {
   void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
+      health = maxHealth * currentBuildTurn/barracksBuildTime;
       if (currentBuildTurn >= libraryBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
@@ -252,6 +254,7 @@ class GoldMine extends Building {
   void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
+      health = maxHealth * currentBuildTurn/barracksBuildTime;
       if (currentBuildTurn >= mineBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
@@ -316,6 +319,7 @@ class Wall extends Building {
   void turnEndAction() {
     if(!built){
       currentBuildTurn += 1;
+      health = maxHealth * currentBuildTurn/barracksBuildTime;
       if (currentBuildTurn >= wallBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }

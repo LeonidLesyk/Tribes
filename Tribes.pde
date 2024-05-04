@@ -529,8 +529,8 @@ void mouseReleased() {
           }
           
           //reduced damage if target unt is in torest
-          if(selectedTile.terrain instanceof Forest){
-            damageToApply = constrain(damageToApply-1, 1, damageToApply-1);
+          if(pressedTile.terrain instanceof Forest){
+            damageToApply = Math.max(1, damageToApply-1);
           }
                 
           println("Damage to apply: " + damageToApply);

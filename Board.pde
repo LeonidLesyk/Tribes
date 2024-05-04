@@ -62,18 +62,19 @@ final class Tile{
       stroke(128);
       square(position.x,position.y,size);
       fill(0);
-      if (this.building != null && !this.building.destroyed) {
-          this.building.display();
-      }
-      else if (this.building != null && this.building.destroyed) {
-          this.building = null;//Unbind building
-      }
-      //Display the unit
-      if (this.unit != null) {
-          this.unit.display(position.x, position.y, this.size);
-      }
+
     }
+    if (this.building != null && !this.building.destroyed) {
+      this.building.display();
+      }
+    else if (this.building != null && this.building.destroyed) {
+        this.building = null;//Unbind building
     }
+    //Display the unit
+    if (this.unit != null) {
+      this.unit.display(position.x, position.y, this.size);
+    }
+  }
    
   void hit(int dmg){
     if(this.unit!=null){
@@ -122,11 +123,14 @@ final class Board{
       }
     }
     
-    //TODO add mountains count
-    grid[size/2][4].terrain = new Mountain(2);
-    grid[4][5].terrain = new Mountain(2);
-    grid[5][4].terrain = new Mountain(2);
-    grid[5][5].terrain = new Mountain(2);
+    
+    
+    for(int i=0; i<size/5; i++){
+      for(int j=0; j<size/5; j++){
+        grid[size/2-(size/10)+i][size/2-(size/10)+j].terrain = new Mountain(2);
+      }
+    }
+    
     
     Tile selectedTile;
     
