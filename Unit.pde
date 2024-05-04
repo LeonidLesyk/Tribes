@@ -30,33 +30,34 @@ class Unit {
     float tileSize = size;
     
     size = size/2;
-    x = x + size;
-    y = y + size;
+    centerX = x + size;
+    centerY = y + size;
+    
+    float spriteSize = tileSize * 0.9;
     
     
-    // HP Bar display
     float hpBarWidth = size;
     float hpBarHeight = size / 8;
-    float hpBarX = x - size / 2;
-    float hpBarY;
+    float hpBarX = centerX - size / 2;
+    float hpBarY = y + hpBarHeight/2;
+    float actionBarY = hpBarY + hpBarHeight;
+
     
     if(sprite != null) {
-      //image(sprite, centerX, centerY, tileSize, tileSize);
+      
+      //mirror if red, don't if blue
       if(owner.playerNumber == 1) {
         
-        translate(centerX, centerY);
+        translate(x, y + tileSize * 0.1);
         scale(-1, 1);
-        image(sprite, 0 - tileSize, 0, tileSize, tileSize);
+        image(sprite, 0 - tileSize, 0, spriteSize, spriteSize);
         scale(-1, 1);
-        translate(-centerX, -centerY);
-        
+        translate(-x, -y - tileSize * 0.1);
       }
       else {
-        image(sprite, centerX, centerY, tileSize, tileSize);
+        image(sprite, x, y + tileSize * 0.1, spriteSize, spriteSize);
       }
-      
-      hpBarY = y + size / 2 + hpBarHeight * 2;
-      
+            
     }
     else {
       size = size * 3 / 4; 
@@ -69,12 +70,11 @@ class Unit {
       fill(#000000); //black
       textSize(15);
       text(unitType, x-size/2, y + size/4 * 3);
-      
-      hpBarY = y - size / 2 - hpBarHeight * 2;
+
     }
     
     if(this.owner == players[turn]){
-      float actionBarY = hpBarY + hpBarHeight;
+      //float actionBarY = hpBarY + hpBarHeight;
       //action Bar background
       fill(50); // Dark gray background
       rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
@@ -90,9 +90,6 @@ class Unit {
         rect(hpBarX, actionBarY, hpBarWidth/2, hpBarHeight);
       }
     }
-    
-    
-    
     
     //HP Bar Background
     fill(50); // Dark gray background
