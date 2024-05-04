@@ -12,7 +12,7 @@ static Board gameBoard;
 int tileSizePixels;
 int turn;
 HashMap<String, UIElement> UIElements;
-ArrayList<Projectile> Projectiles;
+ArrayList<Projectile> projectiles;
 boolean gameEnd=false;
 boolean transition = false;
 
@@ -83,7 +83,7 @@ void setup() {
 
   //initialise game variables
   turn = 0;
-  int size = 15;
+  int size = 10;
   tileSizePixels = screen_height/size;
   players = new Player[2];
 
@@ -149,7 +149,7 @@ void setup() {
   UIElement wallBuy = new wallBuyButton(tileZoneLeft*3/6, screen_height/10 + tileZoneLeft*2/6, tileZoneLeft/6, tileZoneLeft/6);
   UIElements.put("wallBuy", wallBuy);
 
-  Projectiles = new ArrayList<Projectile>();
+  projectiles = new ArrayList<Projectile>();
 
   researchCap = 5;
   String[] tribesmenResearchDescriptions = new String[researchCap];
@@ -227,6 +227,17 @@ void draw() {
     //draw UI Elements
     for (UIElement e : UIElements.values()) {
       e.draw();
+    }
+    
+    
+    for (int i=0; i<projectiles.size(); i++){
+      if (projectiles.get(i).frameCounter < projectiles.get(i).totalFrames){
+        projectiles.get(i).draw();
+      }
+      else{
+        projectiles.remove(i);
+        i--;
+      }
     }
   }
 }
@@ -517,6 +528,27 @@ void mouseReleased() {
 
           println("Damage to apply: " + damageToApply);
 
+          
+          if(attacker instanceof Archer){
+            PVector start = new PVector(selectedTile.position.x + tileSizePixels/2, selectedTile.position.y + tileSizePixels/2);
+            PVector end = new PVector(pressedTile.position.x + tileSizePixels/2, pressedTile.position.y + tileSizePixels/2);
+            projectiles.add(new Arrow(start, end, pressedTile.size));
+          }
+          if(attacker instanceof Trebuchet){
+            PVector start = new PVector(selectedTile.position.x + tileSizePixels/2, selectedTile.position.y + tileSizePixels/2);
+            PVector end = new PVector(pressedTile.position.x + tileSizePixels/2, pressedTile.position.y + tileSizePixels/2);
+            projectiles.add(new Rock(start, end, pressedTile.size));
+          }
+        if(attacker instanceof Wizard){
+            PVector start = new PVector(selectedTile.position.x + tileSizePixels/2, selectedTile.position.y + tileSizePixels/2);
+            PVector end = new PVector(pressedTile.position.x + tileSizePixels/2, pressedTile.position.y + tileSizePixels/2);
+            projectiles.add(new Fireball(start, end, turn, pressedTile.size));
+          }
+
+
+
+
+
           //damage target unit. if fallen, remove from board
           if (target.damage(damageToApply)) {
             pressedTile.unit = null;
@@ -672,7 +704,7 @@ void reCalculateFog() {
   //hide everything
   for (Tile[] ts : gameBoard.grid) {
     for (Tile t : ts) {
-      t.hidden = true;
+      t.hidden = false; //TODO change
     }
   }
 
