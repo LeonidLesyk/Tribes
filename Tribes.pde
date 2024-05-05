@@ -587,6 +587,10 @@ void mouseReleased() {
           if(pressedTile.terrain instanceof Forest){
             damageToApply = Math.max(1, damageToApply-1);
           }
+          
+          if (selectedTile.terrain instanceof Mountain){
+            damageToApply += 1;
+          }
 
           println("Damage to apply: " + damageToApply);
 
@@ -600,7 +604,7 @@ void mouseReleased() {
           } else {
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
           }
-          
+
           //show projectile
           PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);
           PVector destination = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
@@ -677,16 +681,23 @@ void mouseReleased() {
 
           int damageToApply = attacker.strength;
           println("Damage to apply: " + damageToApply);
+           
+          if (selectedTile.terrain instanceof Mountain){
+            damageToApply += 1;
+          }
+
+
+
 
           //damage target unit. if fallen, remove from board
           if (target.applyDamage(attacker.strength)) {
             pressedTile.building = null;
-            attacker.canAttack = false;
-            attacker.canMove = false;
             println(attacker.unitType + " attacked " + target.getClass().getName() + " has fallen.");
           } else {
             println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
           }
+          attacker.canAttack = false;
+          attacker.canMove = false;
           
           //show projectile
           PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);

@@ -15,7 +15,7 @@ class UIElement{
     this.height = height;
     
     if(displayDensity() == 1) {
-      textSizeBig = 40;
+      textSizeBig = 38;
       textSizeSmaller = 32;
       textSizeSmallest = textSizeSmaller;
     }
