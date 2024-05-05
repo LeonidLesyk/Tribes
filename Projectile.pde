@@ -23,13 +23,13 @@ class Projectile {
     void draw() {
     if (frameCounter < totalFrames) {
         pos.add(speed);
-        pushMatrix(); // Save the current transformation matrix
-        translate(pos.x, pos.y); // Move the origin to the projectile's position
-        rotate(angle); // Rotate the coordinate system around the new origin
+        pushMatrix(); //Save the current transformation matrix
+        translate(pos.x, pos.y); //Move the origin to the projectile's position
+        rotate(angle); //Rotate the coordinate system around the new origin
         if (sprite != null) {
-            image(sprite, -size/4, -size/4, size/2, size/2); // Draw the image centered at the origin
+            image(sprite, -size/4, -size/4, size/2, size/2); //Draw the image centered at the origin
         }
-        popMatrix(); // Restore the original transformation matrix
+        popMatrix(); //Restore the original transformation matrix
         frameCounter++;
     }
 }
