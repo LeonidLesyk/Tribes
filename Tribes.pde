@@ -785,7 +785,18 @@ void keyPressed() {
   } else if (key == '5') {
     println("ToSpawn: Giant");
     unitToSpawn = "Giant";
-  } else if (key == 'Q' || key == 'q') {
+  } else if (key == '6') {
+    println("ToSpawn: Catapult");
+    unitToSpawn = "Catapult";
+  } else if (key == '7') {
+    println("ToSpawn: Wizard");
+    unitToSpawn = "Wizard";
+  } else if (key == '8') {
+    println("ToSpawn: Dragon");
+    unitToSpawn = "Dragon";
+  }
+  
+  else if (key == 'Q' || key == 'q') {
     toBuildClass = "Barrack";
   } else if (key == 'W' || key == 'w') {
     toBuildClass = "Library";
