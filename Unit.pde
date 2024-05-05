@@ -240,7 +240,7 @@ class Cavalier extends Unit {
   private final int HP = 6; 
   private final int STRENGTH = 3;
   private final int MOV = 3;
-  private final int SIGHT = 3;
+  private final int SIGHT = 4;
 
   Cavalier(Player owner) {
     super(owner);

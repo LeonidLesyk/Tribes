@@ -6,6 +6,7 @@ class UIElement{
   
   int textSizeBig;
   int textSizeSmaller;
+  int textSizeSmallest;
   
   UIElement(int x, int y, int width, int height){
     this.x = x;
@@ -14,12 +15,14 @@ class UIElement{
     this.height = height;
     
     if(displayDensity() == 1) {
-      textSizeBig = 40;
+      textSizeBig = 38;
       textSizeSmaller = 32;
+      textSizeSmallest = textSizeSmaller;
     }
     else {
       textSizeBig = 32;
       textSizeSmaller = 24;
+      textSizeSmallest = 20;
     }
     
   }
@@ -42,10 +45,10 @@ class sizeSelector extends UIElement{
     if(gameSize > 20){
       gameSize = 8;
     }
-    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"fireball1.png", 15);
-    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"fireball1.png", 15);
-    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"fireball1.png", 15);
-    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"fireball1.png", 15);
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0), loader.fireball1, 15);
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),loader.fireball1, 15);
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),loader.fireball1, 15);
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),loader.fireball1, 15);
     Projectiles.add(flair);
     Projectiles.add(flair1);
     Projectiles.add(flair2);
@@ -55,11 +58,11 @@ class sizeSelector extends UIElement{
   @Override
   void draw(){
     //println("drawing");
-    fill(255);
-    stroke(128);
+    fill(128);
+    //stroke(128);
     rect(x,y,width,height);
     textSize(textSizeBig);
-    fill(0);
+    fill(255);
     textAlign(CENTER,CENTER);
     text("Board Size: " + str(gameSize),x,y,width, height);
   }
@@ -72,10 +75,10 @@ class fowSelector extends UIElement{
   @Override
   void onClickAction(){
     fowSetting = !fowSetting;
-    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"rock.png", 15);
-    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"rock.png", 15);
-    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"rock.png", 15);
-    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"rock.png", 15);
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),loader.rock, 15);
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),loader.rock, 15);
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),loader.rock, 15);
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),loader.rock, 15);
     Projectiles.add(flair);
     Projectiles.add(flair1);
     Projectiles.add(flair2);
@@ -83,11 +86,11 @@ class fowSelector extends UIElement{
   }
   @Override
   void draw(){
-    fill(255);
-    stroke(128);
+    fill(128);
+    //stroke(128);
     rect(x,y,width,height);
     textSize(textSizeBig);
-    fill(0);
+    fill(255);
     textAlign(CENTER,CENTER);
     text("Fog: " + (fowSetting?"on":"off"),x,y,width, height);
   }
@@ -103,11 +106,11 @@ class gameStart extends UIElement{
   }
   @Override
   void draw(){
-    fill(255);
-    stroke(128);
+    fill(128);
+    //stroke(128);
     rect(x,y,width,height);
     textSize(textSizeBig);
-    fill(0);
+    fill(255);
     textAlign(CENTER,CENTER);
     text("Start",x,y,width, height);
   }
@@ -245,10 +248,10 @@ class infoBox extends UIElement{
       fill(255);
       stroke(128);
       rect(x,y,width,height);
-      textSize(textSizeSmaller);
+      textSize(textSizeSmallest);
       fill(0);
       textAlign(LEFT,TOP);
-      text(infoText,x+10,y+10,width, height);
+      text(infoText,x+10,y+10,width - 10, height - 10);
     }
     
   }
@@ -674,7 +677,7 @@ class trebuchetBuyButton extends UIElement{
       unitToSpawn = "Catapult";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Catapult is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
+      i.infoText = "The Catapult is a long range, low atk troop perfect for laying seige to buildings or defending an area. It is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
       i.active = true;
     }
     

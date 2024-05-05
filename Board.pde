@@ -49,7 +49,8 @@ final class Tile{
       fill(0);
         
       if(this.terrain instanceof Mountain){
-        image(loader.mountain, position.x, position.y, size, size);
+        PImage mountainImage = (terrain.bonus == 1)?loader.mountain:loader.goldMountain;
+        image(mountainImage, position.x, position.y, size, size);
         /*
         fill(#8B97A6);
         stroke(128);
@@ -148,10 +149,10 @@ final class Board{
     }
     
     
-    
-    for(int i=0; i<size/5; i++){
-      for(int j=0; j<size/5; j++){
-        grid[size/2-(size/10)+i][size/2-(size/10)+j].terrain = new Mountain(2);
+    //Center Mountains
+    for(int i=size/2-1; i<size/2+1; i++){
+      for(int j=size/2-1; j<size/2+1; j++){
+        grid[i][j].terrain = new Mountain(2);  
       }
     }
     

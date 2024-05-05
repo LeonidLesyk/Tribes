@@ -64,6 +64,7 @@ final int sorcererBonusArcane = 2;
 final int buildingSightRange = 2;
 
 SpriteLoader loader;
+PGraphics pg;
 
 void settings() {
   pixelDensity(displayDensity());
@@ -84,21 +85,35 @@ void setup(){
   //default game settings
   gameSize = 10;
   fowSetting = true;
-  startBackground = loadImage("resources/title.png");
+  
+
+  
+  startBackground= loadImage("resources/title.png");
   startBackground.resize(screen_width,screen_height);
+  
+  pg = createGraphics(screen_width, screen_height);
+  
+  pg.beginDraw();
+  pg.image(startBackground, 0, 0);
+  pg.endDraw();
+  
+  //println("screen: " + width + ", " + height);
+  //println("image: " + startBackground.width + ", " + startBackground.height);
   
   //add UI Elements
   UIElements  = new HashMap<String, UIElement>();
-  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*5/10, screen_width/5, screen_height/10); 
+  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*45/100, screen_width/5, screen_height/10); 
   UIElements.put("sizeSelect",sizeSelect);
-  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*6/10, screen_width/5, screen_height/10); 
+  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*57/100, screen_width/5, screen_height/10); 
   UIElements.put("fowSelect",fowSelect);
-  UIElement start = new gameStart(screen_width*2/5, screen_height*7/10, screen_width/5, screen_height/10); 
+  UIElement start = new gameStart(screen_width*2/5, screen_height*69/100, screen_width/5, screen_height/10); 
   UIElements.put("start",start);
   
   tileSizePixels = 160;
   Projectiles = new ArrayList<Projectile>();
   
+  loader = new SpriteLoader();
+
 
 }
 
@@ -110,7 +125,6 @@ void GameSetup() {
   tileZoneLeft = (screen_width-screen_height)/2;
   tileZoneRight = tileZoneLeft + screen_height;
 
-  loader = new SpriteLoader();
 
   //initialise game variables
   turn = 0;
@@ -239,9 +253,13 @@ void GameSetup() {
 
 void draw() {
   if(startMenu){
-    background(0);
+    /*
+    println("screen: " + screen_width + ", " + screen_height);
+    println("image: " + startBackground.width + ", " + startBackground.height);
+    background(startBackground);
+    */
     imageMode(CORNER);
-    image(startBackground,0,0);
+    image(pg,0,0);
     //draw UI Elements
     println(frameRate);
     for (UIElement e : UIElements.values()) {
@@ -342,7 +360,7 @@ void mouseReleased() {
       }
 
       //If clicked on builder
-      else if (pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]) {
+      else if (pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn] && pressedTile.unit.canAttack) {
         unitToSpawn = "";
         selectedBuilding = null;
         availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
@@ -356,30 +374,39 @@ void mouseReleased() {
       }
 
       //Building logic
-      else if (pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile)) {
+      else if (pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile) && selectedTile.unit!=null) {
         if (toBuildClass.equals("Barrack")) {
           if (players[turn].hasEnoughGold(barrackCost)) {
             players[turn].spendGold(barrackCost);
             pressedTile.building = new Barrack(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
+            
           }
         } else if (toBuildClass.equals("Library")) {
           if (players[turn].hasEnoughGold(libraryCost)) {
             players[turn].spendGold(libraryCost);
             pressedTile.building = new Library(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
           }
         } else if (toBuildClass.equals("Gold")) {
           if (players[turn].hasEnoughGold(goldMineCost)) {
             players[turn].spendGold(goldMineCost);
             pressedTile.building = new GoldMine(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
           }
         } else if (toBuildClass.equals("Wall")) {
           if (players[turn].hasEnoughGold(wallCost)) {
             players[turn].spendGold(wallCost);
             pressedTile.building = new Wall(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
           }
         }
       }
@@ -569,6 +596,10 @@ void mouseReleased() {
           if(pressedTile.terrain instanceof Forest){
             damageToApply = Math.max(1, damageToApply-1);
           }
+          
+          if (selectedTile.terrain instanceof Mountain){
+            damageToApply += 1;
+          }
 
           println("Damage to apply: " + damageToApply);
 
@@ -582,26 +613,26 @@ void mouseReleased() {
           } else {
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
           }
-          
+
           //show projectile
           PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);
           PVector destination = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
           Projectile p;
           switch(selectedTile.unit.unitType){
             case "Archer":
-              p = new Projectile(origin,destination,"arrow.png",15);
+              p = new Projectile(origin,destination,loader.arrow,15);
               Projectiles.add(p);
               break;
             case "Wizard":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png",15);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(p);
               break;
             case "Dragon":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png",20);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,20);
               Projectiles.add(p);
               break;
             case "Catapult":
-              p = new Projectile(origin,destination,"rock.png",50);
+              p = new Projectile(origin,destination,loader.rock,50);
               Projectiles.add(p);
               break;
           }
@@ -613,7 +644,7 @@ void mouseReleased() {
             if(pressedTile.up!=null){
               PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
-              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png", 15);
+              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pup);
               
               pressedTile.up.hit(attacker.strength);
@@ -621,7 +652,7 @@ void mouseReleased() {
             if(pressedTile.down!=null){
               PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
-              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png",15);
+              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(pdown);
               
               pressedTile.down.hit(attacker.strength);
@@ -629,7 +660,7 @@ void mouseReleased() {
             if(pressedTile.left!=null){
               PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
-              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png",15);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(pleft);
               
               pressedTile.left.hit(attacker.strength);
@@ -637,7 +668,7 @@ void mouseReleased() {
             if(pressedTile.right!=null){
               PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
-              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png",15);
+              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(pright);
               
               pressedTile.right.hit(attacker.strength);
@@ -659,16 +690,20 @@ void mouseReleased() {
 
           int damageToApply = attacker.strength;
           println("Damage to apply: " + damageToApply);
-
+           
+          if (selectedTile.terrain instanceof Mountain){
+            damageToApply += 1;
+          }
+          
           //damage target unit. if fallen, remove from board
           if (target.applyDamage(attacker.strength)) {
             pressedTile.building = null;
-            attacker.canAttack = false;
-            attacker.canMove = false;
             println(attacker.unitType + " attacked " + target.getClass().getName() + " has fallen.");
           } else {
             println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
           }
+          attacker.canAttack = false;
+          attacker.canMove = false;
           
           //show projectile
           PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);
@@ -676,19 +711,19 @@ void mouseReleased() {
           Projectile p;
           switch(selectedTile.unit.unitType){
             case "Archer":
-              p = new Projectile(origin,destination,"arrow.png", 15);
+              p = new Projectile(origin,destination,loader.arrow, 15);
               Projectiles.add(p);
               break;
             case "Wizard":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png", 20);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 20);
               Projectiles.add(p);
               break;
             case "Dragon":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png", 20);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 20);
               Projectiles.add(p);
               break;
             case "Catapult":
-              p = new Projectile(origin,destination,"rock.png", 50);
+              p = new Projectile(origin,destination,loader.rock, 50);
               Projectiles.add(p);
               break;
           }
@@ -698,7 +733,7 @@ void mouseReleased() {
             if(pressedTile.up!=null){
               PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
-              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png", 15);
+              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pup);
               
               pressedTile.up.hit(attacker.strength);
@@ -706,7 +741,7 @@ void mouseReleased() {
             if(pressedTile.down!=null){
               PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
-              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png", 15);
+              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pdown);
               
               pressedTile.down.hit(attacker.strength);
@@ -714,7 +749,7 @@ void mouseReleased() {
             if(pressedTile.left!=null){
               PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
-              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png", 15);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pleft);
               
               pressedTile.left.hit(attacker.strength);
@@ -722,7 +757,7 @@ void mouseReleased() {
             if(pressedTile.right!=null){
               PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
-              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png", 15);
+              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pright);
               
               pressedTile.right.hit(attacker.strength);
