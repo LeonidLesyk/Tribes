@@ -283,6 +283,8 @@ void mouseReleased() {
       int x = (mouseX - tileZoneLeft)/tileSizePixels;
 
       int y = mouseY/tileSizePixels;
+      constrain(x,0,gameSize-1);
+      constrain(y,0,gameSize-1);
       pressedTile = gameBoard.grid[x][y];
 
       //clear highlight on previous tile
