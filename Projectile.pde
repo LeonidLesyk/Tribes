@@ -4,24 +4,38 @@ class Projectile{
   PVector speed;
   int frameCounter;
   int totalFrames;
-  Projectile(PVector start, PVector end){
-    int frames = 60;
+  PImage sprite;
+  Projectile(PVector start, PVector end,String file){
+    int frames = 15;
     this.pos = start;
     this.dest = end; 
+    this.speed = new PVector();
     this.speed.x = end.x - start.x;
     this.speed.y = end.y - start.y;
     this.speed.div(frames);
     this.totalFrames = frames;
     this.frameCounter = 0;
+    sprite = loadImage("resources/" + file);
+    sprite.resize(tileSizePixels/2,tileSizePixels/2);
+    
+    
   }
   
-  void draw(){
+  boolean draw(){
     pos.add(speed);
     frameCounter+=1;
     if(frameCounter>=totalFrames){
       //destroy projectile
     }
-    fill(0);
-    circle(pos.x,pos.y,40);
+    fill(128);
+    imageMode(CENTER);
+    //sprite rotate
+    
+    image(sprite,pos.x,pos.y);
+    
+    imageMode(CORNER);
+    return frameCounter > totalFrames ;
   }
+  
+  
 }

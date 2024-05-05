@@ -13,6 +13,7 @@ int tileSizePixels;
 int turn;
 HashMap<String, UIElement> UIElements;
 ArrayList<Projectile> Projectiles;
+
 boolean gameEnd=false;
 boolean transition = false;
 boolean startMenu = true; 
@@ -94,6 +95,9 @@ void setup(){
   UIElements.put("fowSelect",fowSelect);
   UIElement start = new gameStart(screen_width*2/5, screen_height*7/10, screen_width/5, screen_height/10); 
   UIElements.put("start",start);
+  
+  tileSizePixels = 160;
+  Projectiles = new ArrayList<Projectile>();
   
 
 }
@@ -236,6 +240,7 @@ void GameSetup() {
 void draw() {
   if(startMenu){
     background(0);
+    imageMode(CORNER);
     image(startBackground,0,0);
     //draw UI Elements
     println(frameRate);
@@ -243,6 +248,7 @@ void draw() {
       //println("some");
       e.draw();
     }
+    renderProjectiles();
   }
   else if (gameEnd) {//Game end scene
     background(0); // Dark background for the game over screen
@@ -265,6 +271,7 @@ void draw() {
     for (UIElement e : UIElements.values()) {
       e.draw();
     }
+    renderProjectiles();
   }
 }
 
@@ -563,12 +570,68 @@ void mouseReleased() {
           } else {
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
           }
+          
+          //show projectile
+          PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);
+          PVector destination = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+          Projectile p;
+          switch(selectedTile.unit.unitType){
+            case "Archer":
+              p = new Projectile(origin,destination,"arrow.png");
+              Projectiles.add(p);
+              break;
+            case "Wizard":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Dragon":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Trebuchet":
+              p = new Projectile(origin,destination,"rock.png");
+              Projectiles.add(p);
+              break;
+          }
+          
+          
+          
           //dragon splash implementation
           if (attacker instanceof Dragon) {
-            pressedTile.up.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.down.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.left.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.right.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            if(pressedTile.up!=null){
+              PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
+              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pup);
+              
+              pressedTile.up.hit(attacker.strength);
+            }
+            if(pressedTile.down!=null){
+              PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
+              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pdown);
+              
+              pressedTile.down.hit(attacker.strength);
+            }
+            if(pressedTile.left!=null){
+              PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pleft);
+              
+              pressedTile.left.hit(attacker.strength);
+            }
+            if(pressedTile.right!=null){
+              PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
+              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pright);
+              
+              pressedTile.right.hit(attacker.strength);
+            }
+            
+
           }
           attacker.canMove = false;
           attacker.canAttack = false;
@@ -586,7 +649,7 @@ void mouseReleased() {
           println("Damage to apply: " + damageToApply);
 
           //damage target unit. if fallen, remove from board
-          if (target.applyDamage(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0))) {
+          if (target.applyDamage(attacker.strength)) {
             pressedTile.building = null;
             attacker.canAttack = false;
             attacker.canMove = false;
@@ -594,12 +657,63 @@ void mouseReleased() {
           } else {
             println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
           }
+          
+          //show projectile
+          PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);
+          PVector destination = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+          Projectile p;
+          switch(selectedTile.unit.unitType){
+            case "Archer":
+              p = new Projectile(origin,destination,"arrow.png");
+              Projectiles.add(p);
+              break;
+            case "Wizard":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Dragon":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Trebuchet":
+              p = new Projectile(origin,destination,"rock.png");
+              Projectiles.add(p);
+              break;
+          }
+          
           //dragon splash implementation
           if (attacker instanceof Dragon) {
-            pressedTile.up.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.down.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.left.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.right.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            if(pressedTile.up!=null){
+              PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
+              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pup);
+              
+              pressedTile.up.hit(attacker.strength);
+            }
+            if(pressedTile.down!=null){
+              PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
+              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pdown);
+              
+              pressedTile.down.hit(attacker.strength);
+            }
+            if(pressedTile.left!=null){
+              PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pleft);
+              
+              pressedTile.left.hit(attacker.strength);
+            }
+            if(pressedTile.right!=null){
+              PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
+              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pright);
+              
+              pressedTile.right.hit(attacker.strength);
           }
           attacker.canMove = false;
           attacker.canAttack = false;
@@ -729,6 +843,21 @@ void reCalculateFog() {
         }
         t.hidden = false;
       }
+    }
+  }
+}
+
+void renderProjectiles(){
+  ArrayList<Projectile> toRemove = new ArrayList<Projectile>();
+  for(Projectile p: Projectiles){
+    if(p.draw()){
+      toRemove.add(p);
+    }
+  }
+  
+  for(Projectile p: toRemove){
+    if(p.draw()){
+      Projectiles.remove(p);
     }
   }
 }

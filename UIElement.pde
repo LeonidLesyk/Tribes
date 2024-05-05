@@ -32,27 +32,6 @@ class UIElement{
   }
 }
 
-class Title extends UIElement{
-  Title(int x, int y, int width, int height){
-    super(x,y,width,height);
-  }
-  @Override
-  void onClickAction(){
-    //silly stuff here
-  }
-  @Override
-  void draw(){
-    //println("drawing");
-    fill(255);
-    stroke(128);
-    rect(x,y,width,height);
-    textSize(textSizeBig);
-    fill(0);
-    textAlign(CENTER,CENTER);
-    text("Board Size: " + str(gameSize),x,y,width, height);
-  }
-}
-
 class sizeSelector extends UIElement{
   sizeSelector(int x, int y, int width, int height){
     super(x,y,width,height);
@@ -63,6 +42,15 @@ class sizeSelector extends UIElement{
     if(gameSize > 20){
       gameSize = 8;
     }
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"fireball1.png");
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"fireball1.png");
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"fireball1.png");
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"fireball1.png");
+    Projectiles.add(flair);
+    Projectiles.add(flair1);
+    Projectiles.add(flair2);
+    Projectiles.add(flair3);
+
   }
   @Override
   void draw(){
@@ -84,6 +72,14 @@ class fowSelector extends UIElement{
   @Override
   void onClickAction(){
     fowSetting = !fowSetting;
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"rock.png");
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"rock.png");
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"rock.png");
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"rock.png");
+    Projectiles.add(flair);
+    Projectiles.add(flair1);
+    Projectiles.add(flair2);
+    Projectiles.add(flair3);
   }
   @Override
   void draw(){
