@@ -677,7 +677,7 @@ class trebuchetBuyButton extends UIElement{
       unitToSpawn = "Catapult";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Catapult is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
+      i.infoText = "The Catapult is a long range, low atk troop perfect for laying seige to buildings or defending an area. It is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
       i.active = true;
     }
     
