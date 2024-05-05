@@ -64,6 +64,7 @@ final int sorcererBonusArcane = 2;
 final int buildingSightRange = 2;
 
 SpriteLoader loader;
+PGraphics pg;
 
 void settings() {
   pixelDensity(displayDensity());
@@ -84,8 +85,20 @@ void setup(){
   //default game settings
   gameSize = 10;
   fowSetting = true;
-  startBackground = loadImage("resources/title.png");
+  
+
+  
+  startBackground= loadImage("resources/title.png");
   startBackground.resize(screen_width,screen_height);
+  
+  pg = createGraphics(screen_width, screen_height);
+  
+  pg.beginDraw();
+  pg.image(startBackground, 0, 0);
+  pg.endDraw();
+  
+  //println("screen: " + width + ", " + height);
+  //println("image: " + startBackground.width + ", " + startBackground.height);
   
   //add UI Elements
   UIElements  = new HashMap<String, UIElement>();
@@ -240,9 +253,13 @@ void GameSetup() {
 
 void draw() {
   if(startMenu){
-    background(0);
+    /*
+    println("screen: " + screen_width + ", " + screen_height);
+    println("image: " + startBackground.width + ", " + startBackground.height);
+    background(startBackground);
+    */
     imageMode(CORNER);
-    image(startBackground,0,0);
+    image(pg,0,0);
     //draw UI Elements
     println(frameRate);
     for (UIElement e : UIElements.values()) {
