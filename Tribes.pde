@@ -312,6 +312,7 @@ void mouseReleased() {
           t.colour = t.defaultColour;
         }
         selectedTile.colour = selectedTile.defaultColour;
+        println("setting 4 range tiles to default");
       }
 
 
@@ -723,18 +724,19 @@ void mouseReleased() {
               Projectiles.add(pright);
               
               pressedTile.right.hit(attacker.strength);
+            }
+            attacker.canMove = false;
+            attacker.canAttack = false;
+            infoBox i = (infoBox)UIElements.get("info");
+            i.infoText = target.makeInfoText();
+            i.active = true;
           }
-          attacker.canMove = false;
-          attacker.canAttack = false;
-          infoBox i = (infoBox)UIElements.get("info");
-          i.infoText = target.makeInfoText();
-          i.active = true;
         }
       }
+    selectedTile = pressedTile;
+    }
 
-
-      selectedTile = pressedTile;
-    } else {
+    else {
       println("UIElements");
       //else inside ui elements
       for (UIElement e : UIElements.values()) {
@@ -745,7 +747,9 @@ void mouseReleased() {
         }
       }
     }
-   else if (mouseButton == RIGHT) {
+
+  }
+  else if (mouseButton == RIGHT) {
     pressedTile = null;
     availbleTiles = null;
     for (int i=0; i<gameBoard.grid.length; i++) {
@@ -760,7 +764,6 @@ void mouseReleased() {
     buildMode = false;
     clearBuyArea();
   }
-}
 }
 
 //Test for spawning units
