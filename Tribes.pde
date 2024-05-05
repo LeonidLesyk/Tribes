@@ -281,10 +281,19 @@ void mouseReleased() {
     gameEnd = false;
   } else if (transition) {
     transition = false;
+  }else if(startMenu){
+    for (UIElement e : UIElements.values()) {
+        //check inside region
+        if (mouseX > e.x && mouseX < e.x + e.width && mouseY > e.y && mouseY < e.y + e.height) {
+          e.onClickAction();
+          break;
+        }
+      }
   }
 
 
   else if (mouseButton == LEFT) {
+    println("normal");
     //if in tile zone
     if (mouseX > tileZoneLeft && mouseX < tileZoneRight) {
       int x = (mouseX - tileZoneLeft)/tileSizePixels;
@@ -726,6 +735,7 @@ void mouseReleased() {
 
       selectedTile = pressedTile;
     } else {
+      println("UIElements");
       //else inside ui elements
       for (UIElement e : UIElements.values()) {
         //check inside region
@@ -735,7 +745,7 @@ void mouseReleased() {
         }
       }
     }
-  } else if (mouseButton == RIGHT) {
+   else if (mouseButton == RIGHT) {
     pressedTile = null;
     availbleTiles = null;
     for (int i=0; i<gameBoard.grid.length; i++) {
@@ -751,7 +761,7 @@ void mouseReleased() {
     clearBuyArea();
   }
 }
-
+}
 
 //Test for spawning units
 void keyPressed() {
