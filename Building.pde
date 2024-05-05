@@ -385,9 +385,10 @@ class Wall extends Building {
     buildTime = wallBuildTime;
   }
   
-  void turnEndAction() {
+  void turnEndAction(int bonus) {
     if(!built){
       currentBuildTurn += 1;
+      println("Wall build Pass here");
       health = maxHealth * currentBuildTurn/(wallBuildTime - (this.owner.dwarvesLevel>0?1:0));
       if (currentBuildTurn >= wallBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;

@@ -4,7 +4,7 @@ class Projectile {
     PVector speed;
     int frameCounter;
     int totalFrames;
-    PImage sprite;  // The image to be drawn for this projectile
+    PImage sprite;
     int size;
     float angle;
 
@@ -24,10 +24,10 @@ class Projectile {
     if (frameCounter < totalFrames) {
         pos.add(speed);
         pushMatrix(); //Save the current transformation matrix
-        translate(pos.x, pos.y); //Move the origin to the projectile's position
-        rotate(angle); //Rotate the coordinate system around the new origin
+        translate(pos.x, pos.y); //Move origin to the projectile's position
+        rotate(angle); //Rotate the coordinate around new origin
         if (sprite != null) {
-            image(sprite, -size/4, -size/4, size/2, size/2); //Draw the image centered at the origin
+            image(sprite, -size/4, -size/4, size/2, size/2);
         }
         popMatrix(); //Restore the original transformation matrix
         frameCounter++;
