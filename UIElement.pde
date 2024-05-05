@@ -42,10 +42,10 @@ class sizeSelector extends UIElement{
     if(gameSize > 20){
       gameSize = 8;
     }
-    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0), loader.fireball1);
-    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),loader.fireball1);
-    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),loader.fireball1);
-    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),loader.fireball1);
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0), loader.fireball1, 15);
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),loader.fireball1, 15);
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),loader.fireball1, 15);
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),loader.fireball1, 15);
     Projectiles.add(flair);
     Projectiles.add(flair1);
     Projectiles.add(flair2);
@@ -72,10 +72,10 @@ class fowSelector extends UIElement{
   @Override
   void onClickAction(){
     fowSetting = !fowSetting;
-    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),loader.rock);
-    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),loader.rock);
-    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),loader.rock);
-    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),loader.rock);
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),loader.rock, 15);
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),loader.rock, 15);
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),loader.rock, 15);
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),loader.rock, 15);
     Projectiles.add(flair);
     Projectiles.add(flair1);
     Projectiles.add(flair2);
@@ -129,10 +129,12 @@ class endTurnButton extends UIElement{
       for(int j=0; j<gameBoard.grid[i].length; j++){
         if(gameBoard.grid[i][j].building != null && gameBoard.grid[i][j].building.owner == players[currnetPlayer]){
           
-            if(gameBoard.grid[i][j].terrain instanceof Mountain) {
-              gameBoard.grid[i][j].building.turnEndAction(gameBoard.grid[i][j].terrain.bonus);
-            }
+          if(gameBoard.grid[i][j].terrain instanceof Mountain) {
+            gameBoard.grid[i][j].building.turnEndAction(gameBoard.grid[i][j].terrain.bonus);
+          }
+          else{
             gameBoard.grid[i][j].building.turnEndAction(0);
+          }
 
 
         }

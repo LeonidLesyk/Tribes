@@ -584,11 +584,13 @@ void mouseReleased() {
           println("Damage1: " + damageToApply);
 
           //reduced damage if target unt is in torest
-          if (selectedTile.terrain instanceof Forest) {
-            damageToApply = constrain(damageToApply-1, 1, damageToApply-1);
+          if(pressedTile.terrain instanceof Forest){
+            damageToApply = Math.max(1, damageToApply-1);
           }
 
           println("Damage to apply: " + damageToApply);
+
+          
 
           //damage target unit. if fallen, remove from board
           if (target.damage(damageToApply)) {
@@ -605,19 +607,19 @@ void mouseReleased() {
           Projectile p;
           switch(selectedTile.unit.unitType){
             case "Archer":
-              p = new Projectile(origin,destination,loader.arrow);
+              p = new Projectile(origin,destination,loader.arrow,15);
               Projectiles.add(p);
               break;
             case "Wizard":
-              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(p);
               break;
             case "Dragon":
-              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,20);
               Projectiles.add(p);
               break;
-            case "Trebuchet":
-              p = new Projectile(origin,destination,loader.rock);
+            case "Catapult":
+              p = new Projectile(origin,destination,loader.rock,50);
               Projectiles.add(p);
               break;
           }
@@ -629,7 +631,7 @@ void mouseReleased() {
             if(pressedTile.up!=null){
               PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
-              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pup);
               
               pressedTile.up.hit(attacker.strength);
@@ -637,7 +639,7 @@ void mouseReleased() {
             if(pressedTile.down!=null){
               PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
-              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(pdown);
               
               pressedTile.down.hit(attacker.strength);
@@ -645,7 +647,7 @@ void mouseReleased() {
             if(pressedTile.left!=null){
               PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
-              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(pleft);
               
               pressedTile.left.hit(attacker.strength);
@@ -653,7 +655,7 @@ void mouseReleased() {
             if(pressedTile.right!=null){
               PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
-              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2,15);
               Projectiles.add(pright);
               
               pressedTile.right.hit(attacker.strength);
@@ -692,19 +694,19 @@ void mouseReleased() {
           Projectile p;
           switch(selectedTile.unit.unitType){
             case "Archer":
-              p = new Projectile(origin,destination,loader.arrow);
+              p = new Projectile(origin,destination,loader.arrow, 15);
               Projectiles.add(p);
               break;
             case "Wizard":
-              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 20);
               Projectiles.add(p);
               break;
             case "Dragon":
-              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 20);
               Projectiles.add(p);
               break;
-            case "Trebuchet":
-              p = new Projectile(origin,destination,loader.rock);
+            case "Catapult":
+              p = new Projectile(origin,destination,loader.rock, 50);
               Projectiles.add(p);
               break;
           }
@@ -714,7 +716,7 @@ void mouseReleased() {
             if(pressedTile.up!=null){
               PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
-              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pup);
               
               pressedTile.up.hit(attacker.strength);
@@ -722,7 +724,7 @@ void mouseReleased() {
             if(pressedTile.down!=null){
               PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
-              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pdown);
               
               pressedTile.down.hit(attacker.strength);
@@ -730,7 +732,7 @@ void mouseReleased() {
             if(pressedTile.left!=null){
               PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
-              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pleft);
               
               pressedTile.left.hit(attacker.strength);
@@ -738,7 +740,7 @@ void mouseReleased() {
             if(pressedTile.right!=null){
               PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
-              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
+              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2, 15);
               Projectiles.add(pright);
               
               pressedTile.right.hit(attacker.strength);

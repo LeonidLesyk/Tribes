@@ -90,29 +90,29 @@ final class Tile{
           this.building.display();
         }
       }
-      else if (this.building != null && this.building.destroyed) {
-          this.building = null;//Unbind building
-      }
-      //Display the unit
-      if (this.unit != null) {
-          this.unit.display(position.x, position.y, this.size);
-      }
+    else if (this.building != null && this.building.destroyed) {
+        this.building = null;//Unbind building
     }
+    //Display the unit
+    if (this.unit != null) {
+      this.unit.display(position.x, position.y, this.size);
     }
-   
+  }
+  }
   void hit(int dmg){
     if(this.unit!=null){
       if(this.unit.damage(dmg)){
         this.unit = null;
       }
-    }else if(this.building!=null){
+    }
+    else if(this.building!=null){
       if(this.building.applyDamage(dmg)){
         this.building = null;
       }
         
     }
   }
-  
+
 }
 
 final class Board{
@@ -147,27 +147,34 @@ final class Board{
       }
     }
     
-    //TODO add mountains count
-    grid[size/2][4].terrain = new Mountain(2);
-    grid[4][5].terrain = new Mountain(2);
-    grid[5][4].terrain = new Mountain(2);
-    grid[5][5].terrain = new Mountain(2);
+    
+    
+    for(int i=0; i<size/5; i++){
+      for(int j=0; j<size/5; j++){
+        grid[size/2-(size/10)+i][size/2-(size/10)+j].terrain = new Mountain(2);
+      }
+    }
+    
     
     Tile selectedTile;
     
     //Initiate Mountains
-    for(int i=0; i<6; i++){
-     selectedTile = grid[random.nextInt(size)][random.nextInt(size)];
-     if (selectedTile.terrain == null){
-       selectedTile.terrain = new Mountain(1);
-     }
-     else{
-       i--;
-     }
+    for(int i=0; i<size/2+1; i++){
+      int randomx = random.nextInt(size);
+      int randomy = random.nextInt(size);
+      selectedTile = grid[randomx][randomy];
+      if (selectedTile.terrain == null && !isNearBase(randomx, randomy, size)){
+         selectedTile.terrain = new Mountain(1);
+      }
+      else{
+        i--;
+      }
     }
-    for(int i=0; i<8; i++){
-     selectedTile = grid[random.nextInt(size)][random.nextInt(size)];
-     if (selectedTile.terrain == null){
+    for(int i=0; i<size*0.6; i++){
+     int randomx = random.nextInt(size);
+     int randomy = random.nextInt(size);
+     selectedTile = grid[randomx][randomy];
+     if (selectedTile.terrain == null && !isNearBase(randomx, randomy, size)){
        selectedTile.terrain = new Forest();
      }
      else{
@@ -211,6 +218,14 @@ final class Board{
     
     return locations;
   }
+  
+  boolean isNearBase(int x, int y, int size) {
+    int exclusionRange = 1;
+    boolean nearBase1 = (x >= size - 2 - exclusionRange && x <= size - 2 + exclusionRange) && (y >= 1 - exclusionRange && y <= 1 + exclusionRange);
+    boolean nearBase2 = (x >= 1 - exclusionRange && x <= 1 + exclusionRange) && (y >= size - 2 - exclusionRange && y <= size - 2 + exclusionRange);
+    return nearBase1 || nearBase2;
+  }
+  
   void draw(){
     for(int y = 0; y < size; y+=1){
       for(int x = 0; x < size; x+=1){
