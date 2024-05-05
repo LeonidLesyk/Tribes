@@ -41,7 +41,7 @@ final int builderCost = 5;
 final int wizardCost = 15;
 final int giantCost = 25;
 final int cavalierCost = 20;
-final int catapultCost = 20;
+final int trebuchetCost = 20;
 final int dragonCost = 25;
 
 
@@ -134,7 +134,7 @@ void setup() {
   UIElements.put("giBuy", giBuy);
   UIElement  wzBuy = new wizardBuyButton(tileZoneLeft*5/6, screen_height/10, tileZoneLeft/6, tileZoneLeft/6);
   UIElements.put("wzBuy", wzBuy);
-  UIElement  trBuy = new catapultBuyButton(0, screen_height/10 + tileZoneLeft/6, tileZoneLeft/6, tileZoneLeft/6);
+  UIElement  trBuy = new trebuchetBuyButton(0, screen_height/10 + tileZoneLeft/6, tileZoneLeft/6, tileZoneLeft/6);
   UIElements.put("trBuy", trBuy);
   UIElement  drBuy = new dragonBuyButton(tileZoneLeft/6, screen_height/10 + tileZoneLeft/6, tileZoneLeft/6, tileZoneLeft/6);
   UIElements.put("drBuy", drBuy);
@@ -395,9 +395,9 @@ void mouseReleased() {
             reCalculateFog();
           }
         } else if (unitToSpawn.equals("Catapult")) {
-          if (players[turn].hasEnoughGold(catapultCost)) {
-            players[turn].spendGold(catapultCost);
-            pressedTile.unit = new Catapult(selectedBuilding.owner);
+          if (players[turn].hasEnoughGold(trebuchetCost)) {
+            players[turn].spendGold(trebuchetCost);
+            pressedTile.unit = new Trebuchet(selectedBuilding.owner);
             resetSelection();
             reCalculateFog();
           }
@@ -491,7 +491,7 @@ void mouseReleased() {
           //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
           println("Moved " + pressedTile.unit.unitType);
           pressedTile.unit.canMove = false;
-          if (pressedTile.unit instanceof Catapult) {
+          if (pressedTile.unit instanceof Trebuchet) {
             pressedTile.unit.canAttack = false;
           }
           reCalculateFog();

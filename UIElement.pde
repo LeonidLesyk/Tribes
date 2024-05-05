@@ -574,9 +574,9 @@ class wizardBuyButton extends UIElement{
   }
 }
 
-class catapultBuyButton extends UIElement{
+class trebuchetBuyButton extends UIElement{
   boolean active;
-  catapultBuyButton(int x, int y, int width, int height){
+  trebuchetBuyButton(int x, int y, int width, int height){
     super(x,y,width,height);
     this.active = true;
   }
@@ -587,7 +587,7 @@ class catapultBuyButton extends UIElement{
       unitToSpawn = "Catapult";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Catapult is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(catapultCost) + " Gold";
+      i.infoText = "The Catapult is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
       i.active = true;
     }
     

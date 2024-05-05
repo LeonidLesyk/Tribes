@@ -320,14 +320,14 @@ class Wizard extends Unit {
   }
 }
 
-class Catapult extends Unit {
+class Trebuchet extends Unit {
   private final int HP = 2 + (players[turn].sorcerersLevel>=3?1:0);
   private final int STRENGTH = 1;
   private final int MOV = 1;
   private final int SIGHT = 4;
 
 
-  Catapult(Player owner) {
+  Trebuchet(Player owner) {
     super(owner);
 
     unitType = "Catapult";
