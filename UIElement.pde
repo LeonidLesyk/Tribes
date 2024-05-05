@@ -6,6 +6,7 @@ class UIElement{
   
   int textSizeBig;
   int textSizeSmaller;
+  int textSizeSmallest;
   
   UIElement(int x, int y, int width, int height){
     this.x = x;
@@ -16,10 +17,12 @@ class UIElement{
     if(displayDensity() == 1) {
       textSizeBig = 40;
       textSizeSmaller = 32;
+      textSizeSmallest = textSizeSmaller;
     }
     else {
       textSizeBig = 32;
       textSizeSmaller = 24;
+      textSizeSmallest = 20;
     }
     
   }
@@ -245,10 +248,10 @@ class infoBox extends UIElement{
       fill(255);
       stroke(128);
       rect(x,y,width,height);
-      textSize(textSizeSmaller);
+      textSize(textSizeSmallest);
       fill(0);
       textAlign(LEFT,TOP);
-      text(infoText,x+10,y+10,width, height);
+      text(infoText,x+10,y+10,width - 10, height - 10);
     }
     
   }
