@@ -250,7 +250,7 @@ class infoBox extends UIElement{
       textSize(textSizeSmaller);
       fill(0);
       textAlign(LEFT,TOP);
-      text(infoText,x,y,x+width, y+height);
+      text(infoText,x+10,y+10,width, height);
     }
     
   }
