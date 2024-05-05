@@ -11,8 +11,14 @@ int tileSizePixels;
 int turn;
 HashMap<String, UIElement> UIElements;
 ArrayList<Projectile> Projectiles;
+
 boolean gameEnd=false;
 boolean transition = false;
+boolean startMenu = true; 
+
+int gameSize;
+boolean fowSetting;
+PImage startBackground;
 
 Tile pressedTile;
 
@@ -32,11 +38,11 @@ static Player player2;
 
 final int barrackCost  = 10;
 final int libraryCost  = 15;
-final int wallCost     = 5;
+final int wallCost     = 10;
 final int goldMineCost = 20;
 
-final int swordCost = 5;
-final int archerCost = 10;
+final int swordCost = 7;
+final int archerCost = 8;
 final int builderCost = 5;
 final int wizardCost = 15;
 final int giantCost = 25;
@@ -71,8 +77,33 @@ void settings() {
   fullScreen();
 }
 
-void setup() {
+void setup(){
+  screen_width = width;
+  screen_height = height;
+  startMenu = true; 
+  //default game settings
+  gameSize = 10;
+  fowSetting = true;
+  startBackground = loadImage("resources/title.png");
+  startBackground.resize(screen_width,screen_height);
+  
+  //add UI Elements
+  UIElements  = new HashMap<String, UIElement>();
+  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*5/10, screen_width/5, screen_height/10); 
+  UIElements.put("sizeSelect",sizeSelect);
+  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*6/10, screen_width/5, screen_height/10); 
+  UIElements.put("fowSelect",fowSelect);
+  UIElement start = new gameStart(screen_width*2/5, screen_height*7/10, screen_width/5, screen_height/10); 
+  UIElements.put("start",start);
+  
+  tileSizePixels = 160;
+  Projectiles = new ArrayList<Projectile>();
+  
 
+}
+
+void GameSetup() {
+  startMenu = false;
   screen_width = width;
   screen_height = height;
 
@@ -83,8 +114,8 @@ void setup() {
 
   //initialise game variables
   turn = 0;
-  int size = 15;
-  tileSizePixels = screen_height/size;
+  
+  tileSizePixels = screen_height/gameSize;
   players = new Player[2];
 
   gameEnd = false;
@@ -95,10 +126,10 @@ void setup() {
   players[1] = player2;
 
 
-  gameBoard = new Board(size);
+  gameBoard = new Board(gameSize);
 
-  gameBoard.grid[size-2][1].building = new Base(gameBoard.grid[size-2][1].position, player1, gameBoard.grid[size-2][1].size);
-  gameBoard.grid[1][size-2].building = new Base(gameBoard.grid[1][size-2].position, player2, gameBoard.grid[1][size-2].size);
+  gameBoard.grid[gameSize-2][1].building = new Base(gameBoard.grid[gameSize-2][1].position, player1, gameBoard.grid[gameSize-2][1].size);
+  gameBoard.grid[1][gameSize-2].building = new Base(gameBoard.grid[1][gameSize-2].position, player2, gameBoard.grid[1][gameSize-2].size);
 
   
 
@@ -207,7 +238,19 @@ void setup() {
 }
 
 void draw() {
-  if (gameEnd) {//Game end scene
+  if(startMenu){
+    background(0);
+    imageMode(CORNER);
+    image(startBackground,0,0);
+    //draw UI Elements
+    println(frameRate);
+    for (UIElement e : UIElements.values()) {
+      //println("some");
+      e.draw();
+    }
+    renderProjectiles();
+  }
+  else if (gameEnd) {//Game end scene
     background(0); // Dark background for the game over screen
     fill(255, 0, 0); // Set text color to red
     textSize(64); // Increase text size for impact
@@ -228,6 +271,7 @@ void draw() {
     for (UIElement e : UIElements.values()) {
       e.draw();
     }
+    renderProjectiles();
   }
 }
 
@@ -240,12 +284,17 @@ void mouseReleased() {
   }
 
 
-  if (mouseButton == LEFT) {
+  else if (mouseButton == LEFT) {
     //if in tile zone
     if (mouseX > tileZoneLeft && mouseX < tileZoneRight) {
       int x = (mouseX - tileZoneLeft)/tileSizePixels;
-
       int y = mouseY/tileSizePixels;
+      if(x>gameSize-1){
+        x = gameSize-1;
+      }
+      if(y>gameSize-1){
+        y = gameSize-1;
+      }
       pressedTile = gameBoard.grid[x][y];
 
       //clear highlight on previous tile
@@ -491,7 +540,8 @@ void mouseReleased() {
           //println("Moved " + pressedTile.unit.unitType + " from (" + selectedTile.x + ", " + selectedTile.y + ") to (" + pressedTile.x + ", " + pressedTile.y + ")");
           println("Moved " + pressedTile.unit.unitType);
           pressedTile.unit.canMove = false;
-          if (pressedTile.unit instanceof Trebuchet) {
+          //disable move attack on Giant and Trebuchet
+          if (pressedTile.unit instanceof Trebuchet||pressedTile.unit instanceof Giant) {
             pressedTile.unit.canAttack = false;
           }
           reCalculateFog();
@@ -505,11 +555,6 @@ void mouseReleased() {
           int damageToApply = attacker.strength;
           println("Damage1: " + damageToApply);
 
-          // Damage is boosted if tribesmen level is greater than 2
-          if (players[turn].tribesmenLevel > 2) {
-            damageToApply += 1;
-          }
-
           //reduced damage if target unt is in torest
           if (selectedTile.terrain instanceof Forest) {
             damageToApply = constrain(damageToApply-1, 1, damageToApply-1);
@@ -520,16 +565,73 @@ void mouseReleased() {
           //damage target unit. if fallen, remove from board
           if (target.damage(damageToApply)) {
             pressedTile.unit = null;
+            reCalculateFog();
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has fallen.");
           } else {
             println(attacker.unitType + " attacked " + target.unitType + ". " + target.unitType + " has " + target.hp + " hp.");
           }
+          
+          //show projectile
+          PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);
+          PVector destination = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+          Projectile p;
+          switch(selectedTile.unit.unitType){
+            case "Archer":
+              p = new Projectile(origin,destination,"arrow.png");
+              Projectiles.add(p);
+              break;
+            case "Wizard":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Dragon":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Trebuchet":
+              p = new Projectile(origin,destination,"rock.png");
+              Projectiles.add(p);
+              break;
+          }
+          
+          
+          
           //dragon splash implementation
           if (attacker instanceof Dragon) {
-            pressedTile.up.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.down.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.left.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.right.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            if(pressedTile.up!=null){
+              PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
+              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pup);
+              
+              pressedTile.up.hit(attacker.strength);
+            }
+            if(pressedTile.down!=null){
+              PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
+              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pdown);
+              
+              pressedTile.down.hit(attacker.strength);
+            }
+            if(pressedTile.left!=null){
+              PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pleft);
+              
+              pressedTile.left.hit(attacker.strength);
+            }
+            if(pressedTile.right!=null){
+              PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
+              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pright);
+              
+              pressedTile.right.hit(attacker.strength);
+            }
+            
+
           }
           attacker.canMove = false;
           attacker.canAttack = false;
@@ -547,7 +649,7 @@ void mouseReleased() {
           println("Damage to apply: " + damageToApply);
 
           //damage target unit. if fallen, remove from board
-          if (target.applyDamage(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0))) {
+          if (target.applyDamage(attacker.strength)) {
             pressedTile.building = null;
             attacker.canAttack = false;
             attacker.canMove = false;
@@ -555,12 +657,63 @@ void mouseReleased() {
           } else {
             println(attacker.unitType + " attacked " + target.getClass().getName() + " has " + target.health + " hp.");
           }
+          
+          //show projectile
+          PVector origin = new PVector(selectedTile.position.x + selectedTile.size/2,selectedTile.position.y + selectedTile.size/2);
+          PVector destination = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+          Projectile p;
+          switch(selectedTile.unit.unitType){
+            case "Archer":
+              p = new Projectile(origin,destination,"arrow.png");
+              Projectiles.add(p);
+              break;
+            case "Wizard":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Dragon":
+              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              Projectiles.add(p);
+              break;
+            case "Trebuchet":
+              p = new Projectile(origin,destination,"rock.png");
+              Projectiles.add(p);
+              break;
+          }
+          
           //dragon splash implementation
           if (attacker instanceof Dragon) {
-            pressedTile.up.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.down.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.left.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
-            pressedTile.right.hit(attacker.strength + (players[turn].tribesmenLevel > 2? 1:0));
+            if(pressedTile.up!=null){
+              PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
+              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pup);
+              
+              pressedTile.up.hit(attacker.strength);
+            }
+            if(pressedTile.down!=null){
+              PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
+              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pdown);
+              
+              pressedTile.down.hit(attacker.strength);
+            }
+            if(pressedTile.left!=null){
+              PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
+              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pleft);
+              
+              pressedTile.left.hit(attacker.strength);
+            }
+            if(pressedTile.right!=null){
+              PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
+              PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
+              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png");
+              Projectiles.add(pright);
+              
+              pressedTile.right.hit(attacker.strength);
           }
           attacker.canMove = false;
           attacker.canAttack = false;
@@ -672,7 +825,7 @@ void reCalculateFog() {
   //hide everything
   for (Tile[] ts : gameBoard.grid) {
     for (Tile t : ts) {
-      t.hidden = true;
+      t.hidden = true&&fowSetting;
     }
   }
 
@@ -690,6 +843,21 @@ void reCalculateFog() {
         }
         t.hidden = false;
       }
+    }
+  }
+}
+
+void renderProjectiles(){
+  ArrayList<Projectile> toRemove = new ArrayList<Projectile>();
+  for(Projectile p: Projectiles){
+    if(p.draw()){
+      toRemove.add(p);
+    }
+  }
+  
+  for(Projectile p: toRemove){
+    if(p.draw()){
+      Projectiles.remove(p);
     }
   }
 }

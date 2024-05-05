@@ -162,7 +162,7 @@ class Swordsman extends Unit {
 
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0);
     hp = maxhp;
-    strength = STRENGTH;
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1; //swordsmen should be melee only
     sightRange = SIGHT;
@@ -179,8 +179,8 @@ class Swordsman extends Unit {
 }
 
 class Archer extends Unit {
-  private final int HP = 4;
-  private final int STRENGTH = 1;
+  private final int HP = 4; 
+  private final int STRENGTH = 2                        ;
   private final int MOV = 1;
   private final int SIGHT = 2;
 
@@ -191,7 +191,7 @@ class Archer extends Unit {
 
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0);
     hp = maxhp;
-    strength = STRENGTH;
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2; //archers can attack only from 2 spaces away. we can change this
     sightRange = SIGHT;
@@ -207,7 +207,7 @@ class Archer extends Unit {
 }
 
 class Builder extends Unit {
-  private final int HP = 4;
+  private final int HP = 3; 
   private final int STRENGTH = 0;
   private final int MOV = 1;
   private final int SIGHT = 3;
@@ -219,7 +219,7 @@ class Builder extends Unit {
 
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0);
     hp = maxhp;
-    strength = STRENGTH;
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
     sightRange = SIGHT;
@@ -237,8 +237,8 @@ class Builder extends Unit {
 }
 
 class Cavalier extends Unit {
-  private final int HP = 4;
-  private final int STRENGTH = 2;
+  private final int HP = 6; 
+  private final int STRENGTH = 3;
   private final int MOV = 3;
   private final int SIGHT = 3;
 
@@ -249,7 +249,7 @@ class Cavalier extends Unit {
 
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0);
     hp = maxhp;
-    strength = STRENGTH;
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 1;
     sightRange = SIGHT;
@@ -265,8 +265,8 @@ class Cavalier extends Unit {
 }
 
 class Giant extends Unit {
-  private final int HP = 15;
-  private final int STRENGTH = 3;
+  private final int HP = 25; 
+  private final int STRENGTH = 5;
   private final int MOV = 1;
   private final int SIGHT = 2;
 
@@ -277,9 +277,9 @@ class Giant extends Unit {
 
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0);
     hp = maxhp;
-    strength = STRENGTH;
-    mov = MOV; //giant will not have move bonus
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     atkRange = 1;
+    mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     sightRange = SIGHT;
     sprite = loadSprite();
   }
@@ -306,7 +306,7 @@ class Wizard extends Unit {
 
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0);
     hp = maxhp;
-    strength = STRENGTH + (players[turn].sorcerersLevel>=5?2:0);
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0) + (players[turn].sorcerersLevel>=5?2:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2;
     sightRange = SIGHT;
@@ -334,7 +334,7 @@ class Trebuchet extends Unit {
 
     maxhp = HP;
     hp = maxhp;
-    strength = STRENGTH;
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 4;
     sightRange = SIGHT;
@@ -350,7 +350,7 @@ class Trebuchet extends Unit {
 }
 
 class Dragon extends Unit {
-  private final int HP = 12;
+  private final int HP = 14; 
   private final int STRENGTH = 2;
   private final int MOV = 2;
   private final int SIGHT = 4;
@@ -363,7 +363,7 @@ class Dragon extends Unit {
 
     maxhp = HP + (players[turn].sorcerersLevel>=3?1:0);
     hp = maxhp;
-    strength = STRENGTH;
+    strength = STRENGTH + (players[turn].tribesmenLevel>=3?1:0);
     mov = MOV + (players[turn].tribesmenLevel>=5?1:0);
     atkRange = 2;
     sightRange = SIGHT;
