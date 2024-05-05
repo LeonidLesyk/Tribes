@@ -102,11 +102,11 @@ void setup(){
   
   //add UI Elements
   UIElements  = new HashMap<String, UIElement>();
-  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*5/10, screen_width/5, screen_height/10); 
+  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*45/100, screen_width/5, screen_height/10); 
   UIElements.put("sizeSelect",sizeSelect);
-  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*6/10, screen_width/5, screen_height/10); 
+  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*57/100, screen_width/5, screen_height/10); 
   UIElements.put("fowSelect",fowSelect);
-  UIElement start = new gameStart(screen_width*2/5, screen_height*7/10, screen_width/5, screen_height/10); 
+  UIElement start = new gameStart(screen_width*2/5, screen_height*69/100, screen_width/5, screen_height/10); 
   UIElements.put("start",start);
   
   tileSizePixels = 160;

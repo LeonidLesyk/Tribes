@@ -55,11 +55,11 @@ class sizeSelector extends UIElement{
   @Override
   void draw(){
     //println("drawing");
-    fill(255);
-    stroke(128);
+    fill(128);
+    //stroke(128);
     rect(x,y,width,height);
     textSize(textSizeBig);
-    fill(0);
+    fill(255);
     textAlign(CENTER,CENTER);
     text("Board Size: " + str(gameSize),x,y,width, height);
   }
@@ -83,11 +83,11 @@ class fowSelector extends UIElement{
   }
   @Override
   void draw(){
-    fill(255);
-    stroke(128);
+    fill(128);
+    //stroke(128);
     rect(x,y,width,height);
     textSize(textSizeBig);
-    fill(0);
+    fill(255);
     textAlign(CENTER,CENTER);
     text("Fog: " + (fowSetting?"on":"off"),x,y,width, height);
   }
@@ -103,11 +103,11 @@ class gameStart extends UIElement{
   }
   @Override
   void draw(){
-    fill(255);
-    stroke(128);
+    fill(128);
+    //stroke(128);
     rect(x,y,width,height);
     textSize(textSizeBig);
-    fill(0);
+    fill(255);
     textAlign(CENTER,CENTER);
     text("Start",x,y,width, height);
   }
