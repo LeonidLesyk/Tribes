@@ -19,6 +19,8 @@ boolean startMenu = true;
 
 int gameSize;
 boolean fowSetting;
+PImage startBackground;
+
 Tile pressedTile;
 
 Building selectedBuilding = null;
@@ -81,18 +83,19 @@ void setup(){
   //default game settings
   gameSize = 10;
   fowSetting = true;
+  startBackground = loadImage("resources/title.png");
+  startBackground.resize(screen_width,screen_height);
+  
   //add UI Elements
   UIElements  = new HashMap<String, UIElement>();
-  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*3/5, screen_width/5, screen_height/10); 
+  UIElement sizeSelect = new sizeSelector(screen_width*2/5, screen_height*5/10, screen_width/5, screen_height/10); 
   UIElements.put("sizeSelect",sizeSelect);
-  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*7/10, screen_width/5, screen_height/10); 
+  UIElement fowSelect = new fowSelector(screen_width*2/5, screen_height*6/10, screen_width/5, screen_height/10); 
   UIElements.put("fowSelect",fowSelect);
-  UIElement start = new gameStart(screen_width*2/5, screen_height*8/10, screen_width/5, screen_height/10); 
+  UIElement start = new gameStart(screen_width*2/5, screen_height*7/10, screen_width/5, screen_height/10); 
   UIElements.put("start",start);
   
-  
-  //start game
-  //GameSetup();
+
 }
 
 void GameSetup() {
@@ -232,9 +235,10 @@ void GameSetup() {
 
 void draw() {
   if(startMenu){
+    background(0);
+    image(startBackground,0,0);
     //draw UI Elements
-   // println("start menu");
-   background(0);
+    println(frameRate);
     for (UIElement e : UIElements.values()) {
       //println("some");
       e.draw();
