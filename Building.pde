@@ -141,6 +141,7 @@ class Base extends Building {
 
   Base(PVector position, Player owner, int size) {
     super(position, 20, owner, size,"Base");
+    this.health = this.maxHealth;
     built = true;
     }
 

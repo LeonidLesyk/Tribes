@@ -42,10 +42,10 @@ class sizeSelector extends UIElement{
     if(gameSize > 20){
       gameSize = 8;
     }
-    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"fireball1.png");
-    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"fireball1.png");
-    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"fireball1.png");
-    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"fireball1.png");
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"fireball1.png", 15);
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"fireball1.png", 15);
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"fireball1.png", 15);
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"fireball1.png", 15);
     Projectiles.add(flair);
     Projectiles.add(flair1);
     Projectiles.add(flair2);
@@ -72,10 +72,10 @@ class fowSelector extends UIElement{
   @Override
   void onClickAction(){
     fowSetting = !fowSetting;
-    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"rock.png");
-    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"rock.png");
-    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"rock.png");
-    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"rock.png");
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"rock.png", 15);
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"rock.png", 15);
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"rock.png", 15);
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"rock.png", 15);
     Projectiles.add(flair);
     Projectiles.add(flair1);
     Projectiles.add(flair2);

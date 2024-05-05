@@ -1,4 +1,4 @@
-class Projectile{
+class Projectile {
   PVector pos;
   PVector dest;
   PVector speed;
@@ -8,44 +8,39 @@ class Projectile{
   int size;
   float angle;
 
-
-
-
-  Projectile(PVector start, PVector end,String file){
-    int frames = 15;
-    this.pos = start;
-    this.dest = end; 
-    this.speed = new PVector();
-    this.speed.x = end.x - start.x;
-    this.speed.y = end.y - start.y;
-    this.speed.div(frames);
-    this.angle = atan2(speed.y, speed.x);
+  Projectile(PVector start, PVector end, String file, int frame) {
+    int frames = frame;
+    this.pos = start.copy(); // Create a copy of the start vector to prevent changes to the original
+    this.dest = end.copy(); 
+    this.speed = PVector.sub(end, start).div(frames); // Calculate the velocity vector based on the start and end points
+    this.angle = atan2(speed.y, speed.x); // Calculate the angle of the projectile's direction
     this.totalFrames = frames;
     this.frameCounter = 0;
+    this.size = tileSizePixels / 2; // Adjust the size as necessary
     sprite = loadImage("resources/" + file);
-    sprite.resize(tileSizePixels/2,tileSizePixels/2);
-    
-    
+    sprite.resize(size, size); // Resize the image to an appropriate size
   }
-  
-  boolean draw(){
+
+  // Method to draw the projectile and advance its position
+  boolean draw() {
+    // Update the position of the projectile
     pos.add(speed);
-    frameCounter+=1;
-    if(frameCounter>=totalFrames){
-      //destroy projectile
+    frameCounter++;
+
+    // Check if the projectile has reached the maximum number of frames
+    if (frameCounter >= totalFrames) {
+      return true; // Mark this projectile for removal
     }
-    fill(128);
+
+    // Draw the projectile with the appropriate transformations
     imageMode(CENTER);
     pushMatrix(); //Save the current transformation matrix
-    translate(pos.x, pos.y); //Move origin to the projectile's position
-    rotate(angle); //Rotate the coordinate around new origin
-    if (sprite != null) {
-        image(sprite, -size/4, -size/4, size/2, size/2);
-    }
-    popMatrix(); //Restore the original transformation matrix
-    imageMode(CORNER);
-    return frameCounter > totalFrames ;
+    translate(pos.x, pos.y); //Move origin to projectile's position
+    rotate(angle);
+    image(sprite, 0, 0, size, size); //Draw projectile center on new origin
+    popMatrix(); //Restore original transformation matrix
+    imageMode(CORNER); //Reset the image mode to the default corner mode
+
+    return frameCounter >= totalFrames; //Return true if the projectile's journey is over
   }
-  
-  
 }
