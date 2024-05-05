@@ -32,6 +32,87 @@ class UIElement{
   }
 }
 
+class sizeSelector extends UIElement{
+  sizeSelector(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    gameSize+=2;
+    if(gameSize > 20){
+      gameSize = 8;
+    }
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"fireball1.png");
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"fireball1.png");
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"fireball1.png");
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"fireball1.png");
+    Projectiles.add(flair);
+    Projectiles.add(flair1);
+    Projectiles.add(flair2);
+    Projectiles.add(flair3);
+
+  }
+  @Override
+  void draw(){
+    //println("drawing");
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(textSizeBig);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Board Size: " + str(gameSize),x,y,width, height);
+  }
+}
+
+class fowSelector extends UIElement{
+  fowSelector(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    fowSetting = !fowSetting;
+    Projectile flair = new Projectile(new PVector(x,y),new PVector(0,0),"rock.png");
+    Projectile flair1 = new Projectile(new PVector(x+width,y),new PVector(screen_width,0),"rock.png");
+    Projectile flair2 = new Projectile(new PVector(x,y+height),new PVector(0,screen_height),"rock.png");
+    Projectile flair3 = new Projectile(new PVector(x+width,y+height),new PVector(screen_width,screen_height),"rock.png");
+    Projectiles.add(flair);
+    Projectiles.add(flair1);
+    Projectiles.add(flair2);
+    Projectiles.add(flair3);
+  }
+  @Override
+  void draw(){
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(textSizeBig);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Fog: " + (fowSetting?"on":"off"),x,y,width, height);
+  }
+}
+
+class gameStart extends UIElement{
+  gameStart(int x, int y, int width, int height){
+    super(x,y,width,height);
+  }
+  @Override
+  void onClickAction(){
+    GameSetup();
+  }
+  @Override
+  void draw(){
+    fill(255);
+    stroke(128);
+    rect(x,y,width,height);
+    textSize(textSizeBig);
+    fill(0);
+    textAlign(CENTER,CENTER);
+    text("Start",x,y,width, height);
+  }
+}
+
 class endTurnButton extends UIElement{
   endTurnButton(int x, int y, int width, int height){
     super(x,y,width,height);
@@ -75,6 +156,7 @@ class endTurnButton extends UIElement{
     availbleTiles = null;
     selectedTile = null;
     selectedBuilding = null;
+    unitToSpawn = "";
     
     for(Tile[] row : gameBoard.grid){
       for(Tile t : row){
@@ -166,7 +248,7 @@ class infoBox extends UIElement{
       textSize(textSizeSmaller);
       fill(0);
       textAlign(LEFT,TOP);
-      text(infoText,x,y,x+width, y+height);
+      text(infoText,x+10,y+10,width, height);
     }
     
   }
@@ -203,6 +285,9 @@ class researchBuyButton extends UIElement{
           if(level == 5){
             println("speed");
             upgradeAllUnitsSpeed(players[turn]);
+          }else if(level == 3){
+            println("speed");
+            upgradeAllUnitsDamage(players[turn]);
           }
         }
         break;
@@ -268,7 +353,12 @@ class treeLabel extends UIElement{
     fill(255);
     stroke(128);
     rect(x,y,width,height);
-    textSize(textSizeBig);
+    if(displayDensity() == 1) {
+      textSize(textSizeBig);
+    }
+    else {
+      textSize(textSizeSmaller);
+    }
     fill(0);
     textAlign(CENTER,CENTER);
     text(tribe,x,y,width, height);
@@ -581,10 +671,10 @@ class trebuchetBuyButton extends UIElement{
   void onClickAction(){
     println("clicked");
     if(this.active){
-      unitToSpawn = "Trebuchet";
+      unitToSpawn = "Catapult";
       infoBox i = (infoBox)UIElements.get("info");
       
-      i.infoText = "The Trebuchet is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
+      i.infoText = "The Catapult is a long range but low atk troop perfect for laying seige to buildings or defending an area however it is quite fragile and cannot move and attack in the same turn\n\nCost: " + str(trebuchetCost) + " Gold";
       i.active = true;
     }
     
@@ -594,7 +684,7 @@ class trebuchetBuyButton extends UIElement{
     if(selectedBuilding instanceof Barrack && players[turn].dwarvesLevel >= 5){
       this.active = true;
       fill(255);
-      if(unitToSpawn == "Trebuchet"){
+      if(unitToSpawn == "Catapult"){
         fill(players[turn].teamColour);
       }
       stroke(128);
@@ -602,7 +692,7 @@ class trebuchetBuyButton extends UIElement{
       textSize(textSizeBig);
       fill(0);
       textAlign(CENTER,CENTER);
-      text("Tr",x,y,width, height);
+      text("Ca",x,y,width, height);
     }else{
       this.active = false;
     }
@@ -833,6 +923,17 @@ void upgradeAllUnitsHealth(Player p){
       if(t.unit!=null && t.unit.owner.equals(p)){
         t.unit.maxhp+=sorcererBonusHP;
         t.unit.hp+=sorcererBonusHP;
+      }
+    }
+    
+  }
+}
+
+void upgradeAllUnitsDamage(Player p){
+  for(Tile[] ts : gameBoard.grid){
+    for(Tile t: ts){
+      if(t.unit!=null && t.unit.owner.equals(p)){
+        t.unit.strength+=1;
       }
     }
     

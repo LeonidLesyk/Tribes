@@ -83,6 +83,9 @@ class Building {
       rect(position.x + 5, position.y + 5, size-10, size-10); //TODO Change or Delete*/
       this.drawShape();
     }
+    
+    drawHPBar();
+ 
   }
   
   void displayOnMountain() {
@@ -91,6 +94,30 @@ class Building {
   
   void drawShape() {
     return;
+  }
+  
+  void drawHPBar() {
+    // HP Bar display
+    float hpBarWidth = size*0.9;
+    float hpBarHeight = size /12;
+    float hpBarX = position.x + size*0.05;
+    float hpBarY = position.y + size*0.05;
+    
+    noStroke();
+    
+    //HP Bar Background
+    fill(50); // Dark gray background
+    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    
+    float hpPercentage = (float) health / maxHealth; 
+    //Current HP
+    fill(255, 255, 0);
+    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
+    
+    //Lost HP
+    fill(255, 0, 0);
+    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
+    
   }
   
   PImage loadSprite() {
@@ -142,27 +169,6 @@ class Base extends Building {
     textSize(12);
     text("Base", position.x+size/2, position.y+size/2);
     
-    // HP Bar display
-    float hpBarWidth = size;
-    float hpBarHeight = size /12;
-    float hpBarX = position.x;
-    float hpBarY = position.y + size*0.9;
-    
-    noStroke();
-    
-    //HP Bar Background
-    fill(50); // Dark gray background
-    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
-    
-    float hpPercentage = (float) health / maxHealth; 
-    //Current HP
-    fill(255, 255, 0);
-    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
-    
-    //Lost HP
-    fill(255, 0, 0);
-    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
-
   }
 }
 
@@ -202,28 +208,6 @@ class Barrack extends Building {
     else{
       text("Barrack", position.x+size/2, position.y+size/2);
     }
-    
-    // HP Bar display
-    float hpBarWidth = size;
-    float hpBarHeight = size /12;
-    float hpBarX = position.x;
-    float hpBarY = position.y + size*0.9;
-    
-    noStroke();
-    
-    //HP Bar Background
-    fill(50); // Dark gray background
-    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
-    
-    float hpPercentage = (float) health / maxHealth; 
-    //Current HP
-    fill(255, 255, 0);
-    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
-    
-    //Lost HP
-    fill(255, 0, 0);
-    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
-
   }
 }
 
@@ -271,27 +255,6 @@ class Library extends Building {
       text("Library", position.x+size/2, position.y+size/2);
     }
     
-    // HP Bar display
-    float hpBarWidth = size;
-    float hpBarHeight = size /12;
-    float hpBarX = position.x;
-    float hpBarY = position.y + size*0.9;
-    
-    noStroke();
-    
-    //HP Bar Background
-    fill(50); // Dark gray background
-    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
-    
-    float hpPercentage = (float) health / maxHealth; 
-    //Current HP
-    fill(255, 255, 0);
-    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
-    
-    //Lost HP
-    fill(255, 0, 0);
-    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
-
   }
 }
 
@@ -332,6 +295,8 @@ class GoldMine extends Building {
       fill(255);
       text(currentBuildTurn +"/"+ (buildTime - (this.owner.dwarvesLevel>0?1:0)), position.x+size/2, position.y+size/2);
     }
+    
+    drawHPBar();
   }
 
   @Override
@@ -353,27 +318,6 @@ class GoldMine extends Building {
       text("GoldMine", position.x+size/2, position.y+size/2);
     }
     
-    // HP Bar display
-    float hpBarWidth = size;
-    float hpBarHeight = size /12;
-    float hpBarX = position.x;
-    float hpBarY = position.y + size*0.9;
-    
-    noStroke();
-    
-    //HP Bar Background
-    fill(50); // Dark gray background
-    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
-    
-    float hpPercentage = (float) health / maxHealth; 
-    //Current HP
-    fill(255, 255, 0);
-    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
-    
-    //Lost HP
-    fill(255, 0, 0);
-    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
-
   }
 }
 
@@ -414,27 +358,6 @@ class Wall extends Building {
       text("Wall", position.x+size/2, position.y+size/2);
     }
     
-    // HP Bar display
-    float hpBarWidth = size;
-    float hpBarHeight = size /12;
-    float hpBarX = position.x;
-    float hpBarY = position.y + size*0.9;
-    
-    noStroke();
-    
-    //HP Bar Background
-    fill(50); // Dark gray background
-    rect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
-    
-    float hpPercentage = (float) health / maxHealth; 
-    //Current HP
-    fill(255, 255, 0);
-    rect(hpBarX, hpBarY, hpBarWidth * hpPercentage, hpBarHeight);
-    
-    //Lost HP
-    fill(255, 0, 0);
-    rect(hpBarX + hpBarWidth * hpPercentage, hpBarY, hpBarWidth * (1 - hpPercentage), hpBarHeight);
-
 
   }
 }
