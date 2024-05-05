@@ -13,11 +13,20 @@ class Projectile {
     this.pos = start.copy(); // Create a copy of the start vector to prevent changes to the original
     this.dest = end.copy(); 
     this.speed = PVector.sub(end, start).div(frames); // Calculate the velocity vector based on the start and end points
-    this.angle = atan2(speed.y, speed.x); // Calculate the angle of the projectile's direction
+    
+    if( sprite != loader.rock) {
+      this.angle = atan2(speed.y, speed.x); // Calculate the angle of the projectile's direction
+    }
+    else {
+      this.angle = 0;
+    }
+    
     this.totalFrames = frames;
     this.frameCounter = 0;
     this.size = tileSizePixels / 2; // Adjust the size as necessary
     this.sprite = sprite;
+    
+    
     sprite.resize(size, size); // Resize the image to an appropriate size
   }
 
