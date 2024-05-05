@@ -5,7 +5,7 @@ class Projectile{
   int frameCounter;
   int totalFrames;
   PImage sprite;
-  Projectile(PVector start, PVector end,String file){
+  Projectile(PVector start, PVector end, PImage sprite){
     int frames = 15;
     this.pos = start;
     this.dest = end; 
@@ -15,7 +15,7 @@ class Projectile{
     this.speed.div(frames);
     this.totalFrames = frames;
     this.frameCounter = 0;
-    sprite = loadImage("resources/" + file);
+    this.sprite = sprite;
     sprite.resize(tileSizePixels/2,tileSizePixels/2);
     
     

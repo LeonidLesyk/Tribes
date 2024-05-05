@@ -99,6 +99,8 @@ void setup(){
   tileSizePixels = 160;
   Projectiles = new ArrayList<Projectile>();
   
+  loader = new SpriteLoader();
+
 
 }
 
@@ -110,7 +112,6 @@ void GameSetup() {
   tileZoneLeft = (screen_width-screen_height)/2;
   tileZoneRight = tileZoneLeft + screen_height;
 
-  loader = new SpriteLoader();
 
   //initialise game variables
   turn = 0;
@@ -587,19 +588,19 @@ void mouseReleased() {
           Projectile p;
           switch(selectedTile.unit.unitType){
             case "Archer":
-              p = new Projectile(origin,destination,"arrow.png");
+              p = new Projectile(origin,destination,loader.arrow);
               Projectiles.add(p);
               break;
             case "Wizard":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(p);
               break;
             case "Dragon":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(p);
               break;
             case "Trebuchet":
-              p = new Projectile(origin,destination,"rock.png");
+              p = new Projectile(origin,destination,loader.rock);
               Projectiles.add(p);
               break;
           }
@@ -611,7 +612,7 @@ void mouseReleased() {
             if(pressedTile.up!=null){
               PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
-              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png");
+              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pup);
               
               pressedTile.up.hit(attacker.strength);
@@ -619,7 +620,7 @@ void mouseReleased() {
             if(pressedTile.down!=null){
               PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
-              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png");
+              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pdown);
               
               pressedTile.down.hit(attacker.strength);
@@ -627,7 +628,7 @@ void mouseReleased() {
             if(pressedTile.left!=null){
               PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
-              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png");
+              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pleft);
               
               pressedTile.left.hit(attacker.strength);
@@ -635,7 +636,7 @@ void mouseReleased() {
             if(pressedTile.right!=null){
               PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
-              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png");
+              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pright);
               
               pressedTile.right.hit(attacker.strength);
@@ -674,19 +675,19 @@ void mouseReleased() {
           Projectile p;
           switch(selectedTile.unit.unitType){
             case "Archer":
-              p = new Projectile(origin,destination,"arrow.png");
+              p = new Projectile(origin,destination,loader.arrow);
               Projectiles.add(p);
               break;
             case "Wizard":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(p);
               break;
             case "Dragon":
-              p = new Projectile(origin,destination,"fireball"+(turn+1)+".png");
+              p = new Projectile(origin,destination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(p);
               break;
             case "Trebuchet":
-              p = new Projectile(origin,destination,"rock.png");
+              p = new Projectile(origin,destination,loader.rock);
               Projectiles.add(p);
               break;
           }
@@ -696,7 +697,7 @@ void mouseReleased() {
             if(pressedTile.up!=null){
               PVector uporigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector updestination = new PVector(pressedTile.up.position.x + pressedTile.up.size/2,pressedTile.up.position.y + pressedTile.up.size/2);
-              Projectile pup = new Projectile(uporigin,updestination,"fireball"+(turn+1)+".png");
+              Projectile pup = new Projectile(uporigin,updestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pup);
               
               pressedTile.up.hit(attacker.strength);
@@ -704,7 +705,7 @@ void mouseReleased() {
             if(pressedTile.down!=null){
               PVector downorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector downdestination = new PVector(pressedTile.down.position.x + pressedTile.down.size/2,pressedTile.down.position.y + pressedTile.down.size/2);
-              Projectile pdown = new Projectile(downorigin,downdestination,"fireball"+(turn+1)+".png");
+              Projectile pdown = new Projectile(downorigin,downdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pdown);
               
               pressedTile.down.hit(attacker.strength);
@@ -712,7 +713,7 @@ void mouseReleased() {
             if(pressedTile.left!=null){
               PVector leftorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector leftdestination = new PVector(pressedTile.left.position.x + pressedTile.left.size/2,pressedTile.left.position.y + pressedTile.left.size/2);
-              Projectile pleft = new Projectile(leftorigin,leftdestination,"fireball"+(turn+1)+".png");
+              Projectile pleft = new Projectile(leftorigin,leftdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pleft);
               
               pressedTile.left.hit(attacker.strength);
@@ -720,7 +721,7 @@ void mouseReleased() {
             if(pressedTile.right!=null){
               PVector rightorigin = new PVector(pressedTile.position.x + pressedTile.size/2,pressedTile.position.y + pressedTile.size/2);
               PVector rightdestination = new PVector(pressedTile.right.position.x + pressedTile.right.size/2,pressedTile.right.position.y + pressedTile.right.size/2);
-              Projectile pright = new Projectile(rightorigin,rightdestination,"fireball"+(turn+1)+".png");
+              Projectile pright = new Projectile(rightorigin,rightdestination,(attacker.owner.playerNumber == 1)?loader.fireball1:loader.fireball2);
               Projectiles.add(pright);
               
               pressedTile.right.hit(attacker.strength);
