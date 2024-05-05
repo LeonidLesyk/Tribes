@@ -360,7 +360,7 @@ void mouseReleased() {
       }
 
       //If clicked on builder
-      else if (pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn]) {
+      else if (pressedTile.building == null && pressedTile.unit != null && pressedTile.unit instanceof Builder && pressedTile.unit.owner == players[turn] && pressedTile.unit.canAttack) {
         unitToSpawn = "";
         selectedBuilding = null;
         availbleTiles = gameBoard.range(pressedTile, pressedTile.unit.atkRange);
@@ -374,30 +374,39 @@ void mouseReleased() {
       }
 
       //Building logic
-      else if (pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile)) {
+      else if (pressedTile.building == null && pressedTile.unit == null && !toBuildClass.equals("") && buildMode==true && availbleTiles.contains(pressedTile) && selectedTile.unit!=null) {
         if (toBuildClass.equals("Barrack")) {
           if (players[turn].hasEnoughGold(barrackCost)) {
             players[turn].spendGold(barrackCost);
             pressedTile.building = new Barrack(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
+            
           }
         } else if (toBuildClass.equals("Library")) {
           if (players[turn].hasEnoughGold(libraryCost)) {
             players[turn].spendGold(libraryCost);
             pressedTile.building = new Library(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
           }
         } else if (toBuildClass.equals("Gold")) {
           if (players[turn].hasEnoughGold(goldMineCost)) {
             players[turn].spendGold(goldMineCost);
             pressedTile.building = new GoldMine(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
           }
         } else if (toBuildClass.equals("Wall")) {
           if (players[turn].hasEnoughGold(wallCost)) {
             players[turn].spendGold(wallCost);
             pressedTile.building = new Wall(pressedTile.position, players[turn], pressedTile.size);
             resetBuildSelection();
+            selectedTile.unit.canAttack = false;
+            selectedTile.unit.canMove = false;
           }
         }
       }
@@ -685,10 +694,7 @@ void mouseReleased() {
           if (selectedTile.terrain instanceof Mountain){
             damageToApply += 1;
           }
-
-
-
-
+          
           //damage target unit. if fallen, remove from board
           if (target.applyDamage(attacker.strength)) {
             pressedTile.building = null;
