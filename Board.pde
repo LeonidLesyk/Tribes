@@ -49,7 +49,8 @@ final class Tile{
       fill(0);
         
       if(this.terrain instanceof Mountain){
-        image(loader.mountain, position.x, position.y, size, size);
+        PImage mountainImage = (terrain.bonus == 1)?loader.mountain:loader.goldMountain;
+        image(mountainImage, position.x, position.y, size, size);
         /*
         fill(#8B97A6);
         stroke(128);
