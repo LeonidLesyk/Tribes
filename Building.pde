@@ -186,6 +186,7 @@ class Barrack extends Building {
     if(!built){
       currentBuildTurn += 1;
       health = maxHealth * currentBuildTurn/(barracksBuildTime - (this.owner.dwarvesLevel>0?1:0));
+      health = constrain(health,0,maxHealth);
       if (currentBuildTurn >= barracksBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
@@ -226,6 +227,7 @@ class Library extends Building {
     if(!built){
       currentBuildTurn += 1;
       health = maxHealth * currentBuildTurn/(libraryBuildTime - (this.owner.dwarvesLevel>0?1:0));
+      health = constrain(health,0,maxHealth);
       if (currentBuildTurn >= libraryBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
@@ -277,6 +279,7 @@ class GoldMine extends Building {
     if(!built){
       currentBuildTurn += 1;
       health = maxHealth * currentBuildTurn/ (mineBuildTime - (this.owner.dwarvesLevel>0?1:0));
+      health = constrain(health,0,maxHealth);
       if (currentBuildTurn >= mineBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
@@ -334,6 +337,7 @@ class Wall extends Building {
     if(!built){
       currentBuildTurn += 1;
       health = maxHealth * currentBuildTurn/(wallBuildTime - (this.owner.dwarvesLevel>0?1:0));
+      health = constrain(health,0,maxHealth);
       if (currentBuildTurn >= wallBuildTime - (this.owner.dwarvesLevel>0?1:0)){
         built = true;
       }
